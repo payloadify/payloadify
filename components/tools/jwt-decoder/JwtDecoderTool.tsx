@@ -83,7 +83,7 @@ export function JwtDecoderTool() {
             />
           </div>
 
-          <SignaturePanel decoded={decoded} headerJson={headerJson} payloadJson={payloadJson} />
+          <SignaturePanel key={rawToken} decoded={decoded} headerJson={headerJson} payloadJson={payloadJson} />
         </>
       )}
     </div>
