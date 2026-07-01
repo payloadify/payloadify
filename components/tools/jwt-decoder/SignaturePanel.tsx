@@ -19,6 +19,9 @@ export function SignaturePanel({
   const [outputToken, setOutputToken] = useState("");
   const [outputError, setOutputError] = useState<string | null>(null);
 
+  const secondaryButtonClass =
+    "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:border-zinc-400 dark:border-zinc-700";
+
   async function handleVerify() {
     setVerifyStatus("checking");
     const ok = await verifyHS256(decoded, secret);
@@ -30,8 +33,8 @@ export function SignaturePanel({
     try {
       const token = await reSignHS256(headerJson, payloadJson, secret);
       setOutputToken(token);
-    } catch {
-      setOutputError("Header/payload must be valid JSON before re-signing");
+    } catch (err) {
+      setOutputError(err instanceof Error ? err.message : "Could not re-sign header/payload");
     }
   }
 
@@ -39,8 +42,8 @@ export function SignaturePanel({
     setOutputError(null);
     try {
       setOutputToken(stripToAlgNone(headerJson, payloadJson));
-    } catch {
-      setOutputError("Header/payload must be valid JSON before exporting");
+    } catch (err) {
+      setOutputError(err instanceof Error ? err.message : "Could not export header/payload");
     }
   }
 
@@ -67,18 +70,10 @@ export function SignaturePanel({
         >
           Verify with secret
         </button>
-        <button
-          type="button"
-          onClick={handleReSign}
-          className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:border-zinc-400 dark:border-zinc-700"
-        >
+        <button type="button" onClick={handleReSign} className={secondaryButtonClass}>
           Re-sign as HS256
         </button>
-        <button
-          type="button"
-          onClick={handleStripToNone}
-          className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:border-zinc-400 dark:border-zinc-700"
-        >
+        <button type="button" onClick={handleStripToNone} className={secondaryButtonClass}>
           Strip to alg:none
         </button>
       </div>

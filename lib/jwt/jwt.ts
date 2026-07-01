@@ -87,11 +87,11 @@ export async function signHS256(headerB64: string, payloadB64: string, secret: s
 }
 
 export async function verifyHS256(decoded: DecodedJwt, secret: string): Promise<boolean> {
-  if (!decoded.hasSignature) return false;
-  const key = await hmacKey(secret);
-  const data = new TextEncoder().encode(signingInput(decoded.segments.header, decoded.segments.payload));
+  if (!decoded.hasSignature || secret.length === 0) return false;
   try {
+    const key = await hmacKey(secret);
     const signatureBytes = base64urlToBytes(decoded.segments.signature);
+    const data = new TextEncoder().encode(signingInput(decoded.segments.header, decoded.segments.payload));
     return await crypto.subtle.verify("HMAC", key, signatureBytes.buffer as ArrayBuffer, data);
   } catch {
     return false;
@@ -107,22 +107,39 @@ export async function findWeakSecret(decoded: DecodedJwt): Promise<string | null
   return null;
 }
 
+/** Parses JSON and requires the result to be a plain object, so callers can safely set fields on it. */
+function parseJsonObject(text: string, label: string): Record<string, unknown> {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error(`${label} is not valid JSON`);
+  }
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    const kind = parsed === null ? "null" : Array.isArray(parsed) ? "an array" : typeof parsed;
+    throw new Error(`${label} must be a JSON object, not ${kind}`);
+  }
+  return parsed as Record<string, unknown>;
+}
+
 /** Re-signs edited header/payload JSON as HS256 with the given secret. */
 export async function reSignHS256(headerJson: string, payloadJson: string, secret: string): Promise<string> {
-  const parsedHeader = JSON.parse(headerJson);
+  const parsedHeader = parseJsonObject(headerJson, "Header");
   parsedHeader.alg = "HS256";
+  const parsedPayload = parseJsonObject(payloadJson, "Payload");
   const headerB64 = textToBase64url(JSON.stringify(parsedHeader));
-  const payloadB64 = textToBase64url(JSON.stringify(JSON.parse(payloadJson)));
+  const payloadB64 = textToBase64url(JSON.stringify(parsedPayload));
   const signature = await signHS256(headerB64, payloadB64, secret);
   return `${headerB64}.${payloadB64}.${signature}`;
 }
 
 /** Produces the classic alg:none bypass token — valid header/payload, empty signature. */
 export function stripToAlgNone(headerJson: string, payloadJson: string): string {
-  const parsedHeader = JSON.parse(headerJson);
+  const parsedHeader = parseJsonObject(headerJson, "Header");
   parsedHeader.alg = "none";
+  const parsedPayload = parseJsonObject(payloadJson, "Payload");
   const headerB64 = textToBase64url(JSON.stringify(parsedHeader));
-  const payloadB64 = textToBase64url(JSON.stringify(JSON.parse(payloadJson)));
+  const payloadB64 = textToBase64url(JSON.stringify(parsedPayload));
   return `${headerB64}.${payloadB64}.`;
 }
 
