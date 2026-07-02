@@ -12,7 +12,6 @@
 
 .claudeignore
 CLAUDE.md
-.claudeignore
 
 # testing
 /coverage
