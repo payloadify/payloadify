@@ -22,39 +22,19 @@ They arrive via Google search for a specific task, use the tool once, leave.
 3. Hash Generator — same layout as Identifier, connected via tabs (see below)
 4. Payload Encoder/Decoder — chainable Base64, Hex, URL, HTML-entity, Unicode escape
 5. Homoglyph Identifier/Generator — see spec below
-6. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
+6. XSS payload generator — an all in one XSS payload generators for pentesters.
+7. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
+8. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. 
+(Tools 8-12 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, after v1 validates)
 
-(Tools 8-12 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, XSS payload generator, after v1 validates)
-
-### Tool 5 spec: Homoglyph Identifier/Generator
-Two linked modes on one tool page (tabs, same pattern as Hash Identifier/Generator):
-
-**Identify mode:**
-- Live input field — as the user types/pastes text (e.g. a suspicious domain 
-  name), flag any characters that are homoglyphs/confusables (visually 
-  identical or near-identical characters from different Unicode scripts, 
-  e.g. Cyrillic "а" U+0430 vs Latin "a" U+0061)
-- Highlight flagged characters inline within the text, and show each one's 
-  actual Unicode code point, script/language origin, and what Latin 
-  character it's impersonating
-- Use the Unicode Consortium's official confusables.txt data as the 
-  detection source (do not hand-build this mapping — it's large, 
-  well-maintained, and exactly the kind of "don't reinvent a security-
-  relevant dataset" case)
-
-**Generate mode:**
-- Input a string, output a homoglyph-substituted version
-- Randomize button — automatically swaps eligible characters with a random 
-  valid homoglyph each click
-- Custom character selection — let the user pick which specific 
-  character(s) in their input to substitute, and choose which homoglyph 
-  variant to use for each (some characters have multiple lookalike options 
-  across different scripts)
-- Show both the original and generated string side by side, plus the 
-  underlying Unicode code points for each substituted character
-
-Keep everything client-side — the confusables data can be bundled as a 
-static JSON file, no server/API needed.
+### Tool 6 spec: XSS generator
+- Multiple options with mostly used techniques to bypass common WAFs and defenses.
+- Multiple levels of XSS payload from basic to advance encoding and evasion. 
+- Has a common input inside the XSS either alert (1), or document.cookie, or something else.
+- Has a field user-input of what to reflect if user chose the custom input.
+- Has options of what types of XSS (reflect/stored, or DOM-based)
+- Has a button to generate random XSS payload based on level chosen (or user can just uncheck 'maintain level' and XSS randomize from basic level to advance one.)
+- All generated payload can be changed in each attribute, if the generated payload using alert, there's a dropdown to change it into prompt or custom input by user.
 
 ## Deferred features (intentionally out of scope for now)
 - Hash Identifier batch mode (paste a whole file of dumped hashes, one per line, get a results table) — v1 only identifies one hash at a time. Batch support is saved as a future monetization-driving feature once site traffic justifies the extra build effort, not part of initial launch.
