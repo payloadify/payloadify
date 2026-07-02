@@ -15,23 +15,16 @@ export const tools: Tool[] = [
   },
   {
     slug: "hash-identifier",
-    name: "Hash Identifier",
+    name: "Hash Identifier/Generator",
     shortDescription:
-      "Identify a hash's likely type from its structure and length, with ranked candidates and matching Hashcat mode numbers.",
+      "Identify a hash's likely type with ranked candidates and matching Hashcat mode numbers, or generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, and NTLM hashes from text.",
     status: "live",
   },
   {
-    slug: "hash-generator",
-    name: "Hash Generator",
-    shortDescription:
-      "Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, and NTLM hashes from any text, instantly in your browser.",
-    status: "live",
-  },
-  {
-    slug: "payload-encoder",
+    slug: "payload-encode",
     name: "Payload Encoder/Decoder",
     shortDescription:
-      "Chain Base64, Hex, URL, HTML-entity, and Unicode escape encoding and decoding steps to build or unwrap obfuscated payloads.",
+      "Chain Base64, Hex, URL, and HTML-entity encoding and decoding steps to build or unwrap obfuscated payloads.",
     status: "live",
   },
 ];

@@ -1,16 +1,46 @@
-import { utf8Bytes, bytesToHex } from "../hash/bytes";
-import { bytesToBase64, base64ToBytes, hexToBytes, utf8BytesToString } from "./bytes";
-
+import { utf8Bytes, utf16leBytes, bytesToHex } from "../hash/bytes";
+import {
+  bytesToBase64,
+  base64ToBytes,
+  hexToBytes,
+  utf16beBytes,
+  percentEncodeBytes,
+  percentDecodeToBytes,
+  resolveAndDecodeText,
+} from "./bytes";
 export type EncodingOperationId = "base64" | "hex" | "url" | "html-entity" | "unicode-escape";
+
+export type OperationOptions = { mode?: string; charset?: string };
 
 export type EncodingOperation = {
   id: EncodingOperationId;
   name: string;
   /** Only present for operations with a configurable encode mode (drives a per-step toggle in the UI). */
   modes?: { id: string; label: string }[];
-  encode: (input: string, mode?: string) => string;
-  decode: (input: string) => string;
+  /** base64, hex, url only — these are genuinely byte-oriented; html-entity/unicode-escape operate
+   *  on Unicode code points/units, not bytes in an external charset, so charset doesn't apply. */
+  supportsCharset?: boolean;
+  /** base64, hex, url, html-entity only (not unicode-escape) — gates decode-each-line AND the
+   *  encode-side "encode each line separately" / chunk-width / newline-separator options, since
+   *  both directions' line handling apply to the same 4 operations. */
+  supportsLineOptions?: boolean;
+  encode: (input: string, options?: OperationOptions) => string;
+  decode: (input: string, options?: OperationOptions) => string;
 };
+
+/** Only UTF-8/UTF-16LE/UTF-16BE are reachable here — TextEncoder (and therefore this whole
+ *  tool) can only ever produce UTF-8 bytes natively; encode-direction charset selection is
+ *  limited to these 3 in the UI, so no other branch is possible. */
+function charsetToBytes(input: string, charset: string | undefined): Uint8Array {
+  switch (charset) {
+    case "utf-16le":
+      return utf16leBytes(input);
+    case "utf-16be":
+      return utf16beBytes(input);
+    default:
+      return utf8Bytes(input);
+  }
+}
 
 const NAMED_HTML_ENTITIES: Record<string, string> = {
   amp: "&",
@@ -18,7 +48,7 @@ const NAMED_HTML_ENTITIES: Record<string, string> = {
   gt: ">",
   quot: '"',
   apos: "'",
-  nbsp: " ",
+  nbsp: " ",
 };
 
 const RESERVED_HTML_CHARS: Record<string, string> = {
@@ -75,26 +105,26 @@ export const ENCODING_OPERATIONS: EncodingOperation[] = [
   {
     id: "base64",
     name: "Base64",
-    encode: (input) => bytesToBase64(utf8Bytes(input)),
-    decode: (input) => utf8BytesToString(base64ToBytes(input)),
+    supportsCharset: true,
+    supportsLineOptions: true,
+    encode: (input, options) => bytesToBase64(charsetToBytes(input, options?.charset)),
+    decode: (input, options) => resolveAndDecodeText(base64ToBytes(input), options?.charset),
   },
   {
     id: "hex",
     name: "Hex",
-    encode: (input) => bytesToHex(utf8Bytes(input)),
-    decode: (input) => utf8BytesToString(hexToBytes(input)),
+    supportsCharset: true,
+    supportsLineOptions: true,
+    encode: (input, options) => bytesToHex(charsetToBytes(input, options?.charset)),
+    decode: (input, options) => resolveAndDecodeText(hexToBytes(input), options?.charset),
   },
   {
     id: "url",
     name: "URL",
-    encode: (input) => encodeURIComponent(input),
-    decode: (input) => {
-      try {
-        return decodeURIComponent(input);
-      } catch {
-        throw new Error("Invalid URL encoding — contains a malformed % escape sequence.");
-      }
-    },
+    supportsCharset: true,
+    supportsLineOptions: true,
+    encode: (input, options) => percentEncodeBytes(charsetToBytes(input, options?.charset)),
+    decode: (input, options) => resolveAndDecodeText(percentDecodeToBytes(input), options?.charset),
   },
   {
     id: "html-entity",
@@ -103,8 +133,9 @@ export const ENCODING_OPERATIONS: EncodingOperation[] = [
       { id: "all", label: "Encode every character" },
       { id: "reserved-only", label: "Reserved characters only (& < > \" ')" },
     ],
-    encode: (input, mode) => htmlEntityEncode(input, mode),
-    decode: htmlEntityDecode,
+    supportsLineOptions: true,
+    encode: (input, options) => htmlEntityEncode(input, options?.mode),
+    decode: (input) => htmlEntityDecode(input),
   },
   {
     id: "unicode-escape",
@@ -113,8 +144,8 @@ export const ENCODING_OPERATIONS: EncodingOperation[] = [
       { id: "all", label: "Escape every character" },
       { id: "non-ascii-only", label: "Non-ASCII characters only" },
     ],
-    encode: (input, mode) => unicodeEscapeEncode(input, mode),
-    decode: unicodeEscapeDecode,
+    encode: (input, options) => unicodeEscapeEncode(input, options?.mode),
+    decode: (input) => unicodeEscapeDecode(input),
   },
 ];
 
