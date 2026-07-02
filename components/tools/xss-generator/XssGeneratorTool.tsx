@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { EXFIL_PLACEHOLDER_DOMAIN, XSS_ACTIONS, XSS_ACTIONS_BY_ID, XssActionId } from "@/lib/xss/actions";
+import { XSS_ACTIONS, XSS_ACTIONS_BY_ID, XssActionId } from "@/lib/xss/actions";
 import { COMMON_BLACKLIST_CHARS, unavoidableChars } from "@/lib/xss/blacklist";
 import { LEVEL_ORDER, buildPayload, effectiveLevel, pickInjectionAndObfuscation } from "@/lib/xss/generate";
 import { XSS_INJECTION_TYPES, XssContext, XssInjectionType, XssLevel } from "@/lib/xss/injectionTypes";
@@ -60,13 +60,23 @@ function saveHistory(history: number[]) {
   }
 }
 
+// Delays updating the returned value until `value` has stopped changing for `delayMs` —
+// used so fast typing doesn't trigger the blacklist-checkbox recompute on every keystroke.
+function useDebouncedValue<T>(value: T, delayMs: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delayMs);
+    return () => clearTimeout(timer);
+  }, [value, delayMs]);
+  return debounced;
+}
+
 export function XssGeneratorTool() {
   const [level, setLevel] = useState<UiLevel>("basic");
   const [context, setContext] = useState<XssContext>("reflected-stored");
   const [maintainLevel, setMaintainLevel] = useState(true);
   const [actionId, setActionId] = useState<XssActionId>("alert");
   const [customInput, setCustomInput] = useState("");
-  const [exfilDomain, setExfilDomain] = useState(EXFIL_PLACEHOLDER_DOMAIN);
 
   const [injectionSelect, setInjectionSelect] = useState<typeof RANDOM | string>(RANDOM);
   const [obfuscationSelect, setObfuscationSelect] = useState<typeof RANDOM | ObfuscationId>(RANDOM);
@@ -84,10 +94,7 @@ export function XssGeneratorTool() {
   const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
 
   const action = XSS_ACTIONS_BY_ID[actionId];
-  const actionExpr = useMemo(
-    () => action.build(actionId === "cookie-exfil" ? exfilDomain : customInput),
-    [action, actionId, customInput, exfilDomain],
-  );
+  const actionExpr = useMemo(() => action.build(customInput), [action, customInput]);
 
   const blacklist = useMemo(
     () => new Set<string>([...blacklistCommon, ...Array.from(blacklistExtra)]),
@@ -106,10 +113,12 @@ export function XssGeneratorTool() {
 
   // Characters the currently-selected obfuscation always emits no matter which JS-string quote
   // is picked — blacklisting them would never actually be honored, so their checkboxes grey out.
+  // Debounced so typing in the custom-input/exfil-domain fields doesn't re-run this on every keystroke.
+  const debouncedActionExpr = useDebouncedValue(actionExpr, 200);
   const unavoidableByObfuscation = useMemo(() => {
     if (obfuscationSelect === RANDOM) return new Set<string>();
-    return unavoidableChars(OBFUSCATIONS_BY_ID[obfuscationSelect as ObfuscationId], actionExpr);
-  }, [obfuscationSelect, actionExpr]);
+    return unavoidableChars(OBFUSCATIONS_BY_ID[obfuscationSelect as ObfuscationId], debouncedActionExpr);
+  }, [obfuscationSelect, debouncedActionExpr]);
 
   const adapted = useMemo(() => {
     if (!generatedInjection) return null;
@@ -136,11 +145,37 @@ export function XssGeneratorTool() {
   function selectInjection(value: string) {
     setInjectionSelect(value);
     if (value !== RANDOM) setLevel("custom");
+
+    // A previously-pinned obfuscation may not apply to this injection type's slot (e.g.
+    // "HTML-entity encode" only works in "attribute" slots) — drop it back to Random rather
+    // than silently forcing an incompatible, non-functional combination into the payload.
+    if (obfuscationSelect !== RANDOM) {
+      const chosen = value === RANDOM ? undefined : XSS_INJECTION_TYPES.find((t) => t.id === value);
+      const stillValid = chosen
+        ? OBFUSCATIONS_BY_ID[obfuscationSelect as ObfuscationId].slots.includes(chosen.slot)
+        : true;
+      if (!stillValid) setObfuscationSelect(RANDOM);
+    }
   }
 
   function selectObfuscation(value: string) {
     setObfuscationSelect(value as typeof RANDOM | ObfuscationId);
     if (value !== RANDOM) setLevel("custom");
+  }
+
+  function selectContext(c: XssContext) {
+    setContext(c);
+
+    // A previously-pinned injection type may not exist in the new context (e.g. "javascript:
+    // URI" is DOM-only) — drop it back to Random rather than silently generating a payload for
+    // a context the UI no longer shows as selected.
+    if (injectionSelect !== RANDOM) {
+      const stillValid = XSS_INJECTION_TYPES.some((t) => t.id === injectionSelect && t.contexts.includes(c));
+      if (!stillValid) {
+        setInjectionSelect(RANDOM);
+        setObfuscationSelect(RANDOM);
+      }
+    }
   }
 
   function generate() {
@@ -213,7 +248,7 @@ export function XssGeneratorTool() {
             <button
               key={c}
               type="button"
-              onClick={() => setContext(c)}
+              onClick={() => selectContext(c)}
               className={toggleButtonClasses(context === c)}
             >
               {CONTEXT_LABELS[c]}
@@ -225,11 +260,12 @@ export function XssGeneratorTool() {
       <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
         <input
           type="checkbox"
-          checked={maintainLevel}
+          checked={level === "custom" ? false : maintainLevel}
           onChange={(e) => setMaintainLevel(e.target.checked)}
           disabled={level === "custom"}
         />
         Maintain level (uncheck to randomize across all levels)
+        {level === "custom" && " — always off in Custom, since there's no level tier to maintain"}
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -334,26 +370,12 @@ export function XssGeneratorTool() {
             className={`${inputClasses} mt-2`}
           />
         )}
-        {actionId === "cookie-exfil" && (
-          <input
-            type="text"
-            value={exfilDomain}
-            onChange={(e) => setExfilDomain(e.target.value)}
-            placeholder="Your Collaborator/webhook domain"
-            spellCheck={false}
-            className={`${inputClasses} mt-2`}
-            aria-label="Exfiltration domain"
-          />
-        )}
       </div>
 
       <button
         type="button"
         onClick={generate}
-        disabled={
-          (actionId === "custom" && customInput.length === 0) ||
-          (actionId === "cookie-exfil" && exfilDomain.length === 0)
-        }
+        disabled={actionId === "custom" && customInput.length === 0}
         className="self-start rounded bg-zinc-900 px-3 py-1.5 text-sm text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
       >
         Generate payload

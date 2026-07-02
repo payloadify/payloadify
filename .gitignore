@@ -10,8 +10,13 @@
 !.yarn/releases
 !.yarn/versions
 
+# Claude related files
 .claudeignore
 CLAUDE.md
+REVIEW.md
+
+# archived features — not wired into the app, kept locally for reference only
+/_archive/
 
 # testing
 /coverage
