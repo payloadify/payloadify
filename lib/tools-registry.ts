@@ -34,6 +34,13 @@ export const tools: Tool[] = [
       "Detect Unicode homoglyph/confusable characters in suspicious text (e.g. spoofed domains), or generate homoglyph-substituted lookalike strings.",
     status: "live",
   },
+  {
+    slug: "xss-generator",
+    name: "XSS Payload Generator",
+    shortDescription:
+      "Generate XSS payloads across basic to advanced WAF-bypass and encoding techniques, for reflected/stored or DOM-based contexts.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
