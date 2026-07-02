@@ -23,23 +23,25 @@ They arrive via Google search for a specific task, use the tool once, leave.
 4. Payload Encoder/Decoder — chainable Base64, Hex, URL, HTML-entity, Unicode escape
 5. Homoglyph Identifier/Generator — see spec below
 6. XSS payload generator — an all in one XSS payload generators for pentesters, full specs read below.
-7. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
-8. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. 
-(Tools 8-12 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, after v1 validates)
+7. SQLi payload generator - an all in one SQLi payload that helps pentesters build a SQLi command, full specs read below.
+8. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
+9. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. 
+(Tools 10-13 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, after v1 validates)
 
-### Tool 6 spec: XSS generator
-- Multiple options with mostly used techniques to bypass common WAFs and defenses.
-- Multiple levels of XSS payload from basic to advance encoding and evasion. 
-- Has many common inputs inside the XSS either alert (1), or document.cookie, or something else - add brief explanation on usage of each inputs.
-- Has a field user-input of what to reflect if user chose the custom input.
-- Has options of what types of XSS (reflect/stored, or DOM-based)
-- Has a button to generate random XSS payload based on level chosen (or user can just uncheck 'maintain level' and XSS randomize from basic level to advance one.)
-- All generated payload can be changed in each attribute, if the generated payload using alert, there's a dropdown to change it into prompt or custom input by user.
-- Security for users and website must be in mind, the generated payload must not be able to be abused by bots (e.g. automated generation of payloads and the output send to victims without abuser has to access the website). Implement rate limits to prevent multiple generations of payloads.
+### Tool 7: SQLi Payload generator
+- Feature is intended to help pentesters by generating a useful sql injection commands by just a single click.
+- Feature has an option to choose what type of SQL used, it should have common used SQL.
+- Feature has an option to generate what kind of information to pull with the sql command like hostname, or sql type, tables, or anything, this can be chained by clicking a single "add info" button, and then dropdown appears on what to pull and user can choose custom info that is something that they just input into the field.
+- Feature has an evasion option that is most widely used by pentesters to evade WAF or generic defenses, this probably be named as obfuscation.
+- Feature has lots of variety of encoding support.
+- Feature has an option to check blacklisted characters. IF the obfuscation not support a certain blacklisted characters, the blacklisted characters should be greyed out automatically.
+- Feature has a "level" (like XSS payload generator feature).
+- Security is a concern for user and website. User shouldn't be able to generate a lot of payload, just one at a time. apply rate limit (like XSS payload generator).
 
 ## Deferred features (intentionally out of scope for now)
 - Hash Identifier batch mode (paste a whole file of dumped hashes, one per line, get a results table) — v1 only identifies one hash at a time. Batch support is saved as a future monetization-driving feature once site traffic justifies the extra build effort, not part of initial launch.
 - XSS payload batch mode (generate a long list of payloads with different or same levels (user choice)) - v1 only generate one at a time.
+- SQLi payload batch mode (generate a long list of payloads with different or same levels (user choice)) - v1 only generate one at a time.
 
 ## Future ideas (not active build order)
 - A dedicated bcrypt tool/page — bcrypt needs a salt + cost-factor input,  which is a different UI shape than the plain "type text, get a hash" Hash Generator. Worth its own page eventually rather than bolting onto Hash Generator. Not scheduled; revisit after the current build order.
