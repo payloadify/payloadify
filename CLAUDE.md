@@ -2,7 +2,7 @@
 
 ## What this is
 A security/pentest utility tools hub, similar to iLovePDF but for pentesters.
-One tool per page, SEO-first, free to use. Domain: payloadify.dev
+One card per tool family, one tool per page, SEO-first, free to use. Domain: payloadify.dev
 
 ## Target audience
 Pentesters, bug bounty hunters, OSCP/CEH students, red teamers.
@@ -26,7 +26,7 @@ They arrive via Google search for a specific task, use the tool once, leave.
 
 (Tools 8-11 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, after v1 validates)
 
-### Tool 6 spec: Homoglyph Identifier/Generator
+### Tool 5 spec: Homoglyph Identifier/Generator
 Two linked modes on one tool page (tabs, same pattern as Hash Identifier/Generator):
 
 **Identify mode:**
