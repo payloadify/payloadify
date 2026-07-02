@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { identifyHash } from "@/lib/hash/detect";
 import { isVerifiable, verifyPlaintext } from "@/lib/hash/verify";
 import { HashResultPanel } from "./HashResultPanel";
@@ -15,6 +15,10 @@ export function HashIdentifierTool() {
   const [confirmedId, setConfirmedId] = useState<string | null>(null);
   const [verifyStatus, setVerifyStatus] = useState<"idle" | "checking" | "no-match">("idle");
 
+  // Bumped on every Verify/Reset/new-hash-submission so an in-flight verifyPlaintext() that
+  // resolves afterward can detect it's stale and skip applying its now-outdated result.
+  const verifyRequestId = useRef(0);
+
   const result = identifyHash(submittedInput);
 
   // Any previously confirmed candidate applied to a *different* submitted hash is stale —
@@ -25,15 +29,30 @@ export function HashIdentifierTool() {
     setVerifyStatus("idle");
   }
 
+  // Invalidate any in-flight verify request whenever the submitted hash changes — refs can't
+  // be mutated during render, so this runs as an effect right after the state above commits.
+  useEffect(() => {
+    verifyRequestId.current++;
+  }, [submittedInput]);
+
   const verifiableCandidates =
     result.kind === "matched" ? result.candidates.filter((c) => isVerifiable(c.signature.id)) : [];
 
   async function handleVerify() {
     if (result.kind !== "matched") return;
+    const requestId = ++verifyRequestId.current;
     setVerifyStatus("checking");
     const matchedId = await verifyPlaintext(result.candidates, result.hashPart, plaintext);
+    if (verifyRequestId.current !== requestId) return;
     setConfirmedId(matchedId);
     setVerifyStatus(matchedId ? "idle" : "no-match");
+  }
+
+  function handleResetVerification() {
+    verifyRequestId.current++;
+    setPlaintext("");
+    setConfirmedId(null);
+    setVerifyStatus("idle");
   }
 
   return (
@@ -62,7 +81,7 @@ export function HashIdentifierTool() {
         </p>
       </div>
 
-      {verifiableCandidates.length > 1 && (
+      {verifiableCandidates.length > 0 && (
         <div>
           <label className="mb-1 block text-sm font-medium">
             Known or guessed plaintext (optional)
@@ -82,6 +101,14 @@ export function HashIdentifierTool() {
               className="shrink-0 rounded bg-zinc-900 px-3 py-1.5 text-sm text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
             >
               Verify
+            </button>
+            <button
+              type="button"
+              onClick={handleResetVerification}
+              disabled={plaintext.length === 0 && confirmedId === null && verifyStatus === "idle"}
+              className="shrink-0 rounded border border-zinc-300 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            >
+              Reset
             </button>
           </div>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
