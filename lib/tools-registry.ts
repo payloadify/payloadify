@@ -27,6 +27,13 @@ export const tools: Tool[] = [
       "Chain Base64, Hex, URL, and HTML-entity encoding and decoding steps to build or unwrap obfuscated payloads.",
     status: "live",
   },
+  {
+    slug: "homoglyph-identifier",
+    name: "Homoglyph Identifier/Generator",
+    shortDescription:
+      "Detect Unicode homoglyph/confusable characters in suspicious text (e.g. spoofed domains), or generate homoglyph-substituted lookalike strings.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
