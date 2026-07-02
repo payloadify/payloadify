@@ -22,7 +22,7 @@ They arrive via Google search for a specific task, use the tool once, leave.
 3. Hash Generator — same layout as Identifier, connected via tabs (see below)
 4. Payload Encoder/Decoder — chainable Base64, Hex, URL, HTML-entity, Unicode escape
 5. Homoglyph Identifier/Generator — see spec below
-6. XSS payload generator — an all in one XSS payload generators for pentesters.
+6. XSS payload generator — an all in one XSS payload generators for pentesters, full specs read below.
 7. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
 8. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. 
 (Tools 8-12 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, after v1 validates)
@@ -30,7 +30,7 @@ They arrive via Google search for a specific task, use the tool once, leave.
 ### Tool 6 spec: XSS generator
 - Multiple options with mostly used techniques to bypass common WAFs and defenses.
 - Multiple levels of XSS payload from basic to advance encoding and evasion. 
-- Has a common input inside the XSS either alert (1), or document.cookie, or something else.
+- Has many common inputs inside the XSS either alert (1), or document.cookie, or something else - add brief explanation on usage of each inputs.
 - Has a field user-input of what to reflect if user chose the custom input.
 - Has options of what types of XSS (reflect/stored, or DOM-based)
 - Has a button to generate random XSS payload based on level chosen (or user can just uncheck 'maintain level' and XSS randomize from basic level to advance one.)
