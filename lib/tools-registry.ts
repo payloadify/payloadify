@@ -41,6 +41,13 @@ export const tools: Tool[] = [
       "Generate XSS payloads across basic to advanced WAF-bypass and encoding techniques, for reflected/stored or DOM-based contexts.",
     status: "live",
   },
+  {
+    slug: "sqli-generator",
+    name: "SQLi Payload Generator",
+    shortDescription:
+      "Build SQL injection payloads across MySQL, MSSQL, PostgreSQL, Oracle, and SQLite, with chainable info extraction, WAF-evasion obfuscation, and blacklist-character avoidance.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
