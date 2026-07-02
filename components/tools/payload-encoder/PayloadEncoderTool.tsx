@@ -7,6 +7,8 @@ import { AUTO_DETECT_CHARSET, CHARSET_GROUPS, DEFAULT_CHARSET } from "@/lib/enco
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
 
+const ENCODABLE_CHARSETS = CHARSET_GROUPS.flatMap((group) => group.charsets).filter((c) => c.encodable);
+
 let nextStepId = 1;
 
 function defaultStep(): Step {
@@ -119,18 +121,26 @@ export function PayloadEncoderTool({ direction }: { direction: Direction }) {
                     onChange={(e) => updateStep(step.id, { charset: e.target.value })}
                     className={selectClasses}
                   >
-                    {direction === "decode" && <option value={AUTO_DETECT_CHARSET}>Auto-detect</option>}
-                    {CHARSET_GROUPS.map((group) => (
-                      <optgroup key={group.label} label={group.label}>
-                        {group.charsets
-                          .filter((c) => direction === "decode" || c.encodable)
-                          .map((c) => (
-                            <option key={c.id} value={c.id}>
-                              {c.label}
-                            </option>
-                          ))}
-                      </optgroup>
-                    ))}
+                    {direction === "decode" ? (
+                      <>
+                        <option value={AUTO_DETECT_CHARSET}>Auto-detect</option>
+                        {CHARSET_GROUPS.map((group) => (
+                          <optgroup key={group.label} label={group.label}>
+                            {group.charsets.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.label}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ))}
+                      </>
+                    ) : (
+                      ENCODABLE_CHARSETS.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.label}
+                        </option>
+                      ))
+                    )}
                   </select>
                 )}
 
