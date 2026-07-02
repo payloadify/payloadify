@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { ENCODING_OPERATIONS, ENCODING_OPERATIONS_BY_ID, EncodingOperationId } from "@/lib/encoding/operations";
+import { computeChain, Direction, Step } from "@/lib/encoding/chain";
+import { AUTO_DETECT_CHARSET, CHARSET_GROUPS, DEFAULT_CHARSET } from "@/lib/encoding/charsets";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
-
-const SAMPLE_INPUT = "Hello, World!";
-
-type Direction = "encode" | "decode";
-
-type Step = {
-  id: number;
-  operationId: EncodingOperationId;
-  direction: Direction;
-  mode?: string;
-};
 
 let nextStepId = 1;
 
 function defaultStep(): Step {
-  return { id: nextStepId++, operationId: "base64", direction: "encode", mode: "all" };
+  return { id: nextStepId++, operationId: "base64", mode: "all", charset: DEFAULT_CHARSET };
 }
 
 const inputClasses =
@@ -34,36 +25,13 @@ const toggleButtonClasses = (active: boolean) =>
   }`;
 const iconButtonClasses =
   "rounded border border-zinc-300 px-2 py-1.5 text-sm text-zinc-600 hover:border-zinc-400 disabled:opacity-30 disabled:hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:disabled:hover:border-zinc-700";
+const checkboxLabelClasses = "flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400";
 
-type ChainEntry = { output: string; error: null } | { output: null; error: string } | { output: null; error: null };
-
-function computeChain(input: string, steps: Step[]): ChainEntry[] {
-  const entries: ChainEntry[] = [];
-  let current: string | null = input;
-  for (const step of steps) {
-    if (current === null) {
-      entries.push({ output: null, error: null });
-      continue;
-    }
-    const operation = ENCODING_OPERATIONS_BY_ID[step.operationId];
-    try {
-      const output: string =
-        step.direction === "encode" ? operation.encode(current, step.mode) : operation.decode(current);
-      entries.push({ output, error: null });
-      current = output;
-    } catch (err) {
-      entries.push({ output: null, error: err instanceof Error ? err.message : "Invalid input." });
-      current = null;
-    }
-  }
-  return entries;
-}
-
-export function PayloadEncoderTool() {
-  const [input, setInput] = useState(SAMPLE_INPUT);
+export function PayloadEncoderTool({ direction }: { direction: Direction }) {
+  const [input, setInput] = useState("");
   const [steps, setSteps] = useState<Step[]>([defaultStep()]);
 
-  const results = computeChain(input, steps);
+  const { results } = computeChain(input, steps, direction);
 
   function updateStep(id: number, patch: Partial<Step>) {
     setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
@@ -114,6 +82,7 @@ export function PayloadEncoderTool() {
           const operation = ENCODING_OPERATIONS_BY_ID[step.operationId];
           const result = results[index];
           const isFinal = index === steps.length - 1;
+          const chunkOn = (step.chunkWidth ?? 0) > 0;
 
           return (
             <div key={step.id} className="rounded border border-zinc-200 dark:border-zinc-800">
@@ -130,24 +99,7 @@ export function PayloadEncoderTool() {
                   ))}
                 </select>
 
-                <div className="flex gap-1">
-                  <button
-                    type="button"
-                    onClick={() => updateStep(step.id, { direction: "encode" })}
-                    className={toggleButtonClasses(step.direction === "encode")}
-                  >
-                    Encode
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateStep(step.id, { direction: "decode" })}
-                    className={toggleButtonClasses(step.direction === "decode")}
-                  >
-                    Decode
-                  </button>
-                </div>
-
-                {operation.modes && step.direction === "encode" && (
+                {operation.modes && direction === "encode" && (
                   <select
                     value={step.mode}
                     onChange={(e) => updateStep(step.id, { mode: e.target.value })}
@@ -159,6 +111,89 @@ export function PayloadEncoderTool() {
                       </option>
                     ))}
                   </select>
+                )}
+
+                {operation.supportsCharset && (
+                  <select
+                    value={step.charset ?? DEFAULT_CHARSET}
+                    onChange={(e) => updateStep(step.id, { charset: e.target.value })}
+                    className={selectClasses}
+                  >
+                    {direction === "decode" && <option value={AUTO_DETECT_CHARSET}>Auto-detect</option>}
+                    {CHARSET_GROUPS.map((group) => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.charsets
+                          .filter((c) => direction === "decode" || c.encodable)
+                          .map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.label}
+                            </option>
+                          ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                )}
+
+                {operation.supportsLineOptions && direction === "decode" && (
+                  <label className={checkboxLabelClasses}>
+                    <input
+                      type="checkbox"
+                      checked={step.lineMode ?? false}
+                      onChange={(e) => updateStep(step.id, { lineMode: e.target.checked })}
+                    />
+                    Decode each line separately
+                  </label>
+                )}
+
+                {operation.supportsLineOptions && direction === "encode" && (
+                  <>
+                    <label className={checkboxLabelClasses}>
+                      <input
+                        type="checkbox"
+                        checked={step.encodeLineMode ?? false}
+                        onChange={(e) => updateStep(step.id, { encodeLineMode: e.target.checked })}
+                      />
+                      Encode each line separately
+                    </label>
+                    <label className={checkboxLabelClasses}>
+                      <input
+                        type="checkbox"
+                        checked={chunkOn}
+                        onChange={(e) => updateStep(step.id, { chunkWidth: e.target.checked ? 76 : 0 })}
+                      />
+                      Split into chunks
+                    </label>
+                    {chunkOn && (
+                      <input
+                        type="number"
+                        min={1}
+                        value={step.chunkWidth}
+                        onChange={(e) =>
+                          updateStep(step.id, { chunkWidth: Math.max(1, Number(e.target.value) || 1) })
+                        }
+                        className={`${selectClasses} w-16`}
+                        aria-label="Chunk width"
+                      />
+                    )}
+                    {(step.encodeLineMode || chunkOn) && (
+                      <div className="flex gap-1">
+                        <button
+                          type="button"
+                          onClick={() => updateStep(step.id, { newlineSeparator: "LF" })}
+                          className={toggleButtonClasses((step.newlineSeparator ?? "LF") === "LF")}
+                        >
+                          LF
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateStep(step.id, { newlineSeparator: "CRLF" })}
+                          className={toggleButtonClasses(step.newlineSeparator === "CRLF")}
+                        >
+                          CRLF
+                        </button>
+                      </div>
+                    )}
+                  </>
                 )}
 
                 <div className="ml-auto flex gap-1">
@@ -193,22 +228,43 @@ export function PayloadEncoderTool() {
               </div>
 
               <div className="p-3">
-                {result.error !== null && <Callout variant="danger">{result.error}</Callout>}
-                {result.output === null && result.error === null && (
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    Blocked — fix the error in an earlier step.
-                  </p>
-                )}
-                {result.output !== null && (
+                {result.kind === "single" ? (
                   <>
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                      {isFinal ? "Final output" : `After step ${index + 1}`}
-                    </p>
-                    <div className="flex items-start justify-between gap-2">
-                      <code className="break-all text-xs text-zinc-600 dark:text-zinc-400">{result.output}</code>
-                      <CopyButton text={result.output} />
-                    </div>
+                    {result.error !== null && <Callout variant="danger">{result.error}</Callout>}
+                    {result.output === null && result.error === null && (
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                        Blocked — fix the error in an earlier step.
+                      </p>
+                    )}
+                    {result.output !== null && (
+                      <>
+                        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                          {isFinal ? "Final output" : `After step ${index + 1}`}
+                        </p>
+                        <div className="flex items-start justify-between gap-2">
+                          <code className="break-all whitespace-pre-wrap text-xs text-zinc-600 dark:text-zinc-400">
+                            {result.output}
+                          </code>
+                          <CopyButton text={result.output} />
+                        </div>
+                      </>
+                    )}
                   </>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {result.lines.map((line, lineIndex) =>
+                      line.error !== null ? (
+                        <Callout key={lineIndex} variant="danger">
+                          Line {lineIndex + 1}: {line.error}
+                        </Callout>
+                      ) : (
+                        <div key={lineIndex} className="flex items-start justify-between gap-2">
+                          <code className="break-all text-xs text-zinc-600 dark:text-zinc-400">{line.output}</code>
+                          <CopyButton text={line.output ?? ""} />
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
               </div>
             </div>

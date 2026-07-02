@@ -5,11 +5,9 @@ import { identifyHash } from "@/lib/hash/detect";
 import { isVerifiable, verifyPlaintext } from "@/lib/hash/verify";
 import { HashResultPanel } from "./HashResultPanel";
 
-const SAMPLE_HASH = "5f4dcc3b5aa765d61d8327deb882cf99";
-
 export function HashIdentifierTool() {
-  const [draftInput, setDraftInput] = useState(SAMPLE_HASH);
-  const [submittedInput, setSubmittedInput] = useState(SAMPLE_HASH);
+  const [draftInput, setDraftInput] = useState("");
+  const [submittedInput, setSubmittedInput] = useState("");
   const [lastSyncedInput, setLastSyncedInput] = useState<string | null>(null);
   const [plaintext, setPlaintext] = useState("");
   const [confirmedId, setConfirmedId] = useState<string | null>(null);

@@ -21,9 +21,40 @@ They arrive via Google search for a specific task, use the tool once, leave.
 2. Hash Identifier — detect hash type + show matching Hashcat mode number
 3. Hash Generator — same layout as Identifier, connected via tabs (see below)
 4. Payload Encoder/Decoder — chainable Base64, Hex, URL, HTML-entity, Unicode escape
-5. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string
-6. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
-(Tools 7-9 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, after v1 validates)
+5. Homoglyph Identifier/Generator — see spec below
+6. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
+
+(Tools 8-11 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, after v1 validates)
+
+### Tool 6 spec: Homoglyph Identifier/Generator
+Two linked modes on one tool page (tabs, same pattern as Hash Identifier/Generator):
+
+**Identify mode:**
+- Live input field — as the user types/pastes text (e.g. a suspicious domain 
+  name), flag any characters that are homoglyphs/confusables (visually 
+  identical or near-identical characters from different Unicode scripts, 
+  e.g. Cyrillic "а" U+0430 vs Latin "a" U+0061)
+- Highlight flagged characters inline within the text, and show each one's 
+  actual Unicode code point, script/language origin, and what Latin 
+  character it's impersonating
+- Use the Unicode Consortium's official confusables.txt data as the 
+  detection source (do not hand-build this mapping — it's large, 
+  well-maintained, and exactly the kind of "don't reinvent a security-
+  relevant dataset" case)
+
+**Generate mode:**
+- Input a string, output a homoglyph-substituted version
+- Randomize button — automatically swaps eligible characters with a random 
+  valid homoglyph each click
+- Custom character selection — let the user pick which specific 
+  character(s) in their input to substitute, and choose which homoglyph 
+  variant to use for each (some characters have multiple lookalike options 
+  across different scripts)
+- Show both the original and generated string side by side, plus the 
+  underlying Unicode code points for each substituted character
+
+Keep everything client-side — the confusables data can be bundled as a 
+static JSON file, no server/API needed.
 
 ## Deferred features (intentionally out of scope for now)
 - Hash Identifier batch mode (paste a whole file of dumped hashes, one per line, get a results table) — v1 only identifies one hash at a time. Batch support is saved as a future monetization-driving feature once site traffic justifies the extra build effort, not part of initial launch.
