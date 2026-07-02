@@ -24,7 +24,7 @@ They arrive via Google search for a specific task, use the tool once, leave.
 5. Homoglyph Identifier/Generator — see spec below
 6. CVSS 3.1/4.0 Calculator — click-through vectors, output vector string. Reverse Shell Generator — multi-language one-liners (bash, python, PHP, nc, PowerShell)
 
-(Tools 8-11 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, after v1 validates)
+(Tools 8-12 — subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker — come later, JWT generator, XSS payload generator, after v1 validates)
 
 ### Tool 5 spec: Homoglyph Identifier/Generator
 Two linked modes on one tool page (tabs, same pattern as Hash Identifier/Generator):
@@ -64,6 +64,7 @@ static JSON file, no server/API needed.
 - PWA support (manifest + service worker) if analytics show meaningful mobile traffic — do NOT build a native mobile app before this data exists
 - Subdomain permutation generator, security headers analyzer,
   SPF/DKIM/DMARC checker (tools 7-9)
+- Add JWT generator features that can generate Standard Secret Key (alphanumeric only) and Enhanced Secret Key (With Special Characters), with encryption strength that can be set from 128-512(default to 256).
 
 ## Design/UX principles
 - One URL per tool (e.g. /jwt-decoder), never a single blank-canvas app
