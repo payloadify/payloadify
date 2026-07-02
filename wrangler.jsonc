@@ -5,5 +5,9 @@
   "assets": {
     "directory": "./out",
     "not_found_handling": "404-page"
-  }
+  },
+  "routes": [
+    { "pattern": "payloadify.dev", "custom_domain": true },
+    { "pattern": "www.payloadify.dev", "custom_domain": true }
+  ]
 }
