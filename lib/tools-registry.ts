@@ -48,6 +48,13 @@ export const tools: Tool[] = [
       "Build SQL injection payloads across MySQL, MSSQL, PostgreSQL, Oracle, and SQLite, with chainable info extraction, WAF-evasion obfuscation, and blacklist-character avoidance.",
     status: "live",
   },
+  {
+    slug: "reverse-shell-generator",
+    name: "Reverse Shell Generator",
+    shortDescription:
+      "Generate reverse shell one-liners across Bash, Netcat, Python, PHP, Perl, Ruby, Socat, Awk, Telnet, Node.js, Lua, Golang, and PowerShell, with a matching listener command and save-as-file options.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
