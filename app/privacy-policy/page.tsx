@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
   return (
     <ToolPageLayout
       title="Privacy Policy & Terms of Service"
-      description="Last updated July 2, 2026."
+      description="Last updated July 3, 2026."
     >
       <div className="prose prose-zinc dark:prose-invert max-w-none space-y-8 text-zinc-700 dark:text-zinc-300">
         <section>
@@ -66,7 +66,9 @@ export default function PrivacyPolicyPage() {
             Changes to this policy
           </h3>
           <p>
-            If this policy changes, we'll update this page and the "last
+            Payloadify is under active development — we regularly ship new
+            tools, feature updates, patches, and bug fixes. If this policy
+            changes as a result, we'll update this page and the "last
             updated" date above.
           </p>
         </section>
@@ -130,6 +132,17 @@ export default function PrivacyPolicyPage() {
             credit for reports — we're a free, self-funded project. Report
             issues in good faith and give us a reasonable chance to fix them
             before going public.
+          </p>
+
+          <h3 className="mt-4 text-base font-medium text-zinc-900 dark:text-zinc-100">
+            Site updates
+          </h3>
+          <p>
+            Payloadify is an evolving project. We may update the site
+            regularly to add new tools, improve existing ones, and ship
+            patches and bug fixes, without prior notice. Continued use of the
+            site after an update means you accept the terms as they stand at
+            that time.
           </p>
 
           <h3 className="mt-4 text-base font-medium text-zinc-900 dark:text-zinc-100">
