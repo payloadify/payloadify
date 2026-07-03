@@ -16,12 +16,12 @@ import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
 const HISTORY_KEY = "payloadify:reverse-shell-generator:history";
 
 type OsFilter = "all" | OsFamily;
-const OS_FILTERS: OsFilter[] = ["all", "linux", "windows", "cross"];
+const OS_FILTERS: OsFilter[] = ["all", "linux", "windows", "mac"];
 const OS_FILTER_LABELS: Record<OsFilter, string> = {
   all: "All",
   linux: "Linux",
   windows: "Windows",
-  cross: "Cross-platform",
+  mac: "Mac",
 };
 
 const SAVE_EXTENSIONS = ["sh", "txt", "py", "php", "php5", "phtml", "ps1", "bat", "js", "pl", "rb", "lua", "go", "html", "jpg", "jpeg", "png", "gif", "svg", "asp", "aspx", "jsp"];
@@ -52,9 +52,9 @@ const DEFAULTS = {
   disguiseExtension: "jpg",
 };
 
-function matchesOsFilter(shellOs: OsFamily, filter: OsFilter): boolean {
+function matchesOsFilter(shellOs: OsFamily[], filter: OsFilter): boolean {
   if (filter === "all") return true;
-  return shellOs === filter || shellOs === "cross";
+  return shellOs.includes(filter);
 }
 
 export function ReverseShellGeneratorTool() {
@@ -293,7 +293,7 @@ export function ReverseShellGeneratorTool() {
             </code>
             {encoder.usageNote && <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{encoder.usageNote}</p>}
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-              {generatedShell.os} · {generatedShell.group} · {generatedShell.label}
+              {generatedShell.os.join(" / ")} · {generatedShell.group} · {generatedShell.label}
               {encoder.id !== "none" && <> · {encoder.label}</>}
             </p>
           </div>

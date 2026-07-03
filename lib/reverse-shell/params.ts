@@ -1,4 +1,4 @@
-export type OsFamily = "linux" | "windows" | "cross";
+export type OsFamily = "linux" | "windows" | "mac";
 
 export interface ShellParams {
   ip: string;
