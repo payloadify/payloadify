@@ -32,5 +32,11 @@
       "Bash(rm -rf /*)",
       "Bash(sudo *)"
     ]
+  },
+  "autoMode": {
+    "environment": [
+      "Organization: payloadify",
+      "Production domains: payloadify.dev"
+    ]
   }
 }

@@ -15,16 +15,18 @@ import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
 
 const HISTORY_KEY = "payloadify:reverse-shell-generator:history";
 
-type OsFilter = "all" | OsFamily;
-const OS_FILTERS: OsFilter[] = ["all", "linux", "windows", "mac"];
+type OsFilter = OsFamily;
+const OS_FILTERS: OsFilter[] = ["linux", "windows", "mac"];
 const OS_FILTER_LABELS: Record<OsFilter, string> = {
-  all: "All",
   linux: "Linux",
   windows: "Windows",
   mac: "Mac",
 };
 
-const SAVE_EXTENSIONS = ["sh", "txt", "py", "php", "php5", "phtml", "ps1", "bat", "js", "pl", "rb", "lua", "go", "html", "jpg", "jpeg", "png", "gif", "svg", "asp", "aspx", "jsp"];
+const SAVE_EXTENSIONS = [
+  "sh", "txt", "py", "php", "php5", "phtml", "ps1", "bat", "js", "pl", "rb", "lua", "go", "java", "c", "dart", "cr",
+  "swift", "vbs", "html", "jpg", "jpeg", "png", "gif", "svg", "asp", "aspx", "jsp",
+];
 const MIME_TYPES = [
   "text/plain",
   "application/octet-stream",
@@ -32,6 +34,9 @@ const MIME_TYPES = [
   "text/x-python",
   "application/x-httpd-php",
   "application/javascript",
+  "text/x-java-source",
+  "text/x-csrc",
+  "text/vbscript",
   "text/html",
   "image/jpeg",
   "image/png",
@@ -44,7 +49,7 @@ const DEFAULTS = {
   ip: "10.10.10.10",
   port: 4444,
   shellPath: "/bin/bash",
-  osFilter: "all" as OsFilter,
+  osFilter: "linux" as OsFilter,
   shellId: "bash-dev-tcp" as ShellId,
   encoded: false,
   encoderId: "none" as EncoderId,
@@ -53,7 +58,6 @@ const DEFAULTS = {
 };
 
 function matchesOsFilter(shellOs: OsFamily[], filter: OsFilter): boolean {
-  if (filter === "all") return true;
   return shellOs.includes(filter);
 }
 
@@ -116,7 +120,10 @@ export function ReverseShellGeneratorTool() {
     const stillVisible = SHELLS_BY_ID[shellId] && matchesOsFilter(SHELLS_BY_ID[shellId].os, filter);
     if (!stillVisible) {
       const firstVisible = SHELLS.find((s) => matchesOsFilter(s.os, filter));
-      if (firstVisible) setShellId(firstVisible.id);
+      if (firstVisible) {
+        setShellId(firstVisible.id);
+        if (!firstVisible.renderEncoded) setEncoded(false);
+      }
     }
   }
 

