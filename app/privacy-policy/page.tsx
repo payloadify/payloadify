@@ -112,8 +112,9 @@ export default function PrivacyPolicyPage() {
             generated commands, payloads, or outputs may not behave exactly
             as expected in every environment or edge case. Every new tool and
             feature goes through code review and security testing before it's
-            deployed, but we can't cover every possible configuration or
-            environment.
+            deployed, and we cross-check outputs against expected results as
+            part of that process — but we can't cover every possible
+            configuration or environment.
           </p>
           <p>
             This is an intentional, ongoing process rather than a
