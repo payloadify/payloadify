@@ -14,6 +14,9 @@
 .claudeignore
 CLAUDE.md
 REVIEW.md
+msfvenom-generator-specifications.md
+msfvenom-reference.md
+reverse-shell-payloads-reference.md
 
 # archived features — not wired into the app, kept locally for reference only
 /_archive/

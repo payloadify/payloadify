@@ -55,6 +55,13 @@ export const tools: Tool[] = [
       "Generate reverse shell one-liners across Bash, Netcat, Python, PHP, Perl, Ruby, Socat, Awk, Telnet, Node.js, Lua, Golang, and PowerShell, with a matching listener command and save-as-file options.",
     status: "live",
   },
+  {
+    slug: "msfvenom-generator",
+    name: "MSFVenom Command Generator",
+    shortDescription:
+      "Build msfvenom commands with template presets for Windows, Linux, macOS, and Android payloads, evasion encoders, and architectures — copy-ready, with a listener setup guide.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
