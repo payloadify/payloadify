@@ -10,7 +10,7 @@ import { buildFileBody, buildShell } from "@/lib/reverse-shell/generate";
 import { OsFamily } from "@/lib/reverse-shell/params";
 import { SHELL_GROUPS, SHELLS, SHELLS_BY_ID, ShellId } from "@/lib/reverse-shell/shells";
 import { clampPort, defaultListener, isValidPort, validateHost } from "@/lib/reverse-shell/validation";
-import { canGenerate, pruneHistory } from "@/lib/sqli/rateLimit";
+import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
 import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
 
 const HISTORY_KEY = "payloadify:reverse-shell-generator:history";
@@ -54,13 +54,12 @@ const DEFAULTS = {
 
 function matchesOsFilter(shellOs: OsFamily, filter: OsFilter): boolean {
   if (filter === "all") return true;
-  if (shellOs === filter) return true;
-  return shellOs === "cross" && filter !== "cross" ? filter === "linux" || filter === "windows" : false;
+  return shellOs === filter || shellOs === "cross";
 }
 
 export function ReverseShellGeneratorTool() {
   const [ip, setIp] = useState(DEFAULTS.ip);
-  const [port, setPort] = useState(DEFAULTS.port);
+  const [portText, setPortText] = useState(String(DEFAULTS.port));
   const [shellPath, setShellPath] = useState(DEFAULTS.shellPath);
   const [osFilter, setOsFilter] = useState<OsFilter>(DEFAULTS.osFilter);
   const [shellId, setShellId] = useState<ShellId>(DEFAULTS.shellId);
@@ -79,7 +78,8 @@ export function ReverseShellGeneratorTool() {
   const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
 
   const hostValidation = useMemo(() => validateHost(ip), [ip]);
-  const portValid = isValidPort(port);
+  const port = Number(portText);
+  const portValid = portText.trim().length > 0 && isValidPort(port);
 
   const filteredShells = useMemo(() => SHELLS.filter((s) => matchesOsFilter(s.os, osFilter)), [osFilter]);
   const visibleGroups = useMemo(
@@ -97,10 +97,10 @@ export function ReverseShellGeneratorTool() {
   }, [generatedShell, hostValidation.ok, portValid, ip, port, shellPath, encoded, encoder]);
 
   const listenerCommand = useMemo(() => {
-    if (!generatedShell) return null;
+    if (!generatedShell || !portValid) return null;
     const params = { ip: ip.trim(), port, shellPath };
     return generatedShell.listener ? generatedShell.listener(params) : defaultListener(port);
-  }, [generatedShell, ip, port, shellPath]);
+  }, [generatedShell, portValid, ip, port, shellPath]);
 
   const fileBody = useMemo(() => {
     if (!generatedShell || !hostValidation.ok || !portValid) return null;
@@ -128,7 +128,7 @@ export function ReverseShellGeneratorTool() {
 
   function resetAll() {
     setIp(DEFAULTS.ip);
-    setPort(DEFAULTS.port);
+    setPortText(String(DEFAULTS.port));
     setShellPath(DEFAULTS.shellPath);
     setOsFilter(DEFAULTS.osFilter);
     setShellId(DEFAULTS.shellId);
@@ -179,10 +179,17 @@ export function ReverseShellGeneratorTool() {
             type="number"
             min={1}
             max={65535}
-            value={port}
-            onChange={(e) => setPort(clampPort(Number(e.target.value)))}
+            value={portText}
+            onChange={(e) => setPortText(e.target.value)}
+            onBlur={() => {
+              if (portText.trim().length === 0) return;
+              setPortText(String(clampPort(Number(portText))));
+            }}
             className={`${selectClasses} w-full`}
           />
+          {portText.length > 0 && !portValid && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-400">Enter a port between 1 and 65535.</p>
+          )}
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Shell path</label>

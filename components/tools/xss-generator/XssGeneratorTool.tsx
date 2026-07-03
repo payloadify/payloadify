@@ -11,7 +11,7 @@ import { COMMON_BLACKLIST_CHARS, unavoidableChars } from "@/lib/xss/blacklist";
 import { LEVEL_ORDER, buildPayload, effectiveLevel, pickInjectionAndObfuscation } from "@/lib/xss/generate";
 import { XSS_INJECTION_TYPES, XssContext, XssInjectionType, XssLevel } from "@/lib/xss/injectionTypes";
 import { NONE_OBFUSCATION, OBFUSCATIONS, OBFUSCATIONS_BY_ID, Obfuscation, ObfuscationId } from "@/lib/xss/obfuscation";
-import { canGenerate, pruneHistory } from "@/lib/xss/rateLimit";
+import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
 
 const HISTORY_KEY = "payloadify:xss-generator:history";
 

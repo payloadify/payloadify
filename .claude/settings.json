@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(npm test*)",
+      "Bash(npm run build*)",
+      "Bash(npm run lint*)",
+      "Bash(npx tsc --noEmit*)",
+      "Bash(npx vitest*)",
+      "Bash(git mv app/*)",
+      "Bash(git mv components/*)",
+      "Bash(git mv lib/*)",
+      "Bash(git mv hooks/*)",
+      "Bash(rm app/*)",
+      "Bash(rm components/*)",
+      "Bash(rm lib/*)",
+      "Bash(rm hooks/*)",
+      "Bash(mkdir -p app/*)",
+      "Bash(mkdir -p components/*)",
+      "Bash(mkdir -p lib/*)",
+      "Bash(mkdir -p hooks/*)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git commit --no-verify*)",
+      "Bash(git commit -n *)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo *)"
+    ]
+  }
+}

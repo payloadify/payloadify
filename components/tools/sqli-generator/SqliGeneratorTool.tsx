@@ -13,7 +13,7 @@ import { LEVEL_ORDER, buildPayload, effectiveLevel, pickTechniqueAndObfuscation 
 import { SQLI_INFO_TARGETS, SQLI_INFO_TARGETS_BY_ID, SqliInfoTargetId } from "@/lib/sqli/infoTargets";
 import { NONE_SQLI_OBFUSCATION, SQLI_OBFUSCATIONS, SQLI_OBFUSCATIONS_BY_ID, SqliObfuscation, SqliObfuscationId } from "@/lib/sqli/obfuscation";
 import { SQLI_TECHNIQUES, SqliLevel, SqliTechnique } from "@/lib/sqli/techniques";
-import { canGenerate, pruneHistory } from "@/lib/sqli/rateLimit";
+import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
 import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
 
 const HISTORY_KEY = "payloadify:sqli-generator:history";
