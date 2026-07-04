@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Payloadify",
   },
   description:
-    "Free, client-side security and pentest utility tools: JWT decoder, hash identifier, CVSS calculator, reverse shell generator, and more.",
+    "Free, client-side security and pentest utility tools: JWT decoder, hash identifier/generator, payload encoder/decoder, XSS and SQLi payload generators, reverse shell generator, and more.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
