@@ -1,7 +1,7 @@
 import { ChainPair } from "./types";
 
 /**
- * Every unique unordered pair of the 14 VulnType families (vulnTypes.ts) — C(14,2) = 91
+ * Every unique unordered pair of the 15 VulnType families (vulnTypes.ts) — C(15,2) = 105
  * entries, one per pair, per the confirmed "fully hand-authored matrix" scope decision. No
  * runtime "no override" fallback exists; chaining.test.ts asserts this file has exactly one
  * entry for every pair and fails loudly if a family is added without its new pair entries.
@@ -1501,7 +1501,7 @@ export const CHAIN_MATRIX: ChainPair[] = [
     label: "SQL Injection chained with Parameter Tampering",
     cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
     cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
-    // combined score 3.1=10 4.0=9.3 — Parameter Tampering's own worst case (10) now edges out SQLi's (9.9)
+    // combined score 3.1=10 4.0=9.3 — Parameter Tampering's own worst case (9.9) now edges out SQLi's (8.2)
     rationale: "Combined by taking the more severe rating per metric between SQL Injection and Parameter Tampering. Category shown reflects whichever of the two carries the higher standalone severity.",
     owaspRefId: "web-a04-insecure-design",
     vrtRefId: "parameter-tampering",
