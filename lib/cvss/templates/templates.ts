@@ -1,7 +1,7 @@
 import { CvssTemplate } from "./types";
 
 /**
- * ~60-70 scenario presets across the 14 VulnType families (vulnTypes.ts). Selecting one in the
+ * ~70 scenario presets across the 14 VulnType families (vulnTypes.ts). Selecting one in the
  * UI fills every CVSS 3.1 + 4.0 metric plus the OWASP/VRT/CWE/reference ids in one shot,
  * mirroring lib/msfvenom/templates.ts's template→custom flow.
  *
@@ -98,12 +98,20 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   },
 
   // ---- sqli ----
+  // Platform-split per the same convention as xss/idor/etc. below. OWASP API Security Top 10
+  // (2023) explicitly dropped "Injection" as its own category — its intro states classic
+  // injection (SQLi/NoSQLi/command injection) is already covered by the main OWASP Top 10 — so
+  // a direct user-input SQLi hitting an API endpoint still cites the Web Injection category
+  // (web-a03-injection / web25-a05-injection via the CWE map), same as templates.ts's xxe/
+  // command-injection API variants. The one exception is "sqli-api-unsafe-consumption" below,
+  // which matches OWASP's own API10:2023 worked example (SQLi arriving via a *consumed*
+  // third-party API response, not direct user input) and cites API10 accordingly.
   {
-    id: "sqli-auth-bypass",
+    id: "sqli-auth-bypass-web",
     vulnTypeId: "sqli",
-    label: "SQL injection — authentication bypass",
-    platforms: ["web", "api"],
-    description: "A classic ' OR 1=1-- style payload in the login form bypasses authentication entirely, logging the attacker in as any user.",
+    label: "SQL injection — authentication bypass (web login form)",
+    platforms: ["web"],
+    description: "A classic ' OR 1=1-- style payload in the web login form bypasses authentication entirely, logging the attacker in as any user.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
@@ -115,11 +123,11 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     ],
   },
   {
-    id: "sqli-union-data-extraction",
+    id: "sqli-auth-bypass-api",
     vulnTypeId: "sqli",
-    label: "SQL injection — UNION-based full database dump",
-    platforms: ["web", "api"],
-    description: "A UNION SELECT payload in a vulnerable query parameter dumps arbitrary tables, including other users' data and credentials.",
+    label: "SQL injection — authentication bypass (API login endpoint)",
+    platforms: ["api"],
+    description: "A classic ' OR 1=1-- style payload sent directly to an API login endpoint bypasses authentication entirely, logging the attacker in as any user.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
@@ -131,12 +139,44 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     ],
   },
   {
-    id: "sqli-blind-boolean-time",
+    id: "sqli-union-data-extraction-web",
     vulnTypeId: "sqli",
-    label: "SQL injection — blind boolean/time-based",
-    platforms: ["web", "api"],
+    label: "SQL injection — UNION-based full database dump (web app)",
+    platforms: ["web"],
+    description: "A UNION SELECT payload in a vulnerable web query parameter dumps arbitrary tables, including other users' data and credentials.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "sqli-union-data-extraction-api",
+    vulnTypeId: "sqli",
+    label: "SQL injection — UNION-based full database dump (API parameter)",
+    platforms: ["api"],
+    description: "A UNION SELECT payload in a vulnerable API query/body parameter dumps arbitrary tables, including other users' data and credentials.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "sqli-blind-boolean-time-web",
+    vulnTypeId: "sqli",
+    label: "SQL injection — blind boolean/time-based (web app)",
+    platforms: ["web"],
     description:
-      "No query output is returned directly; data is exfiltrated one bit at a time via true/false or timing (SLEEP()) responses. Heavy time-based queries can also degrade database availability.",
+      "No query output is returned directly by the web app; data is exfiltrated one bit at a time via true/false or timing (SLEEP()) responses. Heavy time-based queries can also degrade database availability.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "L" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "L", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
@@ -148,12 +188,29 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     ],
   },
   {
-    id: "sqli-second-order",
+    id: "sqli-blind-boolean-time-api",
     vulnTypeId: "sqli",
-    label: "Second-order SQL injection",
-    platforms: ["web", "api"],
+    label: "SQL injection — blind boolean/time-based (API parameter)",
+    platforms: ["api"],
     description:
-      "A payload stored benignly in one feature (e.g. a display name) is later concatenated unsafely into a different, downstream query (e.g. an admin report), triggering injection there.",
+      "No query output is returned directly by the API; data is exfiltrated one bit at a time via true/false or timing (SLEEP()) responses. Heavy time-based queries can also degrade database availability.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "L" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "L", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "sqli-second-order-web",
+    vulnTypeId: "sqli",
+    label: "Second-order SQL injection (web app)",
+    platforms: ["web"],
+    description:
+      "A payload stored benignly in one web feature (e.g. a display name) is later concatenated unsafely into a different, downstream query (e.g. an admin report), triggering injection there.",
     cvss31: { AV: "N", AC: "H", PR: "L", UI: "N", S: "C", C: "H", I: "L", A: "N" },
     cvss40: { AV: "N", AC: "H", AT: "P", PR: "L", UI: "N", VC: "H", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
@@ -162,6 +219,40 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     references: [
       { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
       { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "sqli-second-order-api",
+    vulnTypeId: "sqli",
+    label: "Second-order SQL injection (API)",
+    platforms: ["api"],
+    description:
+      "A payload stored benignly via one API endpoint (e.g. a profile field) is later concatenated unsafely into a different, downstream query triggered by another endpoint (e.g. an export/report API), triggering injection there.",
+    cvss31: { AV: "N", AC: "H", PR: "L", UI: "N", S: "C", C: "H", I: "L", A: "N" },
+    cvss40: { AV: "N", AC: "H", AT: "P", PR: "L", UI: "N", VC: "H", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "sqli-api-unsafe-consumption",
+    vulnTypeId: "sqli",
+    label: "SQL injection via unsafe consumption of a third-party API response",
+    platforms: ["api"],
+    description:
+      "The API enriches user-supplied data (e.g. a business address) by querying a third-party service, then stores that service's response directly in a local SQL-backed database with no sanitization. An attacker plants a malicious SQLi payload in data they control on the third-party service, then triggers the victim API to pull it — the payload executes against the local database once consumed, exfiltrating data to an attacker-controlled destination. Matches OWASP API Security Top 10 2023's own API10 worked example exactly.",
+    cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
+    cvss40: { AV: "N", AC: "H", AT: "P", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "api-api10-unsafe-consumption",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP API Security Top 10 2023 — API10 Unsafe Consumption of APIs", url: "https://owasp.org/API-Security/editions/2023/en/0xaa-unsafe-consumption-of-apis/" },
     ],
   },
 
@@ -744,12 +835,15 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   },
 
   // ---- xxe ----
+  // Platform-split for the same reason as sqli above: OWASP's API Security Top 10 (2023) has no
+  // injection-family category, so a direct XXE finding still cites the Web Security
+  // Misconfiguration category (web-a05-security-misconfiguration) even on the api platform.
   {
-    id: "xxe-file-disclosure",
+    id: "xxe-file-disclosure-web",
     vulnTypeId: "xxe",
-    label: "XXE — local file disclosure via XML external entity",
-    platforms: ["web", "api"],
-    description: "An XML parser resolves external entities, letting an attacker define one that reads arbitrary local files (e.g. /etc/passwd, app config with secrets) back into the response.",
+    label: "XXE — local file disclosure via XML external entity (web app)",
+    platforms: ["web"],
+    description: "A web app's XML parser resolves external entities, letting an attacker define one that reads arbitrary local files (e.g. /etc/passwd, app config with secrets) back into the response.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a05-security-misconfiguration",
@@ -761,11 +855,43 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     ],
   },
   {
-    id: "xxe-blind-oob",
+    id: "xxe-file-disclosure-api",
     vulnTypeId: "xxe",
-    label: "Blind XXE — out-of-band exfiltration, SSRF-like pivot",
-    platforms: ["web", "api"],
-    description: "No file contents are returned directly; data is exfiltrated via an external DTD and an out-of-band HTTP/DNS channel, which can also reach internal-only network endpoints.",
+    label: "XXE — local file disclosure via XML external entity (API endpoint)",
+    platforms: ["api"],
+    description: "An API endpoint accepting XML (e.g. a SOAP call or XML file upload) resolves external entities, letting an attacker define one that reads arbitrary local files (e.g. /etc/passwd, app config with secrets) back into the response.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a05-security-misconfiguration",
+    vrtRefId: "xxe",
+    cweId: "CWE-611",
+    references: [
+      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "xxe-blind-oob-web",
+    vulnTypeId: "xxe",
+    label: "Blind XXE — out-of-band exfiltration, SSRF-like pivot (web app)",
+    platforms: ["web"],
+    description: "No file contents are returned directly by the web app; data is exfiltrated via an external DTD and an out-of-band HTTP/DNS channel, which can also reach internal-only network endpoints.",
+    cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
+    cvss40: { AV: "N", AC: "H", AT: "P", PR: "N", UI: "N", VC: "L", VI: "N", VA: "N", SC: "H", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a05-security-misconfiguration",
+    vrtRefId: "xxe",
+    cweId: "CWE-611",
+    references: [
+      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "xxe-blind-oob-api",
+    vulnTypeId: "xxe",
+    label: "Blind XXE — out-of-band exfiltration, SSRF-like pivot (API endpoint)",
+    platforms: ["api"],
+    description: "No file contents are returned directly by the API; data is exfiltrated via an external DTD and an out-of-band HTTP/DNS channel, which can also reach internal-only network endpoints.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "H", AT: "P", PR: "N", UI: "N", VC: "L", VI: "N", VA: "N", SC: "H", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a05-security-misconfiguration",
