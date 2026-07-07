@@ -1,4 +1,5 @@
 import { ChainPair } from "./types";
+import { VULN_TYPES_BY_ID } from "./vulnTypes";
 
 /**
  * Every unique unordered pair of the 15 VulnType families (vulnTypes.ts) — C(15,2) = 105
@@ -1713,4 +1714,40 @@ export function findChainPair(idA: string, idB: string): ChainPair | undefined {
   return CHAIN_MATRIX.find(
     (pair) => (pair.vulnTypeIdA === idA && pair.vulnTypeIdB === idB) || (pair.vulnTypeIdA === idB && pair.vulnTypeIdB === idA),
   );
+}
+
+function chainPairKey(idA: string, idB: string): string {
+  return [idA, idB].sort().join("|");
+}
+
+/** Hand-written combined-impact write-ups for the handful of chain pairs that are especially
+ *  common and well-documented in real pentest findings. Deliberately NOT exhaustive — per the
+ *  "no auto-generated combined descriptions" scope decision, every other pair gets a scaffold
+ *  prompt from getChainedImpactDraft() below rather than a guessed narrative. Add to this list
+ *  only for pairs you can point to real, well-documented attack paths for. */
+const CURATED_CHAIN_IMPACT: Record<string, string> = {
+  [chainPairKey("xss", "broken-authentication")]:
+    "Chaining Cross-Site Scripting with Broken Authentication / Session Management: injected JavaScript can read a session cookie or bearer token that weak session-management practices (e.g. missing HttpOnly, non-expiring tokens) leave exposed, letting the attacker hijack the victim's authenticated session without ever learning their password.",
+  [chainPairKey("idor", "broken-access-control")]:
+    "Chaining Insecure Direct Object Reference (IDOR) with Broken Access Control / Privilege Escalation: an object-level authorization gap that lets an attacker enumerate or modify another user's records is compounded by a missing role check on the same functionality, turning a horizontal data-access issue into a route to administrative or otherwise privileged actions.",
+  [chainPairKey("ssrf", "sensitive-data-exposure")]:
+    "Chaining Server-Side Request Forgery (SSRF) with Sensitive Data Exposure / Cryptographic Failures: the forged server-side request is pointed at the cloud provider's instance metadata service or another internal secrets endpoint, and the credentials or tokens returned there are the sensitive data exposed — turning a request-forgery primitive into direct compromise of the provider account or downstream services those credentials unlock.",
+  [chainPairKey("sqli", "command-injection")]:
+    "Chaining SQL Injection with OS Command Injection: once injection into the query is confirmed, database-specific command-execution features are used to escalate from data access to full host compromise — MSSQL's xp_cmdshell, MySQL's INTO OUTFILE to drop a web shell into a web-accessible directory, or PostgreSQL's COPY TO/FROM PROGRAM. This is one of the most well-documented SQLi escalation paths and turns a data-disclosure finding into remote code execution on the database host.",
+  [chainPairKey("broken-access-control", "sensitive-data-exposure")]:
+    "Chaining Broken Access Control / Privilege Escalation with Sensitive Data Exposure / Cryptographic Failures: reaching functionality or an object tier the missing authorization check should have blocked exposes data (other users' records, admin-only exports, credentials) that was only ever protected by that same access-control gate — turning a single broken check into bulk, unauthorized data disclosure rather than a one-off action.",
+  [chainPairKey("ssrf", "xxe")]:
+    "Chaining Server-Side Request Forgery (SSRF) with XML External Entity (XXE) Injection: the XML parser's own external-entity resolution is the SSRF primitive — a custom entity is defined pointing at an internal host, cloud metadata endpoint, or otherwise unreachable service, and the parser (not a dedicated URL-fetch feature) is what issues the request. Especially relevant for blind XXE, where an out-of-band external DTD is often the only way to confirm and extract data from the reached destination.",
+};
+
+/** Draft for the "Chained Impact" field: a curated write-up for the pairs above, otherwise a
+ *  scaffold prompt for the user to fill in themselves rather than a guessed claim across every
+ *  possible pairing. "" if either id is missing. */
+export function getChainedImpactDraft(vulnTypeIdA: string | null, vulnTypeIdB: string | null): string {
+  if (!vulnTypeIdA || !vulnTypeIdB) return "";
+  const curated = CURATED_CHAIN_IMPACT[chainPairKey(vulnTypeIdA, vulnTypeIdB)];
+  if (curated) return curated;
+  const labelA = VULN_TYPES_BY_ID[vulnTypeIdA]?.label ?? vulnTypeIdA;
+  const labelB = VULN_TYPES_BY_ID[vulnTypeIdB]?.label ?? vulnTypeIdB;
+  return `Combining ${labelA} with ${labelB} may increase impact — describe the specific attack path here.`;
 }
