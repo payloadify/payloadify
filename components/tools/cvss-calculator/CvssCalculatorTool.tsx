@@ -1,16 +1,25 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
+import { Callout } from "@/components/ui/Callout";
 import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { saveAsFile } from "@/lib/download/saveAsFile";
 import { CopyField } from "@/lib/cvss/shared/copyFormat";
 import { CvssVersion, Platform } from "@/lib/cvss/shared/types";
 import { CWE_ENTRIES_BY_ID } from "@/lib/cvss/references/cwe";
 import { OWASP_CATEGORIES_BY_ID, OwaspWebVersion, toOwaspWebVersion } from "@/lib/cvss/references/owasp";
 import { VRT_CATEGORIES_BY_ID } from "@/lib/cvss/references/vrt";
-import { findChainPair } from "@/lib/cvss/templates/chaining";
+import { findChainPair, getChainedImpactDraft } from "@/lib/cvss/templates/chaining";
+import { getDescriptionImpactDraft } from "@/lib/cvss/templates/descriptionImpact";
 import { CVSS_TEMPLATES, CVSS_TEMPLATES_BY_ID } from "@/lib/cvss/templates/templates";
 import { CvssMeta, EMPTY_CVSS_META } from "@/lib/cvss/templates/types";
-import { SavedCvssTemplate, useSavedCvssTemplates } from "@/lib/storage/savedCvssTemplates";
+import {
+  MAX_SAVED_CVSS_TEMPLATES,
+  parseSavedCvssTemplatesImport,
+  SavedCvssTemplate,
+  useSavedCvssTemplates,
+} from "@/lib/storage/savedCvssTemplates";
 import {
   CVSS31_AC_OPTIONS,
   CVSS31_AV_OPTIONS,
@@ -38,6 +47,7 @@ import { computeCvss40Score } from "@/lib/cvss/v4_0/score";
 import { buildCvss40Vector } from "@/lib/cvss/v4_0/vector";
 import { ChainPicker } from "./ChainPicker";
 import { CopyAllPanel } from "./CopyAllPanel";
+import { DescriptionImpactFields } from "./DescriptionImpactFields";
 import { OutputPanel } from "./OutputPanel";
 import { PlatformVulnPicker } from "./PlatformVulnPicker";
 
@@ -87,9 +97,16 @@ export function CvssCalculatorTool() {
   const [saveNameInput, setSaveNameInput] = useState("");
   const [savedMenuOpen, setSavedMenuOpen] = useState(false);
   const [selectedSavedTemplateId, setSelectedSavedTemplateId] = useState<string | null>(null);
+  const [importStatus, setImportStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const importFileInputRef = useRef<HTMLInputElement>(null);
 
-  const { templates: savedTemplates, save: saveTemplate, remove: removeTemplate, removeAll: removeAllTemplates } =
-    useSavedCvssTemplates(SAVED_CVSS_TEMPLATES_KEY);
+  const {
+    templates: savedTemplates,
+    save: saveTemplate,
+    remove: removeTemplate,
+    removeAll: removeAllTemplates,
+    importMany: importSavedTemplates,
+  } = useSavedCvssTemplates(SAVED_CVSS_TEMPLATES_KEY);
 
   const currentTemplate = templateId ? CVSS_TEMPLATES_BY_ID[templateId] : null;
   const templatesForVulnType = useMemo(
@@ -99,6 +116,27 @@ export function CvssCalculatorTool() {
 
   function updateMeta(patch: Partial<CvssMeta>) {
     setMeta((prev) => ({ ...prev, ...patch }));
+  }
+
+  /** Before leaving the current (vulnTypeId, templateId) selection, checks whether the user has
+   *  edited the description/impact away from that selection's draft and, if so, confirms before
+   *  letting the caller overwrite them. Returns true if it's safe to apply the new draft (nothing
+   *  was edited, or the user confirmed), false if the caller should preserve the current text
+   *  instead. */
+  function confirmDescriptionOverwrite(): boolean {
+    const draft = getDescriptionImpactDraft(vulnTypeId, templateId);
+    const isDirty = meta.description !== draft.description || meta.impact !== draft.impact;
+    if (!isDirty) return true;
+    return window.confirm("Replace your edited description/impact with the new template's draft?");
+  }
+
+  /** Same warn-before-overwrite pattern as confirmDescriptionOverwrite, scoped to the Chained
+   *  Impact field, checked before leaving the current chain selection. */
+  function confirmChainedImpactOverwrite(): boolean {
+    const draft = getChainedImpactDraft(currentTemplate?.vulnTypeId ?? null, chainVulnTypeId);
+    const isDirty = meta.chainedImpact !== draft;
+    if (!isDirty) return true;
+    return window.confirm("Replace your edited chained-impact text with the new pairing's draft?");
   }
 
   /** Templates/chains/saved templates are authored against the 2021 Web catalogue — this
@@ -119,19 +157,29 @@ export function CvssCalculatorTool() {
   }
 
   function selectPlatform(p: Platform) {
+    const keepDraftEdits = !confirmDescriptionOverwrite();
     setPlatformFilter(p);
     setVulnTypeId(null);
     setTemplateId(null);
     setChainVulnTypeId(null);
-    setMeta(EMPTY_CVSS_META);
+    setMeta(
+      keepDraftEdits
+        ? { ...EMPTY_CVSS_META, description: meta.description, impact: meta.impact, chainedImpact: meta.chainedImpact }
+        : EMPTY_CVSS_META,
+    );
     setSelectedSavedTemplateId(null);
   }
 
   function selectVulnType(id: string | null) {
+    const keepDraftEdits = !confirmDescriptionOverwrite();
     setVulnTypeId(id);
     setTemplateId(null);
     setChainVulnTypeId(null);
-    setMeta(EMPTY_CVSS_META);
+    setMeta(
+      keepDraftEdits
+        ? { ...EMPTY_CVSS_META, description: meta.description, impact: meta.impact, chainedImpact: meta.chainedImpact }
+        : { ...EMPTY_CVSS_META, ...getDescriptionImpactDraft(id, null) },
+    );
     setSelectedSavedTemplateId(null);
   }
 
@@ -142,8 +190,17 @@ export function CvssCalculatorTool() {
 
   function selectTemplate(id: string | null) {
     setSelectedSavedTemplateId(null);
+    const keepDescriptionEdits = !confirmDescriptionOverwrite();
+    const keepChainedEdits = !confirmChainedImpactOverwrite();
     if (id === null) {
       resetToCustom();
+      const draft = getDescriptionImpactDraft(vulnTypeId, null);
+      setMeta((prev) => ({
+        ...prev,
+        description: keepDescriptionEdits ? prev.description : draft.description,
+        impact: keepDescriptionEdits ? prev.impact : draft.impact,
+        chainedImpact: keepChainedEdits ? prev.chainedImpact : "",
+      }));
       return;
     }
     const template = CVSS_TEMPLATES_BY_ID[id];
@@ -151,29 +208,37 @@ export function CvssCalculatorTool() {
     setChainVulnTypeId(null);
     setMetrics31(template.cvss31);
     setMetrics40(template.cvss40);
-    setMeta({
+    const draft = getDescriptionImpactDraft(template.vulnTypeId, id);
+    setMeta((prev) => ({
+      ...prev,
       rationale: "",
       owaspRefId: resolveOwaspRefId(template.owaspRefId, template.cweId),
       vrtRefId: template.vrtRefId,
       cweId: template.cweId,
       references: template.references,
-    });
+      description: keepDescriptionEdits ? prev.description : draft.description,
+      impact: keepDescriptionEdits ? prev.impact : draft.impact,
+      chainedImpact: keepChainedEdits ? prev.chainedImpact : "",
+    }));
   }
 
   function selectChain(secondId: string | null) {
     if (!currentTemplate) return;
     setSelectedSavedTemplateId(null);
+    const keepChainedEdits = !confirmChainedImpactOverwrite();
     if (secondId === null) {
       setChainVulnTypeId(null);
       setMetrics31(currentTemplate.cvss31);
       setMetrics40(currentTemplate.cvss40);
-      setMeta({
+      setMeta((prev) => ({
+        ...prev,
         rationale: "",
         owaspRefId: resolveOwaspRefId(currentTemplate.owaspRefId, currentTemplate.cweId),
         vrtRefId: currentTemplate.vrtRefId,
         cweId: currentTemplate.cweId,
         references: currentTemplate.references,
-      });
+        chainedImpact: keepChainedEdits ? prev.chainedImpact : "",
+      }));
       return;
     }
     const pair = findChainPair(currentTemplate.vulnTypeId, secondId);
@@ -181,13 +246,16 @@ export function CvssCalculatorTool() {
     setChainVulnTypeId(secondId);
     setMetrics31(pair.cvss31);
     setMetrics40(pair.cvss40);
-    setMeta({
+    const chainedImpactDraft = getChainedImpactDraft(currentTemplate.vulnTypeId, secondId);
+    setMeta((prev) => ({
+      ...prev,
       rationale: pair.rationale,
       owaspRefId: resolveOwaspRefId(pair.owaspRefId, pair.cweId),
       vrtRefId: pair.vrtRefId,
       cweId: pair.cweId,
       references: pair.references,
-    });
+      chainedImpact: keepChainedEdits ? prev.chainedImpact : chainedImpactDraft,
+    }));
   }
 
   function loadSavedTemplate(saved: SavedCvssTemplate) {
@@ -195,9 +263,13 @@ export function CvssCalculatorTool() {
     setVulnTypeId(saved.vulnTypeId);
     setTemplateId(null);
     setChainVulnTypeId(null);
-    setMetrics31(saved.cvss31);
-    setMetrics40(saved.cvss40);
-    setMeta(saved.meta);
+    // Spread over the defaults so an incomplete/imported metrics object still yields a defined
+    // value per key instead of undefined (same reasoning as the meta spread below).
+    setMetrics31({ ...CVSS31_DEFAULT_METRICS, ...saved.cvss31 });
+    setMetrics40({ ...CVSS40_DEFAULT_METRICS, ...saved.cvss40 });
+    // Spread over EMPTY_CVSS_META so templates saved before description/impact existed still
+    // load with defined ("") values instead of undefined.
+    setMeta({ ...EMPTY_CVSS_META, ...saved.meta });
     setSelectedSavedTemplateId(saved.id);
     setSavedMenuOpen(false);
   }
@@ -213,6 +285,47 @@ export function CvssCalculatorTool() {
     if (!confirmed) return;
     removeAllTemplates();
     setSelectedSavedTemplateId(null);
+  }
+
+  function exportSavedTemplates() {
+    if (savedTemplates.length === 0) return;
+    saveAsFile({
+      filename: "payloadify-cvss-templates.json",
+      content: JSON.stringify(savedTemplates, null, 2),
+      mimeType: "application/json",
+    });
+  }
+
+  function triggerImportSavedTemplates() {
+    setImportStatus(null);
+    importFileInputRef.current?.click();
+  }
+
+  async function handleImportSavedTemplatesFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    const result = parseSavedCvssTemplatesImport(await file.text());
+    if ("error" in result) {
+      setImportStatus({ type: "error", message: result.error });
+      return;
+    }
+
+    const { added, skippedForCap, duplicates } = importSavedTemplates(result.templates);
+    const parts: string[] = [
+      added > 0 ? `Imported ${added} template${added === 1 ? "" : "s"}.` : "No new templates were imported.",
+    ];
+    if (result.skippedInvalid > 0) {
+      parts.push(`${result.skippedInvalid} entr${result.skippedInvalid === 1 ? "y" : "ies"} skipped (not a valid template).`);
+    }
+    if (duplicates > 0) parts.push(`${duplicates} already saved (skipped).`);
+    if (skippedForCap > 0) {
+      parts.push(
+        `${skippedForCap} couldn't be added — you're at the ${MAX_SAVED_CVSS_TEMPLATES}-template limit. Delete some and re-import to add the rest.`,
+      );
+    }
+    setImportStatus({ type: added > 0 ? "success" : "error", message: parts.join(" ") });
   }
 
   function resetWorkingState() {
@@ -248,7 +361,13 @@ export function CvssCalculatorTool() {
 
   function saveCurrentAsTemplate() {
     const name = saveNameInput.trim() || suggestedSaveName;
-    const id = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Date.now());
+    // Saving under a name that already exists would otherwise silently add a second,
+    // indistinguishable entry — confirm whether to overwrite the existing one instead.
+    const existing = savedTemplates.find((t) => t.name === name);
+    if (existing && !window.confirm(`A saved template named "${name}" already exists. Overwrite it?`)) {
+      return;
+    }
+    const id = existing?.id ?? (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Date.now()));
     saveTemplate({ id, name, platformFilter, vulnTypeId, cvss31: metrics31, cvss40: metrics40, meta });
     setSaveNameInput("");
   }
@@ -259,6 +378,9 @@ export function CvssCalculatorTool() {
 
   const copyFields: CopyField[] = useMemo(() => {
     const fields: CopyField[] = [{ id: "vector", label: "Vector String", value: vector }];
+    if (meta.description.trim()) fields.push({ id: "description", label: "Vulnerability Description", value: meta.description.trim() });
+    if (meta.impact.trim()) fields.push({ id: "impact", label: "Impact", value: meta.impact.trim() });
+    if (chainVulnTypeId && meta.chainedImpact.trim()) fields.push({ id: "chainedImpact", label: "Chained Impact", value: meta.chainedImpact.trim() });
     const owasp = meta.owaspRefId ? OWASP_CATEGORIES_BY_ID[meta.owaspRefId] : null;
     const vrt = meta.vrtRefId ? VRT_CATEGORIES_BY_ID[meta.vrtRefId] : null;
     const cwe = meta.cweId ? CWE_ENTRIES_BY_ID[meta.cweId] : null;
@@ -269,7 +391,7 @@ export function CvssCalculatorTool() {
       fields.push({ id: "references", label: "References", value: meta.references.map((r) => r.url).join("\n") });
     }
     return fields;
-  }, [vector, meta]);
+  }, [vector, meta, chainVulnTypeId]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -293,6 +415,8 @@ export function CvssCalculatorTool() {
       />
 
       {currentTemplate && <ChainPicker firstVulnTypeId={currentTemplate.vulnTypeId} chainVulnTypeId={chainVulnTypeId} onChainChange={selectChain} />}
+
+      <DescriptionImpactFields meta={meta} onMetaChange={updateMeta} showChainedImpact={!!chainVulnTypeId} />
 
       {version === "3.1" ? (
         <div className="grid gap-4 sm:grid-cols-2">
@@ -381,10 +505,10 @@ export function CvssCalculatorTool() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium">Saved templates</label>
-          <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-400">
-            Saved templates are stored in your browser only. They&apos;ll persist across refreshes, but won&apos;t sync across devices or browsers.
-          </p>
+          <label className="mb-1 flex items-center text-sm font-medium">
+            Saved templates
+            <Tooltip text="Stored in this browser only — lost if you clear your cache, and won't sync across devices. Use Export to keep a backup." />
+          </label>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
               <button
@@ -428,7 +552,25 @@ export function CvssCalculatorTool() {
             <button type="button" onClick={resetWorkingState} title="Clears the current working state — does not delete any saved templates" className={iconButtonClasses}>
               Reset
             </button>
+            <button type="button" onClick={exportSavedTemplates} disabled={savedTemplates.length === 0} className={iconButtonClasses}>
+              Export Templates
+            </button>
+            <button type="button" onClick={triggerImportSavedTemplates} className={iconButtonClasses}>
+              Import Templates
+            </button>
+            <input
+              ref={importFileInputRef}
+              type="file"
+              accept="application/json,.json"
+              onChange={handleImportSavedTemplatesFile}
+              className="hidden"
+            />
           </div>
+          {importStatus && (
+            <div className="mt-2">
+              <Callout variant={importStatus.type === "error" ? "danger" : "success"}>{importStatus.message}</Callout>
+            </div>
+          )}
         </div>
       </div>
 

@@ -11,10 +11,10 @@ export default function PrivacyPolicyPage() {
   return (
     <ToolPageLayout
       title="Privacy Policy & Terms of Service"
-      description="Last updated July 3, 2026."
+      description="Last updated July 7, 2026."
     >
       <div className="prose prose-zinc dark:prose-invert max-w-none space-y-8 text-zinc-700 dark:text-zinc-300">
-        <section>
+        <section id="privacy">
           <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             Privacy Policy
           </h2>
@@ -73,7 +73,7 @@ export default function PrivacyPolicyPage() {
           </p>
         </section>
 
-        <section>
+        <section id="tos">
           <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             Terms of Service
           </h2>
@@ -172,8 +172,17 @@ export default function PrivacyPolicyPage() {
             Contact
           </h3>
           <p>
-            Questions about these terms, the privacy policy, or a security
-            report can be sent to{" "}
+            Found a bug in a tool, or have a feature request? Open an issue on{" "}
+            <a
+              href="https://github.com/payloadify/payloadify/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-900 underline dark:text-zinc-100"
+            >
+              GitHub
+            </a>
+            . For a security report or anything you'd rather not post
+            publicly, email{" "}
             <a
               href="mailto:contact@payloadify.dev"
               className="text-zinc-900 underline dark:text-zinc-100"

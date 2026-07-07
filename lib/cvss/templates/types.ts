@@ -16,9 +16,27 @@ export interface CvssMeta {
   vrtRefId: string | null;
   cweId: string | null;
   references: CvssReference[];
+  /** Editable drafts auto-filled from the selected vuln type/template (descriptionImpact.ts) —
+   *  never locked boilerplate, the user is expected to tailor them before use. */
+  description: string;
+  impact: string;
+  /** Editable draft for the combined impact of a chained pair (chaining.ts's
+   *  getChainedImpactDraft) — a curated write-up for the handful of well-documented pairs,
+   *  otherwise a scaffold prompt for the user to fill in themselves. "" when no chain is
+   *  selected. */
+  chainedImpact: string;
 }
 
-export const EMPTY_CVSS_META: CvssMeta = { rationale: "", owaspRefId: null, vrtRefId: null, cweId: null, references: [] };
+export const EMPTY_CVSS_META: CvssMeta = {
+  rationale: "",
+  owaspRefId: null,
+  vrtRefId: null,
+  cweId: null,
+  references: [],
+  description: "",
+  impact: "",
+  chainedImpact: "",
+};
 
 export interface CvssTemplate {
   id: string;

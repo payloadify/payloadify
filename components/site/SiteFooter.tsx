@@ -9,7 +9,7 @@ export function SiteFooter() {
           in your browser; nothing you paste here is sent to a server.
         </p>
         <Link href="/privacy-policy" className="shrink-0 hover:text-zinc-300">
-          Privacy Policy & ToS
+          Privacy Policy · ToS · GitHub
         </Link>
       </div>
     </footer>
