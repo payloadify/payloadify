@@ -79,6 +79,10 @@ scripts/      One-off data build scripts (not part of the app runtime)
 - No tracking, no analytics, no ads
 - Spec-compliant outputs (RFC 7519, msfvenom format, Hashcat mode numbers, etc.)
 
+## Development Notes
+
+This project is built with AI-assisted development (Claude Code). Because correctness is the whole point of a tool like this, generated code and payload/scoring logic are manually reviewed and spot-checked against known-good references before shipping — e.g. CVSS vectors verified against [FIRST.org's calculator](https://www.first.org/cvss/calculator/3.1), and payload/command syntax checked against established sources rather than trusted blindly.
+
 ## Roadmap
 
 Not yet shipped:
