@@ -98,6 +98,7 @@ export function CvssCalculatorTool() {
   const [savedMenuOpen, setSavedMenuOpen] = useState(false);
   const [selectedSavedTemplateId, setSelectedSavedTemplateId] = useState<string | null>(null);
   const [importStatus, setImportStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [saveStatus, setSaveStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -277,6 +278,8 @@ export function CvssCalculatorTool() {
   function deleteSavedTemplate(id: string) {
     removeTemplate(id);
     if (selectedSavedTemplateId === id) setSelectedSavedTemplateId(null);
+    // Clears any stale "you've hit the limit" message now that a slot has freed up.
+    setSaveStatus(null);
   }
 
   function deleteAllSavedTemplates() {
@@ -285,6 +288,7 @@ export function CvssCalculatorTool() {
     if (!confirmed) return;
     removeAllTemplates();
     setSelectedSavedTemplateId(null);
+    setSaveStatus(null);
   }
 
   function exportSavedTemplates() {
@@ -367,9 +371,20 @@ export function CvssCalculatorTool() {
     if (existing && !window.confirm(`A saved template named "${name}" already exists. Overwrite it?`)) {
       return;
     }
+    // Saving a *new* template (not overwriting one) while already at the cap would otherwise
+    // silently evict the oldest entry via the slice() in the storage layer. Block it with a
+    // clear message instead, consistent with how the import path refuses to overflow the cap.
+    if (!existing && savedTemplates.length >= MAX_SAVED_CVSS_TEMPLATES) {
+      setSaveStatus({
+        type: "error",
+        message: `You've reached the ${MAX_SAVED_CVSS_TEMPLATES}-template limit. Delete a saved template to make room before saving a new one.`,
+      });
+      return;
+    }
     const id = existing?.id ?? (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Date.now()));
     saveTemplate({ id, name, platformFilter, vulnTypeId, cvss31: metrics31, cvss40: metrics40, meta });
     setSaveNameInput("");
+    setSaveStatus({ type: "success", message: existing ? `Updated "${name}".` : `Saved "${name}".` });
   }
 
   const baseScore = version === "3.1" ? score31 : score40;
@@ -503,11 +518,17 @@ export function CvssCalculatorTool() {
             Save This Template
           </button>
         </div>
+        {saveStatus && (
+          <Callout variant={saveStatus.type === "error" ? "danger" : "success"}>{saveStatus.message}</Callout>
+        )}
 
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Saved templates
-            <Tooltip text="Stored in this browser only — lost if you clear your cache, and won't sync across devices. Use Export to keep a backup." />
+            <span className="ml-1.5 font-normal text-zinc-500 dark:text-zinc-400">
+              ({savedTemplates.length}/{MAX_SAVED_CVSS_TEMPLATES})
+            </span>
+            <Tooltip text={`Stored in this browser only — lost if you clear your cache, and won't sync across devices. Use Export to keep a backup. You can save up to ${MAX_SAVED_CVSS_TEMPLATES} templates; once you reach the cap, delete some to make room for new ones.`} />
           </label>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
