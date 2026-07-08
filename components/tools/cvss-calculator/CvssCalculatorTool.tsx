@@ -528,7 +528,7 @@ export function CvssCalculatorTool() {
             <span className="ml-1.5 font-normal text-zinc-500 dark:text-zinc-400">
               ({savedTemplates.length}/{MAX_SAVED_CVSS_TEMPLATES})
             </span>
-            <Tooltip text={`Stored in this browser only — lost if you clear your cache, and won't sync across devices. Use Export to keep a backup. You can save up to ${MAX_SAVED_CVSS_TEMPLATES} templates; once you reach the cap, delete some to make room for new ones.`} />
+            <Tooltip text={`Stored in this browser only — not synced across devices, and lost if you clear your cache. Use Export to back up. Limit: ${MAX_SAVED_CVSS_TEMPLATES} templates.`} />
           </label>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
