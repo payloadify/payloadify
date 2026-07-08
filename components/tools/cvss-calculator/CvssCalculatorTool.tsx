@@ -17,6 +17,7 @@ import { CvssMeta, EMPTY_CVSS_META } from "@/lib/cvss/templates/types";
 import {
   MAX_SAVED_CVSS_TEMPLATES,
   parseSavedCvssTemplatesImport,
+  planSaveCvssTemplate,
   SavedCvssTemplate,
   useSavedCvssTemplates,
 } from "@/lib/storage/savedCvssTemplates";
@@ -98,6 +99,7 @@ export function CvssCalculatorTool() {
   const [savedMenuOpen, setSavedMenuOpen] = useState(false);
   const [selectedSavedTemplateId, setSelectedSavedTemplateId] = useState<string | null>(null);
   const [importStatus, setImportStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [saveStatus, setSaveStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -277,6 +279,8 @@ export function CvssCalculatorTool() {
   function deleteSavedTemplate(id: string) {
     removeTemplate(id);
     if (selectedSavedTemplateId === id) setSelectedSavedTemplateId(null);
+    // Clears any stale "you've hit the limit" message now that a slot has freed up.
+    setSaveStatus(null);
   }
 
   function deleteAllSavedTemplates() {
@@ -285,6 +289,7 @@ export function CvssCalculatorTool() {
     if (!confirmed) return;
     removeAllTemplates();
     setSelectedSavedTemplateId(null);
+    setSaveStatus(null);
   }
 
   function exportSavedTemplates() {
@@ -357,19 +362,35 @@ export function CvssCalculatorTool() {
   const vector40 = useMemo(() => buildCvss40Vector(metrics40), [metrics40]);
 
   const selectedSavedTemplate = selectedSavedTemplateId ? savedTemplates.find((t) => t.id === selectedSavedTemplateId) : null;
-  const suggestedSaveName = selectedSavedTemplate?.name ?? currentTemplate?.label ?? "e.g. Client X — login XSS";
+  // Only a real, loaded/picked template name is safe to use as the actual saved name — the
+  // placeholder text below it is illustrative ("e.g. ...") and must never be saved verbatim.
+  const suggestedSaveName = selectedSavedTemplate?.name ?? currentTemplate?.label ?? null;
+  const saveNamePlaceholder = suggestedSaveName ?? "e.g. Client X — login XSS";
 
   function saveCurrentAsTemplate() {
     const name = saveNameInput.trim() || suggestedSaveName;
-    // Saving under a name that already exists would otherwise silently add a second,
-    // indistinguishable entry — confirm whether to overwrite the existing one instead.
-    const existing = savedTemplates.find((t) => t.name === name);
-    if (existing && !window.confirm(`A saved template named "${name}" already exists. Overwrite it?`)) {
+    if (!name) {
+      setSaveStatus({ type: "error", message: "Enter a name for this template before saving." });
       return;
     }
-    const id = existing?.id ?? (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Date.now()));
+    const plan = planSaveCvssTemplate(savedTemplates, name);
+
+    // Saving under a name that already exists would otherwise silently add a second,
+    // indistinguishable entry — confirm whether to overwrite the existing one instead.
+    if (plan.action === "overwrite" && !window.confirm(`A saved template named "${name}" already exists. Overwrite it?`)) {
+      return;
+    }
+    if (plan.action === "blocked-at-cap") {
+      setSaveStatus({
+        type: "error",
+        message: `You've reached the ${MAX_SAVED_CVSS_TEMPLATES}-template limit. Delete a saved template to make room before saving a new one.`,
+      });
+      return;
+    }
+    const id = plan.action === "overwrite" ? plan.id : (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Date.now()));
     saveTemplate({ id, name, platformFilter, vulnTypeId, cvss31: metrics31, cvss40: metrics40, meta });
     setSaveNameInput("");
+    setSaveStatus({ type: "success", message: plan.action === "overwrite" ? `Updated "${name}".` : `Saved "${name}".` });
   }
 
   const baseScore = version === "3.1" ? score31 : score40;
@@ -495,7 +516,7 @@ export function CvssCalculatorTool() {
               type="text"
               value={saveNameInput}
               onChange={(e) => setSaveNameInput(e.target.value)}
-              placeholder={suggestedSaveName}
+              placeholder={saveNamePlaceholder}
               className={inputClasses}
             />
           </div>
@@ -503,11 +524,17 @@ export function CvssCalculatorTool() {
             Save This Template
           </button>
         </div>
+        {saveStatus && (
+          <Callout variant={saveStatus.type === "error" ? "danger" : "success"}>{saveStatus.message}</Callout>
+        )}
 
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Saved templates
-            <Tooltip text="Stored in this browser only — lost if you clear your cache, and won't sync across devices. Use Export to keep a backup." />
+            <span className="ml-1.5 font-normal text-zinc-500 dark:text-zinc-400">
+              ({savedTemplates.length}/{MAX_SAVED_CVSS_TEMPLATES})
+            </span>
+            <Tooltip text={`Stored in this browser only — not synced across devices, and lost if you clear your cache. Use Export to back up. Limit: ${MAX_SAVED_CVSS_TEMPLATES} templates.`} />
           </label>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">

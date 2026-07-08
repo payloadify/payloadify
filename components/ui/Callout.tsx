@@ -18,7 +18,11 @@ export function Callout({
   children: ReactNode;
 }) {
   return (
-    <div className={`rounded border px-3 py-2 text-sm ${styles[variant]}`}>
+    <div
+      role={variant === "danger" ? "alert" : "status"}
+      aria-live={variant === "danger" ? "assertive" : "polite"}
+      className={`rounded border px-3 py-2 text-sm ${styles[variant]}`}
+    >
       {children}
     </div>
   );

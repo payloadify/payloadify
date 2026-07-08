@@ -6,6 +6,7 @@ import {
   MAX_SAVED_CVSS_TEMPLATES,
   mergeImportedCvssTemplates,
   parseSavedCvssTemplatesImport,
+  planSaveCvssTemplate,
   SavedCvssTemplate,
 } from "./savedCvssTemplates";
 
@@ -127,5 +128,28 @@ describe("mergeImportedCvssTemplates", () => {
     expect(result.added).toBe(1);
     expect(result.skippedForCap).toBe(2);
     expect(result.duplicates).toBe(0);
+  });
+});
+
+describe("planSaveCvssTemplate", () => {
+  it("plans a create when the name is new and the list has room", () => {
+    const existing = [makeTemplate("1")];
+    expect(planSaveCvssTemplate(existing, "a new name")).toEqual({ action: "create" });
+  });
+
+  it("plans an overwrite of the matching id when the name already exists, even at the cap", () => {
+    const existing = Array.from({ length: MAX_SAVED_CVSS_TEMPLATES }, (_, i) => makeTemplate(`${i}`));
+    existing[5].name = "duplicate-name";
+    expect(planSaveCvssTemplate(existing, "duplicate-name")).toEqual({ action: "overwrite", id: "5" });
+  });
+
+  it("blocks a brand-new name once the list is at MAX_SAVED_CVSS_TEMPLATES", () => {
+    const existing = Array.from({ length: MAX_SAVED_CVSS_TEMPLATES }, (_, i) => makeTemplate(`${i}`));
+    expect(planSaveCvssTemplate(existing, "a new name")).toEqual({ action: "blocked-at-cap" });
+  });
+
+  it("does not block a new name when one slot below the cap", () => {
+    const existing = Array.from({ length: MAX_SAVED_CVSS_TEMPLATES - 1 }, (_, i) => makeTemplate(`${i}`));
+    expect(planSaveCvssTemplate(existing, "a new name")).toEqual({ action: "create" });
   });
 });

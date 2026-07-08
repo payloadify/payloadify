@@ -167,6 +167,24 @@ export function saveSavedCvssTemplates(key: string, templates: SavedCvssTemplate
   }
 }
 
+export type SaveCvssTemplatePlan =
+  | { action: "overwrite"; id: string }
+  | { action: "blocked-at-cap" }
+  | { action: "create" };
+
+/** Pure decision logic for "Save This Template": given the current list and the name the user
+ *  typed, decides whether this is an overwrite of an existing template (by name — no growth, so
+ *  never blocked by the cap), a brand-new save that's blocked because the list is already at
+ *  MAX_SAVED_CVSS_TEMPLATES (saving would otherwise silently evict the oldest entry via the
+ *  slice() in saveSavedCvssTemplates), or a normal new save. Split out from the component so this
+ *  branching is unit-testable without React, mirroring mergeImportedCvssTemplates below. */
+export function planSaveCvssTemplate(existing: SavedCvssTemplate[], name: string): SaveCvssTemplatePlan {
+  const match = existing.find((t) => t.name === name);
+  if (match) return { action: "overwrite", id: match.id };
+  if (existing.length >= MAX_SAVED_CVSS_TEMPLATES) return { action: "blocked-at-cap" };
+  return { action: "create" };
+}
+
 /** Pure merge-planning for Import: existing templates keep priority for the 50-item cap, and any
  *  incoming template whose id already exists is skipped (re-importing the same export file is a
  *  no-op, not a duplicate). Split out from the hook below so the cap/dedup arithmetic — the part
@@ -193,6 +211,24 @@ function getSnapshot(key: string): SavedCvssTemplate[] {
 function invalidate(key: string) {
   snapshotCache.delete(key);
   subscribers.get(key)?.forEach((notify) => notify());
+}
+
+/** The `storage` event only fires in *other* tabs than the one that wrote the change — without
+ *  this listener, a tab's in-memory snapshotCache goes stale the moment another tab saves,
+ *  deletes, or imports templates. A stale count is more than cosmetic here: the save-cap guard
+ *  in CvssCalculatorTool reads `savedTemplates.length` to decide whether to block a new save, so
+ *  a stale (too-low) count would let a save through that the storage layer's own slice() then
+ *  silently evicts the oldest template for — the exact bug that guard exists to prevent. */
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (event) => {
+    if (event.storageArea !== localStorage) return;
+    if (event.key === null) {
+      // localStorage.clear() — every known key may have changed.
+      [...snapshotCache.keys(), ...subscribers.keys()].forEach(invalidate);
+      return;
+    }
+    invalidate(event.key);
+  });
 }
 
 export function useSavedCvssTemplates(key: string) {
