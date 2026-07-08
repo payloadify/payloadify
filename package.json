@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "postinstall": "npm run build --workspace=@payloadify/cvss-core",
     "predev": "npm run build --workspace=@payloadify/cvss-core",
     "dev": "next dev",
     "prebuild": "npm run build --workspace=@payloadify/cvss-core",
