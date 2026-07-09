@@ -1,0 +1,195 @@
+"use client";
+
+import { useMemo } from "react";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
+import { CopyField, CopyStyle, formatList } from "@payloadify/cvss-core";
+import { useJwtCopyAllSettings } from "@/lib/storage/jwtCopyAllSettings";
+import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
+import { maskMiddle, maskPem } from "@/lib/jwt/mask";
+
+const ADDITIONAL_SETTINGS_COLLAPSED_KEY = "payloadify:jwt-generator:copy-all-additional-settings-collapsed";
+
+const STYLE_OPTIONS: { id: CopyStyle["kind"]; label: string }[] = [
+  { id: "none", label: "No bullets" },
+  { id: "bullets", label: "Bullet points" },
+  { id: "numbers", label: "Numbered" },
+  { id: "custom", label: "Custom" },
+];
+
+/** Field-id-specific masking: the private key is PEM-shaped (keep BEGIN/END markers, mask
+ *  the key body), the HMAC secret is a flat string. */
+const SENSITIVE_FIELD_MASKS: Record<string, (value: string) => string> = {
+  secret: (value) => maskMiddle(value),
+  privateKey: (value) => maskPem(value),
+};
+
+export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]; sensitiveVisible: boolean }) {
+  const [settings, updateSettings] = useJwtCopyAllSettings();
+  const [additionalSettingsCollapsed, setAdditionalSettingsCollapsed] = usePersistedBoolean(
+    ADDITIONAL_SETTINGS_COLLAPSED_KEY,
+    true,
+  );
+  const excludedIds = useMemo(() => new Set(settings.excludedIds), [settings.excludedIds]);
+  const urlFieldIds = useMemo(() => new Set(settings.urlFieldIds), [settings.urlFieldIds]);
+  const { styleKind, customPrefix } = settings;
+  const urlCapableFields = useMemo(() => fields.filter((f) => f.url), [fields]);
+
+  // Keep `order` in sync when the available fields change (e.g. switching algorithm changes
+  // which fields exist) — preserve existing order for ids that still exist, append new ones.
+  const effectiveOrder = useMemo(() => {
+    const validIds = new Set(fields.map((f) => f.id));
+    const kept = settings.order.filter((id) => validIds.has(id));
+    const missing = fields.map((f) => f.id).filter((id) => !kept.includes(id));
+    return [...kept, ...missing];
+  }, [fields, settings.order]);
+
+  const includedOrder = useMemo(() => effectiveOrder.filter((id) => !excludedIds.has(id)), [effectiveOrder, excludedIds]);
+  const includedFields = useMemo(
+    () =>
+      fields
+        .filter((f) => !excludedIds.has(f.id))
+        .map((f) => (urlFieldIds.has(f.id) && f.url ? { ...f, value: f.url } : f)),
+    [fields, excludedIds, urlFieldIds],
+  );
+
+  const style: CopyStyle = useMemo(
+    () => (styleKind === "custom" ? { kind: "custom", prefix: customPrefix } : { kind: styleKind }),
+    [styleKind, customPrefix],
+  );
+  const formatted = useMemo(() => formatList(includedFields, includedOrder, style), [includedFields, includedOrder, style]);
+
+  // The on-screen preview masks secret/private-key values when sensitiveVisible is off, but
+  // Copy All always copies the real `formatted` string above — hiding on screen must never
+  // silently change what gets copied to the clipboard.
+  const previewFormatted = useMemo(() => {
+    if (sensitiveVisible) return formatted;
+    const maskedFields = includedFields.map((f) => {
+      const mask = SENSITIVE_FIELD_MASKS[f.id];
+      return mask ? { ...f, value: mask(f.value) } : f;
+    });
+    return formatList(maskedFields, includedOrder, style);
+  }, [sensitiveVisible, formatted, includedFields, includedOrder, style]);
+
+  function setPosition(fieldId: string, position: number) {
+    // Reorder only among included fields — excluded ones are hidden from output and kept
+    // out of the way at the end so their (currently meaningless) relative order doesn't shift.
+    const withoutField = includedOrder.filter((id) => id !== fieldId);
+    const reordered = [...withoutField.slice(0, position), fieldId, ...withoutField.slice(position)];
+    const excluded = effectiveOrder.filter((id) => excludedIds.has(id));
+    updateSettings({ order: [...reordered, ...excluded] });
+  }
+
+  function toggleIncluded(fieldId: string) {
+    const next = new Set(excludedIds);
+    if (next.has(fieldId)) next.delete(fieldId);
+    else next.add(fieldId);
+    updateSettings({ excludedIds: [...next] });
+  }
+
+  function toggleUrlForm(fieldId: string) {
+    const next = new Set(urlFieldIds);
+    if (next.has(fieldId)) next.delete(fieldId);
+    else next.add(fieldId);
+    updateSettings({ urlFieldIds: [...next] });
+  }
+
+  return (
+    <div className="flex flex-col gap-3 rounded border border-zinc-300 p-4 dark:border-zinc-700">
+      <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Combined Copy Format</div>
+
+      <div className="grid gap-2 sm:grid-cols-2">
+        {effectiveOrder.map((id) => {
+          const field = fields.find((f) => f.id === id)!;
+          const included = !excludedIds.has(id);
+          const position = includedOrder.indexOf(id);
+          return (
+            <div key={id} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={included}
+                onChange={() => toggleIncluded(id)}
+                aria-label={`Include ${field.label} in Copy All`}
+                className="h-4 w-4 rounded border-zinc-300 dark:border-zinc-700"
+              />
+              <select
+                className={selectClasses}
+                value={included ? position : ""}
+                disabled={!included}
+                onChange={(e) => setPosition(id, Number(e.target.value))}
+                aria-label={`Position for ${field.label}`}
+              >
+                {!included && <option value="">—</option>}
+                {includedOrder.map((_, i) => (
+                  <option key={i} value={i}>
+                    Position {i + 1}
+                  </option>
+                ))}
+              </select>
+              <span className={`text-sm ${included ? "text-zinc-600 dark:text-zinc-400" : "text-zinc-400 dark:text-zinc-600"}`}>{field.label}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {urlCapableFields.length > 0 && (
+        <div className="border-t border-zinc-200 pt-3 dark:border-zinc-800">
+          <button
+            type="button"
+            onClick={() => setAdditionalSettingsCollapsed(!additionalSettingsCollapsed)}
+            aria-expanded={!additionalSettingsCollapsed}
+            className="flex w-full items-center justify-between text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            Additional Settings
+            <span className="text-zinc-400">{additionalSettingsCollapsed ? "▸" : "▾"}</span>
+          </button>
+
+          {!additionalSettingsCollapsed && (
+            <div className="mt-3 flex flex-col gap-2">
+              {urlCapableFields.map((field) => (
+                <label key={field.id} className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  <input
+                    type="checkbox"
+                    checked={urlFieldIds.has(field.id)}
+                    onChange={() => toggleUrlForm(field.id)}
+                    aria-label={`Use URL form for ${field.label} in Copy All`}
+                    className="h-4 w-4 rounded border-zinc-300 dark:border-zinc-700"
+                  />
+                  Use URL for {field.label}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-wrap items-center gap-2">
+        {STYLE_OPTIONS.map((opt) => (
+          <button
+            key={opt.id}
+            type="button"
+            className={toggleButtonClasses(styleKind === opt.id)}
+            onClick={() => updateSettings({ styleKind: opt.id })}
+          >
+            {opt.label}
+          </button>
+        ))}
+        {styleKind === "custom" && (
+          <input
+            className={`${inputClasses} w-32`}
+            value={customPrefix}
+            onChange={(e) => updateSettings({ customPrefix: e.target.value })}
+            placeholder="Prefix, e.g. -> "
+          />
+        )}
+      </div>
+
+      <div className="flex items-start gap-2">
+        <pre className="flex-1 overflow-x-auto whitespace-pre-wrap rounded bg-zinc-100 px-2 py-1.5 text-xs dark:bg-zinc-900">
+          {includedFields.length > 0 ? previewFormatted : "No fields selected — check at least one field above."}
+        </pre>
+        <CopyButton text={formatted} label="Copy All" disabled={includedFields.length === 0} />
+      </div>
+    </div>
+  );
+}

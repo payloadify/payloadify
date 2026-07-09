@@ -108,7 +108,7 @@ export async function findWeakSecret(decoded: DecodedJwt): Promise<string | null
 }
 
 /** Parses JSON and requires the result to be a plain object, so callers can safely set fields on it. */
-function parseJsonObject(text: string, label: string): Record<string, unknown> {
+export function parseJsonObject(text: string, label: string): Record<string, unknown> {
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);

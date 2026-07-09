@@ -8,9 +8,16 @@ export type Tool = {
 export const tools: Tool[] = [
   {
     slug: "jwt-decoder",
-    name: "JWT Decoder/Tamper",
+    name: "JWT Decoder/Tamper & Generator",
     shortDescription:
-      "Decode JWT header and payload, flag alg:none and weak signing, edit claims and re-sign.",
+      "Decode JWT header and payload, flag alg:none and weak signing, edit claims and re-sign — or build and sign a brand-new token with HMAC, RSA, ECDSA, or RSA-PSS.",
+    status: "live",
+  },
+  {
+    slug: "jwt-generator",
+    name: "JWT Generator",
+    shortDescription:
+      "Build and sign a JWT with HMAC, RSA, ECDSA, or RSA-PSS — generate secrets or keypairs, quick-add claims, scenario presets, and weakness flags.",
     status: "live",
   },
   {

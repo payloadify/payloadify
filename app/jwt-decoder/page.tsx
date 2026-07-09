@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ToolPageLayout } from "@/components/layout/ToolPageLayout";
+import { JwtToolTabs } from "@/components/tools/jwt-shared/JwtToolTabs";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder/JwtDecoderTool";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function JwtDecoderPage() {
       title="JWT Decoder / Tamper"
       description="Paste a JWT to decode its header and payload, check for alg:none and weak signing secrets, then edit claims and re-sign or export an unsigned token."
     >
+      <JwtToolTabs active="decode" />
       <JwtDecoderTool />
     </ToolPageLayout>
   );
