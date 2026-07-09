@@ -12,7 +12,7 @@ Live at [payloadify.dev](https://payloadify.dev).
 
 Each tool lives at its own URL (e.g. `/jwt-decoder`), never a shared blank-canvas app.
 
-- **JWT Decoder/Tamper** (`/jwt-decoder`) — decode header/payload, flag `alg:none` and weak signing, edit claims and re-sign
+- **JWT Decoder/Tamper & Generator** (`/jwt-decoder`) — decode header/payload, flag `alg:none` and weak signing, edit claims and re-sign. Or generate a JWT key with example templates
 - **Hash Identifier** (`/hash-identifier`) — identify a hash's likely type with ranked candidates and matching Hashcat mode numbers
 - **Hash Generator** (`/hash-generator`) — generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, and NTLM hashes from text, tab-linked with the Identifier
 - **Payload Encoder** (`/payload-encoder`) / **Decoder** (`/payload-decoder`) — chain Base64, Hex, URL, HTML-entity, and Unicode-escape steps to build or unwrap obfuscated payloads
@@ -23,8 +23,6 @@ Each tool lives at its own URL (e.g. `/jwt-decoder`), never a shared blank-canva
 - **Reverse Shell Generator** (`/reverse-shell-generator`) — generate reverse shell one-liners across Bash, Netcat, Python, PHP, Perl, Ruby, Socat, Awk, Telnet, Node.js, Lua, Golang, and PowerShell, with a matching listener command and save-as-file options
 - **MSFVenom Command Generator** (`/msfvenom-generator`) — build msfvenom commands with template presets for Windows, Linux, macOS, and Android payloads, evasion encoders, and architectures, with a listener setup guide
 - **CVSS 3.1/4.0 Calculator** (`/cvss-calculator`) — click-through vector builder for both CVSS versions, with vulnerability templates, chained-vulnerability scoring, OWASP mapping, and copyable VRT scores and references
-
-More tools (JWT generator, subdomain permutation generator, security headers analyzer, SPF/DKIM/DMARC checker) are planned — see [Roadmap](#roadmap).
 
 ## Getting Started
 
