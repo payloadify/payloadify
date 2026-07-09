@@ -6,6 +6,7 @@ import { Callout } from "@/components/ui/Callout";
 import { toggleButtonClasses } from "@/components/ui/formClasses";
 import { exportKeyPairPem, generateAsymmetricKeyPair, importPrivateKeyPem, importPublicKeyPem } from "@/lib/jwt/asymmetric";
 import { JoseAlg } from "@/lib/jwt/algorithms";
+import { maskPem } from "@/lib/jwt/mask";
 
 export interface AsymmetricKeyMaterial {
   privateKey: CryptoKey;
@@ -20,9 +21,13 @@ export interface AsymmetricKeyMaterial {
 export function KeyPairPanel({
   alg,
   onKeysChange,
+  sensitiveVisible,
+  onToggleSensitiveVisible,
 }: {
   alg: JoseAlg;
   onKeysChange: (keys: AsymmetricKeyMaterial | null) => void;
+  sensitiveVisible: boolean;
+  onToggleSensitiveVisible: () => void;
 }) {
   const [mode, setMode] = useState<"generate" | "paste">("generate");
   const [publicPem, setPublicPem] = useState("");
@@ -128,12 +133,21 @@ export function KeyPairPanel({
             </pre>
           </div>
           <div>
-            <div className="mb-1 flex items-center justify-between">
+            <div className="mb-1 flex items-center justify-between gap-2">
               <label className="text-xs font-medium">Private key</label>
-              <CopyButton text={privatePem} />
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  className={`${toggleButtonClasses(false)} px-2 py-1 text-xs`}
+                  onClick={onToggleSensitiveVisible}
+                >
+                  {sensitiveVisible ? "Hide" : "Show"}
+                </button>
+                <CopyButton text={privatePem} />
+              </div>
             </div>
             <pre className="max-h-32 overflow-auto rounded bg-zinc-50 p-2 text-xs break-all whitespace-pre-wrap dark:bg-zinc-900">
-              {privatePem}
+              {sensitiveVisible ? privatePem : maskPem(privatePem)}
             </pre>
           </div>
         </div>

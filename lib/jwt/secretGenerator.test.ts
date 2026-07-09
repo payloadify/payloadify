@@ -1,6 +1,21 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { generateHmacSecret, SECRET_BITS_DEFAULT, SECRET_BITS_MAX, SECRET_BITS_MIN } from "./secretGenerator";
+import {
+  generateHmacSecret,
+  SECRET_BIT_PRESETS,
+  SECRET_BITS_DEFAULT,
+  SECRET_BITS_MAX,
+  SECRET_BITS_MIN,
+} from "./secretGenerator";
+
+describe("SECRET_BIT_PRESETS", () => {
+  it("every preset value is within the min/max range", () => {
+    for (const bits of SECRET_BIT_PRESETS) {
+      expect(bits).toBeGreaterThanOrEqual(SECRET_BITS_MIN);
+      expect(bits).toBeLessThanOrEqual(SECRET_BITS_MAX);
+    }
+  });
+});
 
 describe("generateHmacSecret", () => {
   it("standard mode only uses alphanumeric characters", () => {

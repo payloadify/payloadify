@@ -24,7 +24,9 @@ function TimeClaimField({
       <input
         type="datetime-local"
         onChange={(e) => onSetDate(e.target.value)}
-        className={`${inputClasses} px-2 py-1 text-xs`}
+        // The native calendar/clock picker icon follows `color-scheme`, not `color` — without
+        // this it renders as a near-invisible dark icon on the dark theme's dark input background.
+        className={`${inputClasses} px-2 py-1 text-xs [color-scheme:light] dark:[color-scheme:dark]`}
       />
     </div>
   );

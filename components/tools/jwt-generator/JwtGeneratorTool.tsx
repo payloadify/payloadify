@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { JsonEditor } from "@/components/ui/JsonEditor";
+import { toggleButtonClasses } from "@/components/ui/formClasses";
 import { CopyField } from "@payloadify/cvss-core";
 import { AlgorithmPicker } from "./AlgorithmPicker";
 import { ClaimsHelper } from "./ClaimsHelper";
@@ -14,13 +15,19 @@ import { PresetPicker } from "./PresetPicker";
 import { ReferencesPanel } from "./ReferencesPanel";
 import { CopyAllPanel } from "./CopyAllPanel";
 import { DecodeVerifyPanel } from "./DecodeVerifyPanel";
+import { WalkthroughGuide } from "./WalkthroughGuide";
 import { ALGORITHMS, JoseAlg } from "@/lib/jwt/algorithms";
 import { applyAlgToHeaderJson, toNumericDate } from "@/lib/jwt/claims";
 import { buildAndSignToken, SigningKeyMaterial } from "@/lib/jwt/generate";
 import { computeGeneratorWeaknessFlags } from "@/lib/jwt/weaknessFlags";
 import { getPreset } from "@/lib/jwt/presets";
+import { WALKTHROUGH_STEPS } from "@/lib/jwt/walkthroughSteps";
 
 const DEFAULT_ALG: JoseAlg = "HS256";
+
+function sectionId(id: string): string {
+  return `jwt-gen-section-${id}`;
+}
 
 function defaultHeaderJson(alg: JoseAlg): string {
   return applyAlgToHeaderJson("", alg);
@@ -39,8 +46,25 @@ export function JwtGeneratorTool() {
   const [asymmetricKeys, setAsymmetricKeys] = useState<AsymmetricKeyMaterial | null>(null);
   const [outputToken, setOutputToken] = useState("");
   const [outputError, setOutputError] = useState<string | null>(null);
+  // Secrets/keys default to hidden on screen; deliberately plain component state (not
+  // persisted) so a page refresh always re-hides them.
+  const [sensitiveVisible, setSensitiveVisible] = useState(false);
+  const [walkthroughStepIndex, setWalkthroughStepIndex] = useState<number | null>(null);
 
   const spec = ALGORITHMS[alg];
+  const walkthroughStep = walkthroughStepIndex !== null ? WALKTHROUGH_STEPS[walkthroughStepIndex] : null;
+
+  useEffect(() => {
+    if (!walkthroughStep?.targetId) return;
+    const el = document.getElementById(sectionId(walkthroughStep.targetId));
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [walkthroughStep]);
+
+  function highlightClass(id: string): string {
+    return walkthroughStep?.targetId === id
+      ? "rounded-lg ring-2 ring-blue-500 ring-offset-2 ring-offset-white transition dark:ring-offset-zinc-950"
+      : "";
+  }
 
   function handleAlgChange(newAlg: JoseAlg) {
     setAlg(newAlg);
@@ -157,33 +181,81 @@ export function JwtGeneratorTool() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+        <button type="button" className={toggleButtonClasses(false)} onClick={() => setWalkthroughStepIndex(0)}>
+          Walkthrough
+        </button>
+      </div>
 
-      <PresetPicker onApply={applyPreset} />
+      <div id={sectionId("presets")} className={highlightClass("presets")}>
+        <PresetPicker onApply={applyPreset} />
+      </div>
 
-      <AlgorithmPicker alg={alg} onChange={handleAlgChange} />
+      <div id={sectionId("algorithm")} className={highlightClass("algorithm")}>
+        <AlgorithmPicker alg={alg} onChange={handleAlgChange} />
+      </div>
 
-      {spec.family === "hmac" && <SecretPanel secret={hmacSecret} onChange={setHmacSecret} />}
-      {(spec.family === "rsa" || spec.family === "ec" || spec.family === "rsa-pss") && (
-        <KeyPairPanel key={alg} alg={alg} onKeysChange={handleAsymmetricKeysChange} />
-      )}
+      <div id={sectionId("keys")} className={highlightClass("keys")}>
+        {spec.family === "hmac" && (
+          <SecretPanel
+            secret={hmacSecret}
+            onChange={setHmacSecret}
+            sensitiveVisible={sensitiveVisible}
+            onToggleSensitiveVisible={() => setSensitiveVisible((v) => !v)}
+          />
+        )}
+        {(spec.family === "rsa" || spec.family === "ec" || spec.family === "rsa-pss") && (
+          <KeyPairPanel
+            key={alg}
+            alg={alg}
+            onKeysChange={handleAsymmetricKeysChange}
+            sensitiveVisible={sensitiveVisible}
+            onToggleSensitiveVisible={() => setSensitiveVisible((v) => !v)}
+          />
+        )}
+      </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div id={sectionId("editors")} className={`grid grid-cols-1 gap-4 md:grid-cols-2 ${highlightClass("editors")}`}>
         <JsonEditor label="Header" value={headerJson} onChange={setHeaderJson} />
         <JsonEditor label="Payload" value={payloadJson} onChange={setPayloadJson} />
       </div>
 
-      <ClaimsHelper payloadJson={payloadJson} onChange={setPayloadJson} />
+      <div id={sectionId("claims")} className={highlightClass("claims")}>
+        <ClaimsHelper payloadJson={payloadJson} onChange={setPayloadJson} />
+      </div>
 
-      <WeaknessFlags flags={flags} />
+      <div id={sectionId("flags")} className={highlightClass("flags")}>
+        <WeaknessFlags flags={flags} />
+        {walkthroughStep?.targetId === "flags" && flags.length === 0 && (
+          <p className="text-xs text-zinc-500 italic dark:text-zinc-400">
+            No warnings right now — this area only appears when something looks risky.
+          </p>
+        )}
+      </div>
 
-      <OutputPanel token={outputToken} error={outputError} />
+      <div id={sectionId("output")} className={highlightClass("output")}>
+        <OutputPanel token={outputToken} error={outputError} />
+      </div>
 
-      {copyFields.length > 0 && <CopyAllPanel fields={copyFields} />}
+      {copyFields.length > 0 && <CopyAllPanel fields={copyFields} sensitiveVisible={sensitiveVisible} />}
+
+      <DecodeVerifyPanel onLoadIntoGenerator={loadDecodedToken} />
 
       <ReferencesPanel />
 
-      <DecodeVerifyPanel onLoadIntoGenerator={loadDecodedToken} />
+      {walkthroughStep && (
+        <WalkthroughGuide
+          step={walkthroughStep}
+          stepIndex={walkthroughStepIndex!}
+          totalSteps={WALKTHROUGH_STEPS.length}
+          onNext={() =>
+            setWalkthroughStepIndex((i) => (i === null ? null : Math.min(i + 1, WALKTHROUGH_STEPS.length - 1)))
+          }
+          onBack={() => setWalkthroughStepIndex((i) => (i === null ? null : Math.max(i - 1, 0)))}
+          onClose={() => setWalkthroughStepIndex(null)}
+        />
+      )}
     </div>
   );
 }

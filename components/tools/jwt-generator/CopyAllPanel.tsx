@@ -6,6 +6,7 @@ import { inputClasses, selectClasses, toggleButtonClasses } from "@/components/u
 import { CopyField, CopyStyle, formatList } from "@payloadify/cvss-core";
 import { useJwtCopyAllSettings } from "@/lib/storage/jwtCopyAllSettings";
 import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
+import { maskMiddle, maskPem } from "@/lib/jwt/mask";
 
 const ADDITIONAL_SETTINGS_COLLAPSED_KEY = "payloadify:jwt-generator:copy-all-additional-settings-collapsed";
 
@@ -16,7 +17,14 @@ const STYLE_OPTIONS: { id: CopyStyle["kind"]; label: string }[] = [
   { id: "custom", label: "Custom" },
 ];
 
-export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
+/** Field-id-specific masking: the private key is PEM-shaped (keep BEGIN/END markers, mask
+ *  the key body), the HMAC secret is a flat string. */
+const SENSITIVE_FIELD_MASKS: Record<string, (value: string) => string> = {
+  secret: (value) => maskMiddle(value),
+  privateKey: (value) => maskPem(value),
+};
+
+export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]; sensitiveVisible: boolean }) {
   const [settings, updateSettings] = useJwtCopyAllSettings();
   const [additionalSettingsCollapsed, setAdditionalSettingsCollapsed] = usePersistedBoolean(
     ADDITIONAL_SETTINGS_COLLAPSED_KEY,
@@ -50,6 +58,18 @@ export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
     [styleKind, customPrefix],
   );
   const formatted = useMemo(() => formatList(includedFields, includedOrder, style), [includedFields, includedOrder, style]);
+
+  // The on-screen preview masks secret/private-key values when sensitiveVisible is off, but
+  // Copy All always copies the real `formatted` string above — hiding on screen must never
+  // silently change what gets copied to the clipboard.
+  const previewFormatted = useMemo(() => {
+    if (sensitiveVisible) return formatted;
+    const maskedFields = includedFields.map((f) => {
+      const mask = SENSITIVE_FIELD_MASKS[f.id];
+      return mask ? { ...f, value: mask(f.value) } : f;
+    });
+    return formatList(maskedFields, includedOrder, style);
+  }, [sensitiveVisible, formatted, includedFields, includedOrder, style]);
 
   function setPosition(fieldId: string, position: number) {
     // Reorder only among included fields — excluded ones are hidden from output and kept
@@ -166,7 +186,7 @@ export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
 
       <div className="flex items-start gap-2">
         <pre className="flex-1 overflow-x-auto whitespace-pre-wrap rounded bg-zinc-100 px-2 py-1.5 text-xs dark:bg-zinc-900">
-          {includedFields.length > 0 ? formatted : "No fields selected — check at least one field above."}
+          {includedFields.length > 0 ? previewFormatted : "No fields selected — check at least one field above."}
         </pre>
         <CopyButton text={formatted} label="Copy All" disabled={includedFields.length === 0} />
       </div>

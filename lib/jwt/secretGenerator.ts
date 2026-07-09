@@ -8,6 +8,9 @@ export const SECRET_BITS_MIN = 128;
 export const SECRET_BITS_MAX = 512;
 export const SECRET_BITS_DEFAULT = 256;
 
+/** Common strength choices offered as one-click shortcuts alongside the slider. */
+export const SECRET_BIT_PRESETS = [128, 192, 256, 384, 512] as const;
+
 export type SecretCharsetMode = "standard" | "enhanced";
 
 const STANDARD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
