@@ -39,6 +39,12 @@ export const JWT_REFERENCES: JwtReference[] = [
     source: "IETF",
   },
   {
+    id: "jwtio-debugger",
+    label: "JWT.io Debugger",
+    url: "https://jwt.io",
+    source: "jwt.io",
+  },
+  {
     id: "jwtio-introduction",
     label: "Introduction to JSON Web Tokens",
     url: "https://www.jwt.io/introduction",
