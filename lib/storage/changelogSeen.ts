@@ -38,6 +38,17 @@ function invalidate() {
   subscribers.forEach((notify) => notify());
 }
 
+// Keeps the "new" dot in sync across tabs — without this, marking the changelog as seen in one
+// tab wouldn't clear the dot in another already-open tab until that tab's cache was invalidated
+// some other way.
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (e) => {
+    if (e.key !== STORAGE_KEY) return;
+    snapshotCache = e.newValue;
+    invalidate();
+  });
+}
+
 export function useChangelogLastSeen() {
   const lastSeen = useSyncExternalStore(
     useCallback((onStoreChange: () => void) => {

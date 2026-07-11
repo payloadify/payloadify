@@ -5,8 +5,7 @@ const FOCUSABLE_SELECTOR =
 
 /** Traps Tab focus inside `containerRef` while `active`, closes on Escape, and restores focus to
  *  whatever was focused before activation on deactivate/unmount — the accessibility contract a
- *  modal dialog needs, without pulling in a focus-trap dependency. Escape is bound on the
- *  container itself (not `document`) so it only fires while focus is actually inside the dialog. */
+ *  modal dialog needs, without pulling in a focus-trap dependency. */
 export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active: boolean, onClose: () => void) {
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const onCloseRef = useRef(onClose);
@@ -22,12 +21,13 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active
     const focusables = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
     (focusables[0] ?? container).focus();
 
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.stopPropagation();
-        onCloseRef.current();
-        return;
-      }
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      e.stopPropagation();
+      onCloseRef.current();
+    }
+
+    function handleTab(e: KeyboardEvent) {
       if (e.key !== "Tab" || !container) return;
 
       const focusable = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
@@ -44,9 +44,14 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active
       }
     }
 
-    container.addEventListener("keydown", handleKeyDown);
+    // Escape is bound on `document` (not the container) so it still closes the dialog even if
+    // focus has moved outside it — Tab-trapping stays container-scoped since it only makes sense
+    // relative to focus already inside.
+    document.addEventListener("keydown", handleEscape);
+    container.addEventListener("keydown", handleTab);
     return () => {
-      container.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleEscape);
+      container.removeEventListener("keydown", handleTab);
       previouslyFocused.current?.focus();
     };
   }, [active, containerRef]);
