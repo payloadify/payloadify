@@ -27,7 +27,7 @@ const sections: { title: string; slugs: string[] }[] = [
 
 export default function Home() {
   return (
-    <div className="mx-auto w-full max-w-5xl flex-1 px-4 py-12">
+    <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-12">
       <div className="mb-10">
         <h1 className="text-3xl font-semibold tracking-tight">
           Free pentest tools, one job each
