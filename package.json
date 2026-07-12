@@ -11,6 +11,7 @@
     "dev": "next dev",
     "prebuild": "npm run build --workspace=@payloadify/cvss-core",
     "build": "next build",
+    "postbuild": "node scripts/generate-csp-hashes.mjs",
     "start": "next start",
     "lint": "eslint",
     "pretest": "npm run build --workspace=@payloadify/cvss-core",
