@@ -21,6 +21,10 @@ export const changelogEntries: ChangelogEntry[] = [
         text: "Changelog — see what's new on Payloadify, grouped by date and category, from the header",
       },
       { category: "Improved", text: "Widened the site's content area for a better fit on larger screens" },
+      {
+        category: "Improved",
+        text: "Hardened site security headers (Content-Security-Policy) and patched a dependency vulnerability flagged by Dependabot",
+      },
     ],
   },
   {
