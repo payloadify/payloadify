@@ -14,7 +14,7 @@ node_modules
 .claudeignore
 CLAUDE.md
 REVIEW.md
-.claude/
+/.claude/
 
 # archived features — not wired into the app, kept locally for reference only
 /_archive/
