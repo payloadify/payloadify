@@ -18,10 +18,19 @@ export interface MsfvenomSelection {
 }
 
 /** Substitutes the "{arch}" path-segment token for Linux/macOS payloads (e.g.
- *  linux/{arch}/shell_reverse_tcp -> linux/x64/shell_reverse_tcp); flag-only payload ids pass
- *  through unchanged regardless of arch, since their arch is expressed via -a instead. */
+ *  linux/{arch}/shell_reverse_tcp -> linux/x64/shell_reverse_tcp) for every arch, including x86.
+ *  For Windows, x86 is msfvenom's flat/implicit module (no segment) and only x64 needs an
+ *  explicit "x64/" segment inserted right after "windows/" (e.g.
+ *  windows/meterpreter/reverse_tcp -> windows/x64/meterpreter/reverse_tcp). Flag-only payload ids
+ *  (Android/Python) pass through unchanged regardless of arch — they have no per-arch module. */
 export function resolvePayloadId(payload: MsfvenomPayload, arch: ArchId | null): string {
-  return payload.archPlacement === "path-segment" && arch ? payload.id.replace("{arch}", arch) : payload.id;
+  if (payload.archPlacement === "path-segment" && arch) {
+    return payload.id.replace("{arch}", arch);
+  }
+  if (payload.archPlacement === "windows-arch-segment" && arch && arch !== "x86") {
+    return payload.id.replace(/^windows\//, `windows/${arch}/`);
+  }
+  return payload.id;
 }
 
 export function suggestFilename(payload: MsfvenomPayload, format: MsfvenomFormat, arch: ArchId | null): string {
@@ -38,7 +47,11 @@ export function requiresOutputFilename(payload: MsfvenomPayload, format: Msfveno
 
 /** Pure, deterministic command builder — flag order:
  *  msfvenom -p <resolved> -f <format> [-e <encoder> -i <n>] [-a <arch>] LHOST= LPORT=
- *  [EXITFUNC=] [<extra options>] [-o <filename>] */
+ *  [EXITFUNC=] [<extra options>] [-o <filename>]
+ *  -a only applies to "flag-only" payloads (Android/Python) — in practice those are archless
+ *  (archs: []), so -a never actually appears in a generated command today. Path-segment and
+ *  windows-arch-segment payloads (Linux/macOS/Windows) always bake arch into -p instead, since
+ *  msfvenom's own module resolution doesn't retarget a module's arch via -a (see params.ts). */
 export function buildCommand(sel: MsfvenomSelection): string {
   const parts: string[] = ["msfvenom", "-p", resolvePayloadId(sel.payload, sel.arch), "-f", sel.format.id];
 

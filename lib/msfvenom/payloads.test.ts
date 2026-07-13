@@ -55,7 +55,7 @@ describe("MSFVENOM_PAYLOADS", () => {
     }
   });
 
-  it("path-segment payload ids contain the {arch} token; flag-only ids don't", () => {
+  it("path-segment payload ids contain the {arch} token; other placements don't", () => {
     for (const p of MSFVENOM_PAYLOADS) {
       if (p.archPlacement === "path-segment") {
         expect(p.id).toContain("{arch}");
@@ -63,6 +63,25 @@ describe("MSFVENOM_PAYLOADS", () => {
         expect(p.id).not.toContain("{arch}");
       }
     }
+  });
+
+  it("windows-arch-segment payload ids are flat (no arch segment baked in — resolvePayloadId inserts x64/ at generation time)", () => {
+    for (const p of MSFVENOM_PAYLOADS) {
+      if (p.archPlacement === "windows-arch-segment") {
+        expect(p.id.startsWith("windows/")).toBe(true);
+        expect(p.id).not.toMatch(/^windows\/x64\//);
+      }
+    }
+  });
+
+  it("the UDP shell payload (no x64 stager module) is restricted to x86", () => {
+    const shellUdp = MSFVENOM_PAYLOADS_BY_ID["windows/shell/reverse_udp"];
+    expect(shellUdp.archs).toEqual(["x86"]);
+    expect(shellUdp.staging).toBe("staged");
+  });
+
+  it("does not offer windows/meterpreter/reverse_udp — Meterpreter's stage transfer isn't valid over UDP", () => {
+    expect(MSFVENOM_PAYLOADS_BY_ID["windows/meterpreter/reverse_udp"]).toBeUndefined();
   });
 
   it("stagingSiblingId relationships are symmetric when present", () => {

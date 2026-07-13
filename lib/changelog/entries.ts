@@ -25,6 +25,10 @@ export const changelogEntries: ChangelogEntry[] = [
         text: "Copyable puredns/massdns/dnsx/shuffledns/zdns resolver commands on the Subdomain Permutation Generator, pre-filled with your chosen output filename",
       },
       { category: "Improved", text: "Editable download filename and a collapsible tool-references list, reused across the Subdomain Permutation Generator and JWT tools" },
+      {
+        category: "Fixed",
+        text: "MSFVenom Generator — Windows x64 payloads (Meterpreter, Shell, VNC, PowerShell) now generate commands msfvenom actually accepts, since architecture is encoded in the payload path rather than a now-unsupported -a flag; the UDP shell payload is correctly limited to x86, and Meterpreter Reverse UDP (not a real msfvenom combination) has been removed",
+      },
     ],
   },
   {
