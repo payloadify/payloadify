@@ -16,6 +16,9 @@ CLAUDE.md
 REVIEW.md
 /.claude/
 
+# WAF allowlist reference — regenerate via CLAUDE session, not committed
+ROUTES.md
+
 # archived features — not wired into the app, kept locally for reference only
 /_archive/
 
