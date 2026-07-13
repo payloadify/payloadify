@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
@@ -30,8 +31,7 @@ import {
   sanitizeFilename,
   validateLhost,
 } from "@/lib/msfvenom/validation";
-import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
-import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
+import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 import { SavedListener, useSavedListeners } from "@/lib/storage/savedListeners";
 
 const HISTORY_KEY = "payloadify:msfvenom-generator:history";
@@ -103,10 +103,7 @@ export function MsfvenomGeneratorTool() {
   const [editLportText, setEditLportText] = useState("");
 
   const [generatedSelection, setGeneratedSelection] = useState<MsfvenomSelection | null>(null);
-  const [history, setHistory] = useState<number[]>(() =>
-    typeof window === "undefined" ? [] : pruneHistory(loadHistory(HISTORY_KEY), Date.now()),
-  );
-  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const { blockedMsg, setBlockedMsg, checkAndClear, recordGeneration } = useRateLimitedGeneration(HISTORY_KEY);
 
   const payload = MSFVENOM_PAYLOADS_BY_ID[payloadId];
   const format = MSFVENOM_FORMATS_BY_ID[formatId];
@@ -349,13 +346,8 @@ export function MsfvenomGeneratorTool() {
 
   function generate() {
     if (!canGenerateNow) return;
-    const now = Date.now();
-    const check = canGenerate(history, now);
-    if (!check.allowed) {
-      setBlockedMsg(`Rate limited — try again in ${Math.ceil(check.retryAfterMs / 1000)}s.`);
-      return;
-    }
-    setBlockedMsg(null);
+    const check = checkAndClear();
+    if (!check.allowed) return;
 
     const finalFilename = needsFilename
       ? isValidFilename(filename)
@@ -376,15 +368,12 @@ export function MsfvenomGeneratorTool() {
       extraOptions,
     };
     setGeneratedSelection(selection);
-
-    const nextHistory = [...pruneHistory(history, now), now];
-    setHistory(nextHistory);
-    saveHistory(HISTORY_KEY, nextHistory);
+    recordGeneration(check.now);
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+      <AuthorizedUseNotice />
 
       <div>
         <label className="mb-1 block text-sm font-medium">Template</label>

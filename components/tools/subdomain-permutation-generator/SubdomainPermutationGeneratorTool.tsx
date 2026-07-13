@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { ReferencesPanel } from "@/components/ui/ReferencesPanel";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValue";
-import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
-import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
+import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 import { DEFAULT_CONFIG_FLAGS, SeparatorId, SortMode, SubdomainGeneratorConfig, WordlistSize } from "@/lib/subdomain/config";
 import { extractSeedWordsFromKnownSubdomains, parseBaseDomainInput } from "@/lib/subdomain/domainParse";
 import { estimateCandidateCount } from "@/lib/subdomain/estimate";
@@ -67,10 +67,12 @@ export function SubdomainPermutationGeneratorTool() {
   const [appliedFilterMode, setAppliedFilterMode] = useState<"include" | "exclude">(DEFAULTS.filterMode);
 
   const [generatedResult, setGeneratedResult] = useState<GenerationResult | null>(null);
-  const [history, setHistory] = useState<number[]>(() =>
-    typeof window === "undefined" ? [] : pruneHistory(loadHistory(HISTORY_KEY), Date.now()),
-  );
-  const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
+  const {
+    blockedMsg: blockedMessage,
+    setBlockedMsg: setBlockedMessage,
+    checkAndClear,
+    recordGeneration,
+  } = useRateLimitedGeneration(HISTORY_KEY);
 
   // Only the free-text inputs are debounced — toggles/buttons are discrete and should feel
   // instant, so the live count recomputes immediately for those.
@@ -143,18 +145,10 @@ export function SubdomainPermutationGeneratorTool() {
   }
 
   function handleGenerate() {
-    const now = Date.now();
-    const check = canGenerate(history, now);
-    if (!check.allowed) {
-      setBlockedMessage(`Rate limited — try again in ${Math.ceil(check.retryAfterMs / 1000)}s.`);
-      return;
-    }
-    setBlockedMessage(null);
+    const check = checkAndClear();
+    if (!check.allowed) return;
     setGeneratedResult(generateSubdomainCandidates(config));
-
-    const nextHistory = [...pruneHistory(history, now), now];
-    setHistory(nextHistory);
-    saveHistory(HISTORY_KEY, nextHistory);
+    recordGeneration(check.now);
   }
 
   function handleApplyFilter() {
@@ -191,7 +185,7 @@ export function SubdomainPermutationGeneratorTool() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">Use only on domains you own or are explicitly authorized to test.</Callout>
+      <AuthorizedUseNotice subject="domains" />
       <Callout variant="info">
         100% client-side, generation only — this tool builds a candidate wordlist, it never queries DNS or contacts the target.
       </Callout>

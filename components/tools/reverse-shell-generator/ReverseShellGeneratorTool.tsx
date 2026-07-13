@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { DownloadButton } from "@/components/ui/DownloadButton";
 import { checkboxLabelClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
@@ -10,8 +11,7 @@ import { buildFileBody, buildShell } from "@/lib/reverse-shell/generate";
 import { OsFamily } from "@/lib/reverse-shell/params";
 import { SHELL_GROUPS, SHELLS, SHELLS_BY_ID, ShellId } from "@/lib/reverse-shell/shells";
 import { clampPort, defaultListener, isValidPort, validateHost } from "@/lib/reverse-shell/validation";
-import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
-import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
+import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 
 const HISTORY_KEY = "payloadify:reverse-shell-generator:history";
 
@@ -76,10 +76,7 @@ export function ReverseShellGeneratorTool() {
   const [disguiseExtension, setDisguiseExtension] = useState(DEFAULTS.disguiseExtension);
 
   const [generatedShellId, setGeneratedShellId] = useState<ShellId | null>(null);
-  const [history, setHistory] = useState<number[]>(() =>
-    typeof window === "undefined" ? [] : pruneHistory(loadHistory(HISTORY_KEY), Date.now()),
-  );
-  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const { blockedMsg, setBlockedMsg, checkAndClear, recordGeneration } = useRateLimitedGeneration(HISTORY_KEY);
 
   const hostValidation = useMemo(() => validateHost(ip), [ip]);
   const port = Number(portText);
@@ -150,23 +147,15 @@ export function ReverseShellGeneratorTool() {
   }
 
   function generate() {
-    const now = Date.now();
-    const check = canGenerate(history, now);
-    if (!check.allowed) {
-      setBlockedMsg(`Rate limited — try again in ${Math.ceil(check.retryAfterMs / 1000)}s.`);
-      return;
-    }
-    setBlockedMsg(null);
+    const check = checkAndClear();
+    if (!check.allowed) return;
     setGeneratedShellId(shellId);
-
-    const nextHistory = [...pruneHistory(history, now), now];
-    setHistory(nextHistory);
-    saveHistory(HISTORY_KEY, nextHistory);
+    recordGeneration(check.now);
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+      <AuthorizedUseNotice />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div>

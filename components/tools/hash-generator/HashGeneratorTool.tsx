@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HASH_ALGORITHMS_BY_ID } from "@/lib/hash/algorithms";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { inputClasses } from "@/components/ui/formClasses";
 
 // Explicit, ordered subset of the shared algorithm list — kept in sync with every
 // non-salted algorithm lib/hash/signatures.ts can detect, so Identify and Generate
@@ -54,7 +55,7 @@ export function HashGeneratorTool() {
             rows={4}
             spellCheck={false}
             placeholder="Type or paste the text to hash"
-            className="w-full rounded border border-zinc-300 bg-white p-3 font-mono text-sm outline-none focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className={inputClasses}
           />
           <button
             type="button"

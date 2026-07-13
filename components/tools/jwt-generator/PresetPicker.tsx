@@ -1,13 +1,13 @@
 import { selectClasses } from "@/components/ui/formClasses";
 import { JWT_PRESETS } from "@/lib/jwt/presets";
 
-export function PresetPicker({ onApply }: { onApply: (presetId: string) => void }) {
+export function PresetPicker({ value, onApply }: { value: string; onApply: (presetId: string) => void }) {
   return (
     <div>
       <label className="mb-1 block text-sm font-medium">Scenario presets</label>
       <select
         className={selectClasses}
-        value=""
+        value={value}
         onChange={(e) => {
           if (e.target.value) onApply(e.target.value);
         }}

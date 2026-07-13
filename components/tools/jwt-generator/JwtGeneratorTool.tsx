@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { JsonEditor } from "@/components/ui/JsonEditor";
 import { toggleButtonClasses } from "@/components/ui/formClasses";
 import { CopyField } from "@payloadify/cvss-core";
@@ -33,15 +33,18 @@ function defaultHeaderJson(alg: JoseAlg): string {
   return applyAlgToHeaderJson("", alg);
 }
 
-function defaultPayloadJson(): string {
-  const now = toNumericDate(new Date());
-  return JSON.stringify({ sub: "user-1234", iat: now, exp: now + 3600 }, null, 2);
+function defaultPayloadJson(nowEpochSeconds: number): string {
+  return JSON.stringify({ sub: "user-1234", iat: nowEpochSeconds, exp: nowEpochSeconds + 3600 }, null, 2);
 }
 
 export function JwtGeneratorTool() {
   const [alg, setAlg] = useState<JoseAlg>(DEFAULT_ALG);
   const [headerJson, setHeaderJson] = useState(() => defaultHeaderJson(DEFAULT_ALG));
-  const [payloadJson, setPayloadJson] = useState(() => defaultPayloadJson());
+  // Static export bakes the initial HTML at build time, so a real "now" here would always
+  // mismatch the browser's Date.now() at hydration time (React hydration error). Render a fixed,
+  // deterministic placeholder on first render (server and client agree), then swap in the real
+  // current-time default client-side once mounted — see the effect below.
+  const [payloadJson, setPayloadJson] = useState(() => defaultPayloadJson(0));
   const [hmacSecret, setHmacSecret] = useState("");
   const [asymmetricKeys, setAsymmetricKeys] = useState<AsymmetricKeyMaterial | null>(null);
   const [outputToken, setOutputToken] = useState("");
@@ -50,9 +53,21 @@ export function JwtGeneratorTool() {
   // persisted) so a page refresh always re-hides them.
   const [sensitiveVisible, setSensitiveVisible] = useState(false);
   const [walkthroughStepIndex, setWalkthroughStepIndex] = useState<number | null>(null);
+  const [selectedPresetId, setSelectedPresetId] = useState("");
 
   const spec = ALGORITHMS[alg];
   const walkthroughStep = walkthroughStepIndex !== null ? WALKTHROUGH_STEPS[walkthroughStepIndex] : null;
+
+  // Runs once, client-side only, right after the hydration-safe placeholder above is committed —
+  // replaces it with a payload timestamped to the visitor's actual current time. This is the
+  // React-recommended way to seed a client-only, environment-dependent value without a hydration
+  // mismatch (the alternative — computing `new Date()` during the initial render — would make the
+  // client's first render disagree with the statically-exported server HTML). Not "derived state":
+  // nothing here is computable from props/state, so the effect-lint rule doesn't apply.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPayloadJson(defaultPayloadJson(toNumericDate(new Date())));
+  }, []);
 
   useEffect(() => {
     if (!walkthroughStep?.targetId) return;
@@ -90,6 +105,7 @@ export function JwtGeneratorTool() {
     setHeaderJson(JSON.stringify(preset.buildHeader(), null, 2));
     setPayloadJson(JSON.stringify(preset.buildPayload(now), null, 2));
     setAsymmetricKeys(null);
+    setSelectedPresetId(presetId);
   }
 
   function loadDecodedToken({
@@ -184,14 +200,14 @@ export function JwtGeneratorTool() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+        <AuthorizedUseNotice />
         <button type="button" className={toggleButtonClasses(false)} onClick={() => setWalkthroughStepIndex(0)}>
           Walkthrough
         </button>
       </div>
 
       <div id={sectionId("presets")} className={highlightClass("presets")}>
-        <PresetPicker onApply={applyPreset} />
+        <PresetPicker value={selectedPresetId} onApply={applyPreset} />
       </div>
 
       <div id={sectionId("algorithm")} className={highlightClass("algorithm")}>

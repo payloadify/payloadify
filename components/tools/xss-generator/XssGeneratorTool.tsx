@@ -2,16 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValue";
-import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
+import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 import { XSS_ACTIONS, XSS_ACTIONS_BY_ID, XssActionId } from "@/lib/xss/actions";
 import { COMMON_BLACKLIST_CHARS, unavoidableChars } from "@/lib/xss/blacklist";
 import { LEVEL_ORDER, buildPayload, effectiveLevel, pickInjectionAndObfuscation } from "@/lib/xss/generate";
 import { XSS_INJECTION_TYPES, XssContext, XssInjectionType, XssLevel } from "@/lib/xss/injectionTypes";
 import { NONE_OBFUSCATION, OBFUSCATIONS, OBFUSCATIONS_BY_ID, Obfuscation, ObfuscationId } from "@/lib/xss/obfuscation";
-import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
 
 const HISTORY_KEY = "payloadify:xss-generator:history";
 
@@ -46,13 +46,7 @@ export function XssGeneratorTool() {
 
   const [generatedInjection, setGeneratedInjection] = useState<XssInjectionType | null>(null);
   const [generatedObfuscation, setGeneratedObfuscation] = useState<Obfuscation | null>(null);
-  // localStorage doesn't exist during the static-export prerender, so this initializer only
-  // reads real history once hydrated client-side; `history` never affects rendered JSX
-  // directly, so there's no hydration mismatch to worry about.
-  const [history, setHistory] = useState<number[]>(() =>
-    typeof window === "undefined" ? [] : pruneHistory(loadHistory(HISTORY_KEY), Date.now()),
-  );
-  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const { blockedMsg, checkAndClear, recordGeneration } = useRateLimitedGeneration(HISTORY_KEY);
 
   const action = XSS_ACTIONS_BY_ID[actionId];
   const actionExpr = useMemo(() => action.build(customInput), [action, customInput]);
@@ -140,16 +134,9 @@ export function XssGeneratorTool() {
   }
 
   function generate() {
-    const now = Date.now();
-    const check = canGenerate(history, now);
-    if (!check.allowed) {
-      setBlockedMsg(`Rate limited — try again in ${Math.ceil(check.retryAfterMs / 1000)}s.`);
-      return;
-    }
-    setBlockedMsg(null);
-    const nextHistory = [...pruneHistory(history, now), now];
-    setHistory(nextHistory);
-    saveHistory(HISTORY_KEY, nextHistory);
+    const check = checkAndClear();
+    if (!check.allowed) return;
+    recordGeneration(check.now);
 
     // "Custom" has no level tier to constrain randomization by, so any axis still left on
     // "random" draws from the full basic-through-advanced pool.
@@ -179,9 +166,7 @@ export function XssGeneratorTool() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">
-        Use only on systems you own or are explicitly authorized to test.
-      </Callout>
+      <AuthorizedUseNotice />
 
       <div>
         <label className="mb-1 block text-sm font-medium">Level</label>

@@ -2,20 +2,15 @@
 
 import { useMemo } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
+import { CopyAllFieldList } from "@/components/ui/CopyAllFieldList";
+import { CopyAllAdditionalSettings } from "@/components/ui/CopyAllAdditionalSettings";
+import { CopyAllStylePicker } from "@/components/ui/CopyAllStylePicker";
 import { CopyField, CopyStyle, formatList } from "@payloadify/cvss-core";
 import { useJwtCopyAllSettings } from "@/lib/storage/jwtCopyAllSettings";
 import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
 import { maskMiddle, maskPem } from "@/lib/jwt/mask";
 
 const ADDITIONAL_SETTINGS_COLLAPSED_KEY = "payloadify:jwt-generator:copy-all-additional-settings-collapsed";
-
-const STYLE_OPTIONS: { id: CopyStyle["kind"]; label: string }[] = [
-  { id: "none", label: "No bullets" },
-  { id: "bullets", label: "Bullet points" },
-  { id: "numbers", label: "Numbered" },
-  { id: "custom", label: "Custom" },
-];
 
 /** Field-id-specific masking: the private key is PEM-shaped (keep BEGIN/END markers, mask
  *  the key body), the HMAC secret is a flat string. */
@@ -98,91 +93,31 @@ export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]
     <div className="flex flex-col gap-3 rounded border border-zinc-300 p-4 dark:border-zinc-700">
       <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Combined Copy Format</div>
 
-      <div className="grid gap-2 sm:grid-cols-2">
-        {effectiveOrder.map((id) => {
-          const field = fields.find((f) => f.id === id)!;
-          const included = !excludedIds.has(id);
-          const position = includedOrder.indexOf(id);
-          return (
-            <div key={id} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={included}
-                onChange={() => toggleIncluded(id)}
-                aria-label={`Include ${field.label} in Copy All`}
-                className="h-4 w-4 rounded border-zinc-300 dark:border-zinc-700"
-              />
-              <select
-                className={selectClasses}
-                value={included ? position : ""}
-                disabled={!included}
-                onChange={(e) => setPosition(id, Number(e.target.value))}
-                aria-label={`Position for ${field.label}`}
-              >
-                {!included && <option value="">—</option>}
-                {includedOrder.map((_, i) => (
-                  <option key={i} value={i}>
-                    Position {i + 1}
-                  </option>
-                ))}
-              </select>
-              <span className={`text-sm ${included ? "text-zinc-600 dark:text-zinc-400" : "text-zinc-400 dark:text-zinc-600"}`}>{field.label}</span>
-            </div>
-          );
-        })}
-      </div>
+      <CopyAllFieldList
+        fields={fields}
+        effectiveOrder={effectiveOrder}
+        excludedIds={excludedIds}
+        includedOrder={includedOrder}
+        onToggleIncluded={toggleIncluded}
+        onSetPosition={setPosition}
+      />
 
       {urlCapableFields.length > 0 && (
-        <div className="border-t border-zinc-200 pt-3 dark:border-zinc-800">
-          <button
-            type="button"
-            onClick={() => setAdditionalSettingsCollapsed(!additionalSettingsCollapsed)}
-            aria-expanded={!additionalSettingsCollapsed}
-            className="flex w-full items-center justify-between text-sm font-medium text-zinc-700 dark:text-zinc-300"
-          >
-            Additional Settings
-            <span className="text-zinc-400">{additionalSettingsCollapsed ? "▸" : "▾"}</span>
-          </button>
-
-          {!additionalSettingsCollapsed && (
-            <div className="mt-3 flex flex-col gap-2">
-              {urlCapableFields.map((field) => (
-                <label key={field.id} className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <input
-                    type="checkbox"
-                    checked={urlFieldIds.has(field.id)}
-                    onChange={() => toggleUrlForm(field.id)}
-                    aria-label={`Use URL form for ${field.label} in Copy All`}
-                    className="h-4 w-4 rounded border-zinc-300 dark:border-zinc-700"
-                  />
-                  Use URL for {field.label}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
+        <CopyAllAdditionalSettings
+          fields={urlCapableFields}
+          urlFieldIds={urlFieldIds}
+          collapsed={additionalSettingsCollapsed}
+          onToggleCollapsed={() => setAdditionalSettingsCollapsed(!additionalSettingsCollapsed)}
+          onToggleUrlForm={toggleUrlForm}
+        />
       )}
 
-      <div className="flex flex-wrap items-center gap-2">
-        {STYLE_OPTIONS.map((opt) => (
-          <button
-            key={opt.id}
-            type="button"
-            className={toggleButtonClasses(styleKind === opt.id)}
-            onClick={() => updateSettings({ styleKind: opt.id })}
-          >
-            {opt.label}
-          </button>
-        ))}
-        {styleKind === "custom" && (
-          <input
-            className={`${inputClasses} w-32`}
-            value={customPrefix}
-            onChange={(e) => updateSettings({ customPrefix: e.target.value })}
-            placeholder="Prefix, e.g. -> "
-          />
-        )}
-      </div>
+      <CopyAllStylePicker
+        styleKind={styleKind}
+        customPrefix={customPrefix}
+        onStyleChange={(kind) => updateSettings({ styleKind: kind })}
+        onPrefixChange={(value) => updateSettings({ customPrefix: value })}
+      />
 
       <div className="flex items-start gap-2">
         <pre className="flex-1 overflow-x-auto whitespace-pre-wrap rounded bg-zinc-100 px-2 py-1.5 text-xs dark:bg-zinc-900">

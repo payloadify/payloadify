@@ -4,9 +4,10 @@ import { useMemo, useState } from "react";
 import { applySelections, getAlternativesFor, randomizeText } from "@/lib/homoglyph/generate";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { inputClasses } from "@/components/ui/formClasses";
 
-const inputClasses =
-  "w-full rounded border border-zinc-300 bg-white p-3 font-mono text-sm outline-none focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+// Denser than the shared `selectClasses` (less vertical padding, monospace) — these sit inline
+// among individual characters in the substitution row, not in a standalone form field.
 const selectClasses =
   "rounded border border-zinc-300 bg-white px-1.5 py-1 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
 

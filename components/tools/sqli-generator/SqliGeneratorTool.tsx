@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import { CHARSET_GROUPS, DEFAULT_CHARSET } from "@/lib/encoding/charsets";
@@ -13,8 +14,7 @@ import { LEVEL_ORDER, buildPayload, effectiveLevel, pickTechniqueAndObfuscation 
 import { SQLI_INFO_TARGETS, SQLI_INFO_TARGETS_BY_ID, SqliInfoTargetId } from "@/lib/sqli/infoTargets";
 import { NONE_SQLI_OBFUSCATION, SQLI_OBFUSCATIONS, SQLI_OBFUSCATIONS_BY_ID, SqliObfuscation, SqliObfuscationId } from "@/lib/sqli/obfuscation";
 import { SQLI_TECHNIQUES, SqliLevel, SqliTechnique } from "@/lib/sqli/techniques";
-import { canGenerate, pruneHistory } from "@/lib/rateLimit/rateLimit";
-import { loadHistory, saveHistory } from "@/lib/storage/generationHistory";
+import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 
 const HISTORY_KEY = "payloadify:sqli-generator:history";
 const QUOTE = "'";
@@ -79,10 +79,7 @@ export function SqliGeneratorTool() {
 
   const [generatedTechnique, setGeneratedTechnique] = useState<SqliTechnique | null>(null);
   const [generatedObfuscation, setGeneratedObfuscation] = useState<SqliObfuscation | null>(null);
-  const [history, setHistory] = useState<number[]>(() =>
-    typeof window === "undefined" ? [] : pruneHistory(loadHistory(HISTORY_KEY), Date.now()),
-  );
-  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const { blockedMsg, setBlockedMsg, checkAndClear, recordGeneration } = useRateLimitedGeneration(HISTORY_KEY);
 
   const dialect = SQL_DIALECTS_BY_ID[dialectId];
 
@@ -242,13 +239,8 @@ export function SqliGeneratorTool() {
   }
 
   function generate() {
-    const now = Date.now();
-    const check = canGenerate(history, now);
-    if (!check.allowed) {
-      setBlockedMsg(`Rate limited — try again in ${Math.ceil(check.retryAfterMs / 1000)}s.`);
-      return;
-    }
-    setBlockedMsg(null);
+    const check = checkAndClear();
+    if (!check.allowed) return;
 
     const effMaintain = level === "custom" ? false : maintainLevel;
     const presetLevel: SqliLevel = level === "custom" ? "advanced" : level;
@@ -273,9 +265,7 @@ export function SqliGeneratorTool() {
 
       // Only count successful generations against the rate limit — a combination with no valid
       // technique never produces a payload, so it shouldn't burn the user's cooldown/quota.
-      const nextHistory = [...pruneHistory(history, now), now];
-      setHistory(nextHistory);
-      saveHistory(HISTORY_KEY, nextHistory);
+      recordGeneration(check.now);
     } catch {
       // No technique in the pool is supported for this dialect/level/context combination — e.g.
       // Advanced + Oracle + no valid info field leaves every advanced technique unsupported.
@@ -287,7 +277,7 @@ export function SqliGeneratorTool() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Callout variant="warning">Use only on systems you own or are explicitly authorized to test.</Callout>
+      <AuthorizedUseNotice />
 
       <div>
         <label className="mb-1 block text-sm font-medium">SQL dialect</label>
