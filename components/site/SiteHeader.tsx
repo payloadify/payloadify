@@ -43,6 +43,9 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="flex items-center gap-2 text-sm text-zinc-400">
+          <Link href="/about" className="rounded-md px-3 py-2 hover:bg-zinc-800/60 hover:text-zinc-100">
+            About
+          </Link>
           <button
             type="button"
             onClick={openChangelog}

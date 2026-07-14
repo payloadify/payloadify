@@ -14,6 +14,15 @@ export interface ChangelogEntry {
 // Newest first. To ship a new entry, add a new object at the TOP of this array.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2026-07-14",
+    items: [
+      {
+        category: "Added",
+        text: "About page — why Payloadify exists, the no-server-contact privacy stance, and how to report issues or request tools",
+      },
+    ],
+  },
+  {
     date: "2026-07-13",
     items: [
       {
