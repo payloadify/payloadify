@@ -3,18 +3,40 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChangelogModal } from "@/components/site/ChangelogModal";
 import { getLatestChangelogDate } from "@/lib/changelog/entries";
 import { useChangelogLastSeen, useHasUnseenChangelog } from "@/lib/storage/changelogSeen";
 import { useFocusTrap } from "@/lib/hooks/useFocusTrap";
 
+const MOBILE_BREAKPOINT_QUERY = "(min-width: 640px)";
+
+function navLinkClasses(active: boolean) {
+  return `rounded-md px-3 py-2 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+    active ? "bg-zinc-800/60 text-zinc-100" : ""
+  }`;
+}
+
+function drawerLinkClasses(active: boolean) {
+  return `flex min-h-[44px] items-center rounded-md px-3 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+    active ? "bg-zinc-800/60 text-zinc-100" : ""
+  }`;
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const latestDate = getLatestChangelogDate();
   const hasUnseen = useHasUnseenChangelog(latestDate);
   const [, markSeen] = useChangelogLastSeen();
+  // next.config.ts sets trailingSlash: true (required for static export), so
+  // usePathname() returns "/about/" rather than "/about" — normalize before comparing.
+  const pathname = usePathname();
+  const normalizedPathname = pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+  const isAboutActive = normalizedPathname === "/about";
+  const isToolsActive = normalizedPathname === "/";
 
   useFocusTrap(menuRef, menuOpen, () => setMenuOpen(false));
 
@@ -27,10 +49,40 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
+  // Crossing the sm breakpoint while the drawer is open (device rotation, window
+  // resize) would otherwise leave it open-but-hidden via `sm:hidden`, stranding
+  // the scroll lock and focus trap with no visible way to close it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const mql = window.matchMedia(MOBILE_BREAKPOINT_QUERY);
+    function handleChange(e: MediaQueryListEvent) {
+      if (e.matches) setMenuOpen(false);
+    }
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, [menuOpen]);
+
   function openChangelog() {
     setOpen(true);
     markSeen(latestDate);
     setMenuOpen(false);
+  }
+
+  function handleDrawerTouchStart(e: React.TouchEvent) {
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleDrawerTouchEnd(e: React.TouchEvent) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (deltaX > 60 && Math.abs(deltaY) < Math.abs(deltaX)) {
+      setMenuOpen(false);
+    }
   }
 
   return (
@@ -59,7 +111,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-2 text-sm text-zinc-400 sm:flex">
-          <Link href="/about" className="rounded-md px-3 py-2 hover:bg-zinc-800/60 hover:text-zinc-100">
+          <Link href="/about" aria-current={isAboutActive ? "page" : undefined} className={navLinkClasses(isAboutActive)}>
             About
           </Link>
           <button
@@ -75,7 +127,7 @@ export function SiteHeader() {
             )}
             <span className="sr-only">{hasUnseen ? " (new entries)" : ""}</span>
           </button>
-          <Link href="/" className="rounded-md px-3 py-2 hover:bg-zinc-800/60 hover:text-zinc-100">
+          <Link href="/#tools" aria-current={isToolsActive ? "page" : undefined} className={navLinkClasses(isToolsActive)}>
             All tools
           </Link>
         </nav>
@@ -106,6 +158,8 @@ export function SiteHeader() {
             aria-modal="true"
             aria-label="Site menu"
             tabIndex={-1}
+            onTouchStart={handleDrawerTouchStart}
+            onTouchEnd={handleDrawerTouchEnd}
             className="absolute right-0 top-0 flex h-full w-64 max-w-[80vw] flex-col border-l border-zinc-800 bg-zinc-950 p-4 shadow-xl outline-none"
           >
             <div className="mb-2 flex items-center justify-between">
@@ -128,7 +182,8 @@ export function SiteHeader() {
               <Link
                 href="/about"
                 onClick={() => setMenuOpen(false)}
-                className="flex min-h-[44px] items-center rounded-md px-3 hover:bg-zinc-800/60 hover:text-zinc-100"
+                aria-current={isAboutActive ? "page" : undefined}
+                className={drawerLinkClasses(isAboutActive)}
               >
                 About
               </Link>
@@ -144,9 +199,10 @@ export function SiteHeader() {
                 )}
               </button>
               <Link
-                href="/"
+                href="/#tools"
                 onClick={() => setMenuOpen(false)}
-                className="flex min-h-[44px] items-center rounded-md px-3 hover:bg-zinc-800/60 hover:text-zinc-100"
+                aria-current={isToolsActive ? "page" : undefined}
+                className={drawerLinkClasses(isToolsActive)}
               >
                 All tools
               </Link>

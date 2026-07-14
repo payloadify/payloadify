@@ -39,7 +39,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="space-y-10">
+      <div id="tools" className="space-y-10">
         {sections.map((section) => (
           <div key={section.title}>
             <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
