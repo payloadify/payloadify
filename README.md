@@ -6,7 +6,7 @@
 
 Crafting a correct payload or command by hand usually means digging through man pages, `--help` output, or scattered docs first. Payloadify skips that: click through a few options and get a ready-to-use command or payload straight away — think iLovePDF, but for pentesters, bug bounty hunters, OSCP/CEH students, and red teamers who land on a specific tool via search, use it once, and leave.
 
-Live at [payloadify.dev](https://payloadify.dev).
+Live at [payloadify.com](https://payloadify.com).
 
 ## Features
 
@@ -28,7 +28,7 @@ Each tool lives at its own URL (e.g. `/jwt-decoder`), never a shared blank-canva
 
 ### Online (No Installation)
 
-Visit [payloadify.dev](https://payloadify.dev) — everything runs in your browser.
+Visit [payloadify.com](https://payloadify.com) — everything runs in your browser.
 
 ### Self-Host (Local)
 

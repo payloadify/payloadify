@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
             many payloads you can generate per minute). This data stays on
             your device, is never transmitted anywhere, and you can clear it
             at any time by clearing your browser's site data for
-            payloadify.dev.
+            payloadify.com.
           </p>
 
           <h3 className="mt-4 text-base font-medium text-zinc-900 dark:text-zinc-100">
@@ -148,7 +148,7 @@ export default function PrivacyPolicyPage() {
             Responsible disclosure
           </h3>
           <p>
-            If you find a security issue on payloadify.dev itself (as
+            If you find a security issue on payloadify.com itself (as
             opposed to the tools' output), we'd genuinely appreciate a
             heads-up before it's disclosed publicly. Please note that we
             don't run a bug bounty program and don't offer payment or public
@@ -184,10 +184,10 @@ export default function PrivacyPolicyPage() {
             . For a security report or anything you'd rather not post
             publicly, email{" "}
             <a
-              href="mailto:contact@payloadify.dev"
+              href="mailto:contact@payloadify.com"
               className="text-zinc-900 underline dark:text-zinc-100"
             >
-              contact@payloadify.dev
+              contact@payloadify.com
             </a>
             .
           </p>

@@ -4,7 +4,7 @@ import path from "node:path";
 
 export const dynamic = "force-static";
 
-const BASE_URL = "https://payloadify.dev";
+const BASE_URL = "https://payloadify.com";
 const APP_DIR = path.join(process.cwd(), "app");
 const PAGE_FILE_PATTERN = /^page\.(tsx|ts|jsx|js)$/;
 
