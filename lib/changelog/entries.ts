@@ -14,6 +14,28 @@ export interface ChangelogEntry {
 // Newest first. To ship a new entry, add a new object at the TOP of this array.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2026-07-16",
+    items: [
+      {
+        category: "Added",
+        text: "HTTP Security Headers Analyzer tool — check any URL's response headers against the OWASP Secure Headers Project (HSTS, CSP, X-Frame-Options, and more), with pass/warn/missing status and plain-language fixes",
+      },
+      {
+        category: "Added",
+        text: "SPF/DKIM/DMARC Checker tool — check a domain's email authentication setup, with parsed SPF mechanisms and lookup-count tracking, DKIM selector lookups, and DMARC policy explanations",
+      },
+      { category: "Improved", text: "Shared no-wrap/wrap toggle for copyable code blocks, reused across tools" },
+      {
+        category: "Fixed",
+        text: "Clicking \"no wrap\" on a combined copy format could overflow outside its container instead of scrolling within it",
+      },
+      {
+        category: "Fixed",
+        text: "SPF Checker — deep or multi-vendor include chains (3+ levels) could be under-counted against the RFC 7208 10-lookup limit, reporting a domain as fine when mail servers would actually treat it as a PermError; now recurses fully, with circular-include detection so it still can't hang",
+      },
+    ],
+  },
+  {
     date: "2026-07-14",
     items: [
       {

@@ -2,9 +2,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "payloadify",
   "compatibility_date": "2026-07-02",
+  "main": "worker/src/index.ts",
   "assets": {
     "directory": "./out",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   },
   "routes": [
     { "pattern": "payloadify.com", "custom_domain": true },

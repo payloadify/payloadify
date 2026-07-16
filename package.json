@@ -9,11 +9,13 @@
     "postinstall": "npm run build --workspace=@payloadify/cvss-core",
     "predev": "npm run build --workspace=@payloadify/cvss-core",
     "dev": "next dev",
+    "dev:worker": "wrangler dev",
     "prebuild": "npm run build --workspace=@payloadify/cvss-core",
     "build": "next build",
     "postbuild": "node scripts/generate-csp-hashes.mjs",
     "start": "next start",
     "lint": "eslint",
+    "types:worker": "tsc -p worker/tsconfig.json --noEmit",
     "pretest": "npm run build --workspace=@payloadify/cvss-core",
     "test": "vitest run"
   },
@@ -28,6 +30,7 @@
     "resend": "^6.17.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260716.1",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -39,7 +42,8 @@
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "wrangler": "^4.111.0"
   },
   "optionalDependencies": {
     "lightningcss-win32-x64-msvc": "^1.32.0"

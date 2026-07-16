@@ -11,13 +11,17 @@ export function CopyAllAdditionalSettings({
   collapsed,
   onToggleCollapsed,
   onToggleUrlForm,
+  onToggleAll,
 }: {
   fields: CopyAllFieldOption[];
   urlFieldIds: Set<string>;
   collapsed: boolean;
   onToggleCollapsed: () => void;
   onToggleUrlForm: (fieldId: string) => void;
+  onToggleAll: (selectAll: boolean) => void;
 }) {
+  const allSelected = fields.length > 0 && fields.every((field) => urlFieldIds.has(field.id));
+
   return (
     <div className="border-t border-zinc-200 pt-3 dark:border-zinc-800">
       <button
@@ -32,6 +36,14 @@ export function CopyAllAdditionalSettings({
 
       {!collapsed && (
         <div className="mt-3 flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => onToggleAll(!allSelected)}
+            className="self-start text-xs text-zinc-500 underline hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
+          >
+            {allSelected ? "Unselect all" : "Select all"}
+          </button>
+
           {fields.map((field) => (
             <label key={field.id} className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
               <input

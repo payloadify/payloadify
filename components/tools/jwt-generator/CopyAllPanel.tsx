@@ -5,6 +5,7 @@ import { CopyButton } from "@/components/ui/CopyButton";
 import { CopyAllFieldList } from "@/components/ui/CopyAllFieldList";
 import { CopyAllAdditionalSettings } from "@/components/ui/CopyAllAdditionalSettings";
 import { CopyAllStylePicker } from "@/components/ui/CopyAllStylePicker";
+import { WrappableCode } from "@/components/ui/WrappableCode";
 import { CopyField, CopyStyle, formatList } from "@payloadify/cvss-core";
 import { useJwtCopyAllSettings } from "@/lib/storage/jwtCopyAllSettings";
 import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
@@ -82,11 +83,19 @@ export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]
     updateSettings({ excludedIds: [...next] });
   }
 
+  function toggleAllIncluded(selectAll: boolean) {
+    updateSettings({ excludedIds: selectAll ? [] : effectiveOrder });
+  }
+
   function toggleUrlForm(fieldId: string) {
     const next = new Set(urlFieldIds);
     if (next.has(fieldId)) next.delete(fieldId);
     else next.add(fieldId);
     updateSettings({ urlFieldIds: [...next] });
+  }
+
+  function toggleAllUrlForm(selectAll: boolean) {
+    updateSettings({ urlFieldIds: selectAll ? urlCapableFields.map((f) => f.id) : [] });
   }
 
   return (
@@ -100,6 +109,7 @@ export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]
         includedOrder={includedOrder}
         onToggleIncluded={toggleIncluded}
         onSetPosition={setPosition}
+        onToggleAll={toggleAllIncluded}
       />
 
       {urlCapableFields.length > 0 && (
@@ -109,6 +119,7 @@ export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]
           collapsed={additionalSettingsCollapsed}
           onToggleCollapsed={() => setAdditionalSettingsCollapsed(!additionalSettingsCollapsed)}
           onToggleUrlForm={toggleUrlForm}
+          onToggleAll={toggleAllUrlForm}
         />
       )}
 
@@ -120,9 +131,9 @@ export function CopyAllPanel({ fields, sensitiveVisible }: { fields: CopyField[]
       />
 
       <div className="flex items-start gap-2">
-        <pre className="flex-1 overflow-x-auto whitespace-pre-wrap rounded bg-zinc-100 px-2 py-1.5 text-xs dark:bg-zinc-900">
-          {includedFields.length > 0 ? previewFormatted : "No fields selected — check at least one field above."}
-        </pre>
+        <div className="min-w-0 flex-1">
+          <WrappableCode text={includedFields.length > 0 ? previewFormatted : "No fields selected — check at least one field above."} />
+        </div>
         <CopyButton text={formatted} label="Copy All" disabled={includedFields.length === 0} />
       </div>
     </div>
