@@ -10,7 +10,7 @@ import { EncoderId, NONE_ENCODER, SHELL_ENCODERS, SHELL_ENCODERS_BY_ID } from "@
 import { buildFileBody, buildShell } from "@/lib/reverse-shell/generate";
 import { OsFamily } from "@/lib/reverse-shell/params";
 import { SHELL_GROUPS, SHELLS, SHELLS_BY_ID, ShellId } from "@/lib/reverse-shell/shells";
-import { clampPort, defaultListener, isValidPort, validateHost } from "@/lib/reverse-shell/validation";
+import { clampPort, defaultListener, isValidPort, isValidShellPath, validateHost } from "@/lib/reverse-shell/validation";
 import { useRateLimitedGeneration } from "@/lib/hooks/useRateLimitedGeneration";
 
 const HISTORY_KEY = "payloadify:reverse-shell-generator:history";
@@ -91,22 +91,23 @@ export function ReverseShellGeneratorTool() {
   const selectedShell = SHELLS_BY_ID[shellId];
   const generatedShell = generatedShellId ? SHELLS_BY_ID[generatedShellId] : null;
   const encoder = SHELL_ENCODERS_BY_ID[encoderId] ?? NONE_ENCODER;
+  const shellPathValid = !selectedShell.usesShellPath || isValidShellPath(shellPath);
 
   const result = useMemo(() => {
-    if (!generatedShell || !hostValidation.ok || !portValid) return null;
-    return buildShell(generatedShell, { ip: ip.trim(), port, shellPath }, { encoded, encoder });
-  }, [generatedShell, hostValidation.ok, portValid, ip, port, shellPath, encoded, encoder]);
+    if (!generatedShell || !hostValidation.ok || !portValid || !shellPathValid) return null;
+    return buildShell(generatedShell, { ip: ip.trim(), port, shellPath: shellPath.trim() }, { encoded, encoder });
+  }, [generatedShell, hostValidation.ok, portValid, shellPathValid, ip, port, shellPath, encoded, encoder]);
 
   const listenerCommand = useMemo(() => {
-    if (!generatedShell || !portValid) return null;
-    const params = { ip: ip.trim(), port, shellPath };
+    if (!generatedShell || !portValid || !shellPathValid) return null;
+    const params = { ip: ip.trim(), port, shellPath: shellPath.trim() };
     return generatedShell.listener ? generatedShell.listener(params) : defaultListener(port);
-  }, [generatedShell, portValid, ip, port, shellPath]);
+  }, [generatedShell, portValid, shellPathValid, ip, port, shellPath]);
 
   const fileBody = useMemo(() => {
-    if (!generatedShell || !hostValidation.ok || !portValid) return null;
-    return buildFileBody(generatedShell, { ip: ip.trim(), port, shellPath });
-  }, [generatedShell, hostValidation.ok, portValid, ip, port, shellPath]);
+    if (!generatedShell || !hostValidation.ok || !portValid || !shellPathValid) return null;
+    return buildFileBody(generatedShell, { ip: ip.trim(), port, shellPath: shellPath.trim() });
+  }, [generatedShell, hostValidation.ok, portValid, shellPathValid, ip, port, shellPath]);
 
   const effectiveExtension = extensionOverride ?? generatedShell?.file.extension ?? "txt";
   const effectiveMime = mimeOverride ?? generatedShell?.file.defaultMime ?? "text/plain";
@@ -196,6 +197,11 @@ export function ReverseShellGeneratorTool() {
             disabled={!selectedShell.usesShellPath}
             className={`${inputClasses} disabled:opacity-40`}
           />
+          {selectedShell.usesShellPath && shellPath.length > 0 && !shellPathValid && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+              Only letters, numbers, and . _ / - are allowed (no quotes/spaces/shell operators).
+            </p>
+          )}
         </div>
       </div>
 
@@ -259,7 +265,7 @@ export function ReverseShellGeneratorTool() {
         <button
           type="button"
           onClick={generate}
-          disabled={!hostValidation.ok || !portValid}
+          disabled={!hostValidation.ok || !portValid || !shellPathValid}
           className="rounded bg-zinc-900 px-3 py-1.5 text-sm text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
           Generate payload

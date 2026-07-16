@@ -321,7 +321,7 @@ export function XssGeneratorTool() {
       <button
         type="button"
         onClick={generate}
-        disabled={actionId === "custom" && customInput.length === 0}
+        disabled={actionId === "custom" && customInput.trim().length === 0}
         className="self-start rounded bg-zinc-900 px-3 py-1.5 text-sm text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
       >
         Generate payload

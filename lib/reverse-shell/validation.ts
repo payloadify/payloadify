@@ -51,3 +51,14 @@ export function clampPort(value: number): number {
 export function defaultListener(port: number): string {
   return `nc -lvnp ${port}`;
 }
+
+const SHELL_PATH_RE = /^[A-Za-z0-9._/-]+$/;
+
+/** shellPath is interpolated verbatim into shell one-liner templates, including some quoted
+ *  contexts (e.g. socat's exec:'<path> -li', osascript's nested "..." string) — restrict it to
+ *  safe path characters so a pasted/typed value can never break out of that quoting and change
+ *  what the generated command actually does. */
+export function isValidShellPath(value: string): boolean {
+  const trimmed = value.trim();
+  return trimmed.length > 0 && trimmed.length <= 200 && SHELL_PATH_RE.test(trimmed);
+}

