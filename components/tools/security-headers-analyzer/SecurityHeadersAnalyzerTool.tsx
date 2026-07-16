@@ -24,6 +24,20 @@ const REFERENCES = [
   { id: "mdn-http-headers", label: "HTTP headers reference", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers", source: "MDN" },
 ];
 
+const OWN_DOMAINS = new Set(["payloadify.com", "www.payloadify.com"]);
+
+/** True if `finalUrl` is Payloadify's own site. This check runs from Payloadify's own Cloudflare
+ *  Worker, and we've observed that Worker-to-own-zone requests can get a different response than
+ *  a real visitor sees (the zone's own bot/security protections can flag traffic originating from
+ *  Cloudflare's own network) — so results for our own domain aren't always representative. */
+function isOwnDomain(finalUrl: string): boolean {
+  try {
+    return OWN_DOMAINS.has(new URL(finalUrl).hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 export function SecurityHeadersAnalyzerTool() {
   const [rawUrl, setRawUrl] = useState("");
   const [data, setData] = useState<SecurityHeadersResponse | null>(null);
@@ -92,6 +106,18 @@ export function SecurityHeadersAnalyzerTool() {
 
       {data && (
         <>
+          {isOwnDomain(data.finalUrl) && (
+            <Callout variant="warning">
+              You&apos;re checking Payloadify&apos;s own domain. This check runs from our own Cloudflare Worker, and
+              our zone&apos;s bot/security protections can occasionally treat that self-originating traffic
+              differently than a real visitor&apos;s browser — so results here may not match what visitors
+              actually see. If something looks off, verify with an external checker like{" "}
+              <a href="https://securityheaders.com" target="_blank" rel="noopener noreferrer" className="underline">
+                securityheaders.com
+              </a>
+              .
+            </Callout>
+          )}
           {data.cached && <CachedResultBanner onForceFresh={() => analyze(true)} loading={loading} />}
           <SummaryBar data={data} />
           <FindingsList findings={data.findings} />
