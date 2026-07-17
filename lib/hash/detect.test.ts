@@ -165,6 +165,25 @@ describe("identifyHash newly added structured signatures", () => {
     ).toBe("WPA-PBKDF2-PMKID+EAPOL");
   });
 
+  it("gives SHA3-256 and Keccak-256 their own distinct Hashcat modes (not a shared mode number)", () => {
+    const result = identifyHash("5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8");
+    if (result.kind !== "matched") throw new Error(`Expected a match, got kind="${result.kind}"`);
+    const sha3 = result.candidates.find((c) => c.signature.id === "sha3-256");
+    const keccak = result.candidates.find((c) => c.signature.id === "keccak-256");
+    expect(sha3?.signature.hashcatModes).toEqual([17400]);
+    expect(keccak?.signature.hashcatModes).toEqual([17800]);
+  });
+
+  it("gives Whirlpool and SHA3-512 their own distinct Hashcat modes (not a shared mode number)", () => {
+    const hash128 = "b6873fe141f00f14a1b541fd3a095b426a94db40cb63c8bf357fe295e9311c09dc0f0b59e07176c674002bde2ca9c4fa17e9a9f86838a98014945a0cf8e2c8eb";
+    const result = identifyHash(hash128);
+    if (result.kind !== "matched") throw new Error(`Expected a match, got kind="${result.kind}"`);
+    const whirlpool = result.candidates.find((c) => c.signature.id === "whirlpool");
+    const sha3512 = result.candidates.find((c) => c.signature.id === "sha3-512");
+    expect(whirlpool?.signature.hashcatModes).toEqual([6100]);
+    expect(sha3512?.signature.hashcatModes).toEqual([17600]);
+  });
+
   it("does not let a NetNTLMv2 hash also match the NetNTLMv1 pattern", () => {
     const result = identifyHash(
       "admin::N46iSNekpT:08ca45b7d7ea58ee:88dcbe4446168966a153a0064958dac6:5c7830315c7830310000000000000b45c67103d07d7b95acd12ffa11230e0000000052920b85f78d013c31cdb3b92f5d765c783030"

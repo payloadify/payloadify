@@ -420,7 +420,7 @@ export const HASH_SIGNATURES: HashSignature[] = [
   },
   {
     id: "sha3-256",
-    name: "SHA3-256 / Keccak-256",
+    name: "SHA3-256",
     hashcatModes: [17400],
     test: (s) => hexOfLength(64).test(s),
     specificity: HEX_RARE,
@@ -428,12 +428,21 @@ export const HASH_SIGNATURES: HashSignature[] = [
     note: "Same length as SHA-256 but much less commonly used.",
   },
   {
+    id: "keccak-256",
+    name: "Keccak-256",
+    hashcatModes: [17800],
+    test: (s) => hexOfLength(64).test(s),
+    specificity: HEX_RARE,
+    prevalenceRank: 3,
+    note: "Same length as SHA-256/SHA3-256 but distinct pre-standardization Keccak padding — uses a different Hashcat mode than SHA3-256.",
+  },
+  {
     id: "ripemd256",
     name: "RIPEMD-256",
     hashcatModes: [],
     test: (s) => hexOfLength(64).test(s),
     specificity: HEX_RARE,
-    prevalenceRank: 3,
+    prevalenceRank: 4,
     note: `Same length as SHA-256 but rare. ${NO_HASHCAT_MODE_NOTE}`,
   },
 
@@ -455,11 +464,20 @@ export const HASH_SIGNATURES: HashSignature[] = [
   },
   {
     id: "whirlpool",
-    name: "Whirlpool / SHA3-512",
+    name: "Whirlpool",
     hashcatModes: [6100],
     test: (s) => hexOfLength(128).test(s),
     specificity: HEX_RARE,
     prevalenceRank: 2,
     note: "Same length as SHA-512 but much less commonly used.",
+  },
+  {
+    id: "sha3-512",
+    name: "SHA3-512",
+    hashcatModes: [17600],
+    test: (s) => hexOfLength(128).test(s),
+    specificity: HEX_RARE,
+    prevalenceRank: 3,
+    note: "Same length as SHA-512/Whirlpool but distinct algorithm — uses a different Hashcat mode than Whirlpool.",
   },
 ];

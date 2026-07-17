@@ -32,7 +32,7 @@ function baseSelection(overrides: Partial<HashcatSelection> = {}): HashcatSelect
 
 describe("buildCommand", () => {
   it("builds a straight/dictionary attack command", () => {
-    expect(buildCommand(baseSelection())).toBe("hashcat -m 1000 -a 0 'b4b9b02e6f09a9bd760f388b67351e2b' rockyou.txt");
+    expect(buildCommand(baseSelection())).toBe("hashcat -m 1000 -a 0 'b4b9b02e6f09a9bd760f388b67351e2b' 'rockyou.txt'");
   });
 
   it("single-quotes a hash value containing shell metacharacters like $", () => {
@@ -41,19 +41,31 @@ describe("buildCommand", () => {
       target: { kind: "value", value: "$2a$05$LhayLxezLhK1LhWvKxCyLOj0j1u.Kj0jZ0pEmm134uzrQlFvQJLF6" },
     });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 3200 -a 0 '$2a$05$LhayLxezLhK1LhWvKxCyLOj0j1u.Kj0jZ0pEmm134uzrQlFvQJLF6' rockyou.txt",
+      "hashcat -m 3200 -a 0 '$2a$05$LhayLxezLhK1LhWvKxCyLOj0j1u.Kj0jZ0pEmm134uzrQlFvQJLF6' 'rockyou.txt'",
+    );
+  });
+
+  it("escapes an embedded single quote in the hash value instead of breaking out of the quoting", () => {
+    const sel = baseSelection({ target: { kind: "value", value: "abc' ; touch pwned #" } });
+    expect(buildCommand(sel)).toBe("hashcat -m 1000 -a 0 'abc'\\'' ; touch pwned #' 'rockyou.txt'");
+  });
+
+  it("quotes a wordlist path containing a space instead of splitting into extra args", () => {
+    const sel = baseSelection({ wordlist: "/mnt/word lists/rockyou.txt" });
+    expect(buildCommand(sel)).toBe(
+      "hashcat -m 1000 -a 0 'b4b9b02e6f09a9bd760f388b67351e2b' '/mnt/word lists/rockyou.txt'",
     );
   });
 
   it("does not quote a hash file path", () => {
     const sel = baseSelection({ target: { kind: "file", value: "hashes.txt" } });
-    expect(buildCommand(sel)).toBe("hashcat -m 1000 -a 0 hashes.txt rockyou.txt");
+    expect(buildCommand(sel)).toBe("hashcat -m 1000 -a 0 hashes.txt 'rockyou.txt'");
   });
 
   it("builds a combination attack command with two wordlists", () => {
     const sel = baseSelection({ attackMode: "1", wordlist: "wl1.txt", wordlist2: "wl2.txt" });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 1 'b4b9b02e6f09a9bd760f388b67351e2b' wl1.txt wl2.txt",
+      "hashcat -m 1000 -a 1 'b4b9b02e6f09a9bd760f388b67351e2b' 'wl1.txt' 'wl2.txt'",
     );
   });
 
@@ -68,28 +80,28 @@ describe("buildCommand", () => {
       incrementMax: 8,
     });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 3 -1 ?l?u --increment --increment-min 4 --increment-max 8 'b4b9b02e6f09a9bd760f388b67351e2b' ?1?1?1?1?d?d?d?d",
+      "hashcat -m 1000 -a 3 -1 '?l?u' --increment --increment-min 4 --increment-max 8 'b4b9b02e6f09a9bd760f388b67351e2b' '?1?1?1?1?d?d?d?d'",
     );
   });
 
   it("builds a hybrid wordlist+mask attack command", () => {
     const sel = baseSelection({ attackMode: "6", wordlist: "rockyou.txt", mask: "?d?d?d?d" });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 6 'b4b9b02e6f09a9bd760f388b67351e2b' rockyou.txt ?d?d?d?d",
+      "hashcat -m 1000 -a 6 'b4b9b02e6f09a9bd760f388b67351e2b' 'rockyou.txt' '?d?d?d?d'",
     );
   });
 
   it("builds a hybrid mask+wordlist attack command", () => {
     const sel = baseSelection({ attackMode: "7", wordlist: "rockyou.txt", mask: "?d?d?d?d" });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 7 'b4b9b02e6f09a9bd760f388b67351e2b' ?d?d?d?d rockyou.txt",
+      "hashcat -m 1000 -a 7 'b4b9b02e6f09a9bd760f388b67351e2b' '?d?d?d?d' 'rockyou.txt'",
     );
   });
 
   it("includes repeated -r rule flags in order", () => {
     const sel = baseSelection({ rules: ["best64.rule", "d3ad0ne.rule"] });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 0 -r best64.rule -r d3ad0ne.rule 'b4b9b02e6f09a9bd760f388b67351e2b' rockyou.txt",
+      "hashcat -m 1000 -a 0 -r 'best64.rule' -r 'd3ad0ne.rule' 'b4b9b02e6f09a9bd760f388b67351e2b' 'rockyou.txt'",
     );
   });
 
@@ -105,7 +117,7 @@ describe("buildCommand", () => {
       outfileFormat: "2",
     });
     expect(buildCommand(sel)).toBe(
-      "hashcat -m 1000 -a 0 -w 3 -O --force --potfile-disable --username --session job1 -o cracked.txt --outfile-format 2 'b4b9b02e6f09a9bd760f388b67351e2b' rockyou.txt",
+      "hashcat -m 1000 -a 0 -w 3 -O --force --potfile-disable --username --session 'job1' -o 'cracked.txt' --outfile-format '2' 'b4b9b02e6f09a9bd760f388b67351e2b' 'rockyou.txt'",
     );
   });
 });

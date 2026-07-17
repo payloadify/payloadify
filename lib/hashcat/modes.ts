@@ -8,8 +8,7 @@ export type HashcatMode = {
 /** Derived from the Hash Identifier's own signature database rather than a separate hardcoded
  *  list — a hash type added there (with a hashcatModes entry) automatically appears here too, so
  *  the identifier and this builder can never drift out of sync. Dedupes defensively in case two
- *  signatures ever share the same mode number (none currently do — e.g. Whirlpool/SHA3-512 share
- *  one combined signature rather than two signatures pointing at mode 6100). */
+ *  signatures ever share the same mode number. */
 function buildModesList(): HashcatMode[] {
   const byMode = new Map<number, string>();
   for (const signature of HASH_SIGNATURES) {
