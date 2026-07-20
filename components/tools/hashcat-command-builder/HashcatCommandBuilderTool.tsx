@@ -242,7 +242,7 @@ export function HashcatCommandBuilderTool() {
           >
             {HASHCAT_MODES.map((m) => (
               <option key={m.mode} value={m.mode}>
-                {m.mode} — {m.name}
+                {m.mode}: {m.name}
               </option>
             ))}
           </select>
@@ -250,7 +250,7 @@ export function HashcatCommandBuilderTool() {
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Or custom mode number
-            <Tooltip text="Overrides the dropdown above. Use this for a mode not in the list — see hashcat --help for the full mode list." />
+            <Tooltip text="Overrides the dropdown above. Use this for a mode not in the list. See hashcat --help for the full mode list." />
           </label>
           <input
             type="number"
@@ -294,13 +294,13 @@ export function HashcatCommandBuilderTool() {
         />
         {targetKind === "value" && (
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            Wrapped in single quotes in the command below — protects hashes that start with $ (bcrypt, crypt formats) from bash
+            Wrapped in single quotes in the command below. This protects hashes that start with $ (bcrypt, crypt formats) from bash
             variable expansion.
           </p>
         )}
         {targetKind === "file" && (
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            This tool never reads your filesystem — enter the path you&apos;ll actually use on your own machine.
+            This tool never reads your filesystem. Enter the path you&apos;ll actually use on your own machine.
           </p>
         )}
       </div>
@@ -338,7 +338,7 @@ export function HashcatCommandBuilderTool() {
               onChange={(e) => loadWordlist(e.target.value)}
               className={`${selectClasses} min-w-[220px]`}
             >
-              <option value="">— Load a saved wordlist —</option>
+              <option value="">(Load a saved wordlist)</option>
               {savedWordlists.map((w: SavedWordlist) => (
                 <option key={w.id} value={w.id}>
                   {w.label} ({w.path})
@@ -358,7 +358,7 @@ export function HashcatCommandBuilderTool() {
             </button>
           </div>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            Saved wordlist paths are stored in your browser only — they won&apos;t sync across devices.
+            Saved wordlist paths are stored in your browser only. They won&apos;t sync across devices.
           </p>
         </div>
       )}
@@ -396,7 +396,7 @@ export function HashcatCommandBuilderTool() {
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Rules file(s)
-            <Tooltip text="One path per line — each becomes its own -r flag. Only applies to Straight/Dictionary attacks. Leave empty to skip." />
+            <Tooltip text="One path per line; each becomes its own -r flag. Only applies to Straight/Dictionary attacks. Leave empty to skip." />
           </label>
           <textarea
             value={rulesText}
@@ -461,10 +461,10 @@ export function HashcatCommandBuilderTool() {
               </label>
               <select value={workloadText} onChange={(e) => setWorkloadText(e.target.value)} className={`${selectClasses} w-full`}>
                 <option value="">Default</option>
-                <option value="1">1 — Low</option>
-                <option value="2">2 — Default</option>
-                <option value="3">3 — High</option>
-                <option value="4">4 — Nightmare</option>
+                <option value="1">1: Low</option>
+                <option value="2">2: Default</option>
+                <option value="3">3: High</option>
+                <option value="4">4: Nightmare</option>
               </select>
             </div>
             <div>
@@ -489,7 +489,7 @@ export function HashcatCommandBuilderTool() {
             <label className={checkboxLabelClasses}>
               <input type="checkbox" checked={usernameMode} onChange={(e) => setUsernameMode(e.target.checked)} />
               --username
-              <Tooltip text="Enable when each line in your hash file is username:hash rather than a bare hash — common for dumped credential files." />
+              <Tooltip text="Enable when each line in your hash file is username:hash rather than a bare hash. Common for dumped credential files." />
             </label>
           </div>
 
@@ -549,7 +549,7 @@ export function HashcatCommandBuilderTool() {
               <InlineCommandRow label="Check already-cracked results (no re-run)" command={generatedShowCommand ?? ""} />
               <InlineCommandRow label="Benchmark this mode on your hardware" command={generatedBenchmarkCommand ?? ""} />
               <p>
-                Already-cracked hashes are looked up from hashcat&apos;s potfile (unless <code>--potfile-disable</code> is set) —{" "}
+                Already-cracked hashes are looked up from hashcat&apos;s potfile (unless <code>--potfile-disable</code> is set).{" "}
                 <code>--show</code> reads it without spending any GPU time.
               </p>
             </div>

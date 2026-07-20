@@ -3,7 +3,9 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { identifyHomoglyphs } from "@/lib/homoglyph/identify";
 import { Callout } from "@/components/ui/Callout";
-import { inputClasses } from "@/components/ui/formClasses";
+
+const inputClasses =
+  "w-full rounded border border-zinc-300 bg-white p-3 font-mono text-sm outline-none focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
 
 export function HomoglyphIdentifierTool() {
   const [input, setInput] = useState("");
@@ -24,7 +26,7 @@ export function HomoglyphIdentifierTool() {
           className={inputClasses}
         />
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Computed entirely in your browser — this text is never sent anywhere.
+          Computed entirely in your browser. This text is never sent anywhere.
         </p>
       </div>
 
@@ -52,7 +54,7 @@ export function HomoglyphIdentifierTool() {
                     nodes.push(
                       <mark
                         key={index}
-                        title={`${match.codePoint} (${match.script}) — impersonates "${match.impersonates}" (${match.impersonatesCodePoints.join(", ")})`}
+                        title={`${match.codePoint} (${match.script}): impersonates "${match.impersonates}" (${match.impersonatesCodePoints.join(", ")})`}
                         className="rounded bg-red-200 text-red-900 underline decoration-red-500 decoration-2 dark:bg-red-950 dark:text-red-200"
                       >
                         {match.char}
@@ -78,7 +80,7 @@ export function HomoglyphIdentifierTool() {
                   </span>
                   <div>
                     <p className="font-medium">
-                      {match.codePoint} — {match.script}
+                      {match.codePoint}, {match.script}
                     </p>
                     <p className="text-zinc-500 dark:text-zinc-400">
                       Impersonates &quot;{match.impersonates}&quot; ({match.impersonatesCodePoints.join(", ")})

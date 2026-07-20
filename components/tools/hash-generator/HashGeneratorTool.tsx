@@ -67,7 +67,7 @@ export function HashGeneratorTool() {
           </button>
         </div>
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Computed entirely in your browser — this text is never sent anywhere.
+          Computed entirely in your browser; this text is never sent anywhere.
         </p>
       </div>
 

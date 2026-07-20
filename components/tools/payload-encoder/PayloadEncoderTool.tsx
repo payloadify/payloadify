@@ -62,7 +62,7 @@ export function PayloadEncoderTool({ direction }: { direction: Direction }) {
           className={inputClasses}
         />
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Computed entirely in your browser — this text is never sent anywhere.
+          Computed entirely in your browser. This text is never sent anywhere.
         </p>
       </div>
 
@@ -230,7 +230,7 @@ export function PayloadEncoderTool({ direction }: { direction: Direction }) {
                     {result.error !== null && <Callout variant="danger">{result.error}</Callout>}
                     {result.output === null && result.error === null && (
                       <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                        Blocked — fix the error in an earlier step.
+                        Blocked. Fix the error in an earlier step.
                       </p>
                     )}
                     {result.output !== null && (

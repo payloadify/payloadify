@@ -73,7 +73,7 @@ export function WordlistControls({
         <button
           type="button"
           onClick={() => onWordlistSizeChange("extended")}
-          title="Use the larger curated word list (superset of Compact) for each enabled category above — more coverage, more candidates."
+          title="Use the larger curated word list (superset of Compact) for each enabled category above: more coverage, more candidates."
           className={toggleButtonClasses(wordlistSize === "extended")}
         >
           Extended

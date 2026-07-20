@@ -247,7 +247,7 @@ export function JwtGeneratorTool() {
         <WeaknessFlags flags={flags} />
         {walkthroughStep?.targetId === "flags" && flags.length === 0 && (
           <p className="text-xs text-zinc-500 italic dark:text-zinc-400">
-            No warnings right now — this area only appears when something looks risky.
+            No warnings right now. This area only appears when something looks risky.
           </p>
         )}
       </div>

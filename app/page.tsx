@@ -40,7 +40,7 @@ export default function Home() {
         </h1>
         <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
           No accounts, no tracking, no server round-trips where it can be
-          avoided. Pick a tool below — everything runs in your browser.
+          avoided. Pick a tool below. Everything runs in your browser.
         </p>
       </div>
 

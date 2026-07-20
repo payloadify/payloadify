@@ -4,7 +4,7 @@ import { ToolPageLayout } from "@/components/layout/ToolPageLayout";
 export const metadata: Metadata = {
   title: "Privacy Policy & Terms of Service",
   description:
-    "Payloadify's privacy policy and terms of service — how the site handles data (it mostly doesn't) and the terms for using its free pentest tools.",
+    "Payloadify's privacy policy and terms of service: how the site handles data (it mostly doesn't) and the terms for using its free pentest tools.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
           </h3>
           <p>
             Payloadify's tools run entirely in your browser. Anything you type
-            or paste into a tool — tokens, hashes, payloads, target info — is
+            or paste into a tool (tokens, hashes, payloads, target info) is
             processed locally on your device and is never sent to our
             servers. We don't have a database and we don't log tool input.
           </p>
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
             Changes to this policy
           </h3>
           <p>
-            Payloadify is under active development — we regularly ship new
+            Payloadify is under active development: we regularly ship new
             tools, feature updates, patches, and bug fixes. If this policy
             changes as a result, we'll update this page and the "last
             updated" date above.
@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
             as expected in every environment or edge case. Every new tool and
             feature goes through code review and security testing before it's
             deployed, and we cross-check outputs against expected results as
-            part of that process — but we can't cover every possible
+            part of that process, but we can't cover every possible
             configuration or environment.
           </p>
           <p>
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
             subsequent updates. Tools you use today should be expected to
             keep improving over time, not stay static. If you run into
             output that looks wrong, we'd appreciate a report (see Contact
-            below) — that feedback directly shapes what gets refined next.
+            below); that feedback directly shapes what gets refined next.
           </p>
 
           <h3 className="mt-4 text-base font-medium text-zinc-900 dark:text-zinc-100">
@@ -152,7 +152,7 @@ export default function PrivacyPolicyPage() {
             opposed to the tools' output), we'd genuinely appreciate a
             heads-up before it's disclosed publicly. Please note that we
             don't run a bug bounty program and don't offer payment or public
-            credit for reports — we're a free, self-funded project. Report
+            credit for reports: we're a free, self-funded project. Report
             issues in good faith and give us a reasonable chance to fix them
             before going public.
           </p>

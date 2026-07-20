@@ -75,7 +75,7 @@ export function DomainAndSeedInputs({
               className={inputClasses}
             />
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-              Company/product names, environments, or observed tokens — one per line or comma-separated.
+              Company/product names, environments, or observed tokens: one per line or comma-separated.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export function DomainAndSeedInputs({
               className={inputClasses}
             />
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-              Paste subdomains you&apos;ve already discovered — their labels get extracted and mutated too.
+              Paste subdomains you&apos;ve already discovered; their labels get extracted and mutated too.
             </p>
           </div>
         </div>

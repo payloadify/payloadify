@@ -331,7 +331,7 @@ export function CvssCalculatorTool() {
     if (duplicates > 0) parts.push(`${duplicates} already saved (skipped).`);
     if (skippedForCap > 0) {
       parts.push(
-        `${skippedForCap} couldn't be added — you're at the ${MAX_SAVED_CVSS_TEMPLATES}-template limit. Delete some and re-import to add the rest.`,
+        `${skippedForCap} couldn't be added. You're at the ${MAX_SAVED_CVSS_TEMPLATES}-template limit. Delete some and re-import to add the rest.`,
       );
     }
     setImportStatus({ type: added > 0 ? "success" : "error", message: parts.join(" ") });
@@ -369,7 +369,7 @@ export function CvssCalculatorTool() {
   // Only a real, loaded/picked template name is safe to use as the actual saved name — the
   // placeholder text below it is illustrative ("e.g. ...") and must never be saved verbatim.
   const suggestedSaveName = selectedSavedTemplate?.name ?? currentTemplate?.label ?? null;
-  const saveNamePlaceholder = suggestedSaveName ?? "e.g. Client X — login XSS";
+  const saveNamePlaceholder = suggestedSaveName ?? "e.g. Client X - login XSS";
 
   function saveCurrentAsTemplate() {
     const name = saveNameInput.trim() || suggestedSaveName;
@@ -410,7 +410,7 @@ export function CvssCalculatorTool() {
     const vrt = meta.vrtRefId ? VRT_CATEGORIES_BY_ID[meta.vrtRefId] : null;
     const cwe = meta.cweId ? CWE_ENTRIES_BY_ID[meta.cweId] : null;
     if (owasp) fields.push({ id: "owasp", label: "OWASP Category", value: owasp.label, url: owasp.url });
-    if (vrt) fields.push({ id: "vrt", label: "VRT Category", value: `VRT — ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}` });
+    if (vrt) fields.push({ id: "vrt", label: "VRT Category", value: `VRT: ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}` });
     if (cwe) fields.push({ id: "cwe", label: "CWE", value: `${cwe.id}: ${cwe.label}`, url: cwe.url });
     if (meta.references.length > 0) {
       fields.push({ id: "references", label: "References", value: meta.references.map((r) => r.url).join("\n") });
@@ -538,7 +538,7 @@ export function CvssCalculatorTool() {
             <span className="ml-1.5 font-normal text-zinc-500 dark:text-zinc-400">
               ({savedTemplates.length}/{MAX_SAVED_CVSS_TEMPLATES})
             </span>
-            <Tooltip text={`Stored in this browser only — not synced across devices, and lost if you clear your cache. Use Export to back up. Limit: ${MAX_SAVED_CVSS_TEMPLATES} templates.`} />
+            <Tooltip text={`Stored in this browser only, not synced across devices, and lost if you clear your cache. Use Export to back up. Limit: ${MAX_SAVED_CVSS_TEMPLATES} templates.`} />
           </label>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
@@ -547,7 +547,7 @@ export function CvssCalculatorTool() {
                 onClick={() => setSavedMenuOpen((open) => !open)}
                 className={`${selectClasses} min-w-[220px] text-left`}
               >
-                {selectedSavedTemplate ? selectedSavedTemplate.name : "— Load a saved template —"}
+                {selectedSavedTemplate ? selectedSavedTemplate.name : "Load a saved template"}
                 <span className="float-right text-zinc-400">▾</span>
               </button>
               {savedMenuOpen && (
@@ -580,7 +580,7 @@ export function CvssCalculatorTool() {
             <button type="button" onClick={deleteAllSavedTemplates} disabled={savedTemplates.length === 0} className={iconButtonClasses}>
               Delete All
             </button>
-            <button type="button" onClick={resetWorkingState} title="Clears the current working state — does not delete any saved templates" className={iconButtonClasses}>
+            <button type="button" onClick={resetWorkingState} title="Clears the current working state; does not delete any saved templates" className={iconButtonClasses}>
               Reset
             </button>
             <button type="button" onClick={exportSavedTemplates} disabled={savedTemplates.length === 0} className={iconButtonClasses}>

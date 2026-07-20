@@ -48,9 +48,9 @@ const PLATFORM_LABELS: Record<Platform, string> = {
 };
 
 const EXITFUNC_OPTIONS: { id: ExitfuncId; label: string; whyUseIt: string }[] = [
-  { id: "thread", label: "thread (default, stealthy)", whyUseIt: "Exits via thread — the host process stays running, which is less noisy than killing it outright." },
-  { id: "process", label: "process (kills the process)", whyUseIt: "Kills the entire host process on exit — obvious and noisy, but simple." },
-  { id: "seh", label: "seh (legacy)", whyUseIt: "Exits via SEH — an older, less commonly used exit technique." },
+  { id: "thread", label: "thread (default, stealthy)", whyUseIt: "Exits via thread; the host process stays running, which is less noisy than killing it outright." },
+  { id: "process", label: "process (kills the process)", whyUseIt: "Kills the entire host process on exit. Obvious and noisy, but simple." },
+  { id: "seh", label: "seh (legacy)", whyUseIt: "Exits via SEH, an older, less commonly used exit technique." },
 ];
 
 const DEFAULT_PAYLOAD = MSFVENOM_PAYLOADS_BY_ID["windows/meterpreter/reverse_tcp"];
@@ -383,7 +383,7 @@ export function MsfvenomGeneratorTool() {
           {MSFVENOM_TEMPLATES.map((t) => (
             <option key={t.id} value={t.id}>
               {t.label}
-              {t.id === RECOMMENDED_TEMPLATE_ID ? " — ★ Recommended" : ""}
+              {t.id === RECOMMENDED_TEMPLATE_ID ? " (★ Recommended)" : ""}
             </option>
           ))}
         </select>
@@ -426,7 +426,7 @@ export function MsfvenomGeneratorTool() {
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Architecture
-            <Tooltip text="Match this to your target's real architecture — 32-bit payloads run on 64-bit Windows via WoW64, but not the reverse." />
+            <Tooltip text="Match this to your target's real architecture. 32-bit payloads run on 64-bit Windows via WoW64, but not the reverse." />
           </label>
           {payload.archs.length === 0 ? (
             <input value="N/A" disabled className={`${selectClasses} w-full opacity-50`} />
@@ -578,7 +578,7 @@ export function MsfvenomGeneratorTool() {
               onClick={() => setListenerMenuOpen((open) => !open)}
               className={`${selectClasses} min-w-[220px] text-left`}
             >
-              {savedListeners.find((l) => l.id === selectedListenerId)?.label ?? "— Load a saved listener —"}
+              {savedListeners.find((l) => l.id === selectedListenerId)?.label ?? "(Load a saved listener)"}
               <span className="float-right text-zinc-400">▾</span>
             </button>
             {listenerMenuOpen && (
@@ -590,7 +590,7 @@ export function MsfvenomGeneratorTool() {
                     onClick={() => loadListener("")}
                     className="block w-full px-3 py-2 text-left text-sm text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                   >
-                    — None selected —
+                    (None selected)
                   </button>
                   {savedListeners.length === 0 && (
                     <p className="px-3 py-2 text-sm text-zinc-400 dark:text-zinc-500">No saved listeners yet.</p>
@@ -752,7 +752,7 @@ export function MsfvenomGeneratorTool() {
               </p>
             )}
             {!needsFilename && (
-              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">This format prints to the console — no -o filename is generated.</p>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">This format prints to the console; no -o filename is generated.</p>
             )}
           </div>
 
@@ -814,7 +814,7 @@ export function MsfvenomGeneratorTool() {
             {generatedRisk && (
               <div className="mt-2">
                 <Callout variant="warning">
-                  This payload has no encoding. Antivirus may detect it immediately — consider regenerating with an encoder.
+                  This payload has no encoding. Antivirus may detect it immediately; consider regenerating with an encoder.
                 </Callout>
               </div>
             )}
@@ -835,7 +835,7 @@ export function MsfvenomGeneratorTool() {
               </p>
               <p>
                 Once you have a session, Meterpreter&apos;s <code>migrate &lt;PID&gt;</code> command can move execution into another process (e.g.
-                explorer.exe) for stealth — this is a post-exploitation msfconsole command, not something msfvenom generates.
+                explorer.exe) for stealth. This is a post-exploitation msfconsole command, not something msfvenom generates.
               </p>
             </div>
           </details>

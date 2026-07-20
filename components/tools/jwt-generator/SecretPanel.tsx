@@ -99,7 +99,7 @@ export function SecretPanel({
 
       <p className="text-xs text-zinc-500 dark:text-zinc-400">
         Standard = letters + numbers only. Enhanced = adds special characters. Strength sets the generated secret&apos;s
-        target entropy (default 256 bits). Only the start/end are shown by default — click into the field or use
+        target entropy (default 256 bits). Only the start/end are shown by default. Click into the field or use
         &quot;Show&quot; above to see it in full.
       </p>
     </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ClientRedirect } from "@/components/layout/ClientRedirect";
 
 export const metadata: Metadata = {
-  title: "Payload Decoder — Redirecting",
+  title: "Payload Decoder: Redirecting",
   robots: { index: false, follow: true },
 };
 

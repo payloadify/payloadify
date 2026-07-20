@@ -18,15 +18,15 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "Hashcat Command Builder tool — pick a mode and attack type (dictionary, mask, hybrid, combination), fill in wordlists/mask/rules and advanced flags, and get a copy-ready hashcat command, complete with companion --show and benchmark commands",
+        text: "Hashcat Command Builder tool: pick a mode and attack type (dictionary, mask, hybrid, combination), fill in wordlists/mask/rules and advanced flags, and get a copy-ready hashcat command, complete with companion --show and benchmark commands",
       },
       {
         category: "Improved",
-        text: "Hash Identifier — expanded the signature database from 28 to 49 hash types, including Kerberoasting/AS-REP Roasting, NetNTLMv1/v2, WPA, Office/PDF/ZIP/RAR/7z/KeePass, and common web-app KDFs",
+        text: "Hash Identifier: expanded the signature database from 28 to 49 hash types, including Kerberoasting/AS-REP Roasting, NetNTLMv1/v2, WPA, Office/PDF/ZIP/RAR/7z/KeePass, and common web-app KDFs",
       },
       {
         category: "Added",
-        text: "Hash Identifier — optional \"where did this hash come from?\" source selector, to reorder same-length ambiguous candidates (e.g. promote NTLM over MD5 for Windows dumps) without overstating confidence",
+        text: "Hash Identifier: optional \"where did this hash come from?\" source selector, to reorder same-length ambiguous candidates (e.g. promote NTLM over MD5 for Windows dumps) without overstating confidence",
       },
       {
         category: "Improved",
@@ -34,15 +34,15 @@ export const changelogEntries: ChangelogEntry[] = [
       },
       {
         category: "Fixed",
-        text: "Hashcat Command Builder — wordlist, mask, rules, session name, and output-file fields are now shell-quoted like the hash value already was, so paths containing spaces no longer silently broke the generated command",
+        text: "Hashcat Command Builder: wordlist, mask, rules, session name, and output-file fields are now shell-quoted like the hash value already was, so paths containing spaces no longer silently broke the generated command",
       },
       {
         category: "Fixed",
-        text: "Hashcat Command Builder — a hash value containing a single quote could break out of the command's quoting; it's now escaped correctly",
+        text: "Hashcat Command Builder: a hash value containing a single quote could break out of the command's quoting; it's now escaped correctly",
       },
       {
         category: "Fixed",
-        text: "Hash Identifier — SHA3-256/Keccak-256 and Whirlpool/SHA3-512 were incorrectly sharing one Hashcat mode number each; they're now identified separately with their correct modes",
+        text: "Hash Identifier: SHA3-256/Keccak-256 and Whirlpool/SHA3-512 were incorrectly sharing one Hashcat mode number each; they're now identified separately with their correct modes",
       },
     ],
   },
@@ -51,11 +51,11 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "HTTP Security Headers Analyzer tool — check any URL's response headers against the OWASP Secure Headers Project (HSTS, CSP, X-Frame-Options, and more), with pass/warn/missing status and plain-language fixes",
+        text: "HTTP Security Headers Analyzer tool: check any URL's response headers against the OWASP Secure Headers Project (HSTS, CSP, X-Frame-Options, and more), with pass/warn/missing status and plain-language fixes",
       },
       {
         category: "Added",
-        text: "SPF/DKIM/DMARC Checker tool — check a domain's email authentication setup, with parsed SPF mechanisms and lookup-count tracking, DKIM selector lookups, and DMARC policy explanations",
+        text: "SPF/DKIM/DMARC Checker tool: check a domain's email authentication setup, with parsed SPF mechanisms and lookup-count tracking, DKIM selector lookups, and DMARC policy explanations",
       },
       { category: "Improved", text: "Shared no-wrap/wrap toggle for copyable code blocks, reused across tools" },
       {
@@ -64,7 +64,7 @@ export const changelogEntries: ChangelogEntry[] = [
       },
       {
         category: "Fixed",
-        text: "SPF Checker — deep or multi-vendor include chains (3+ levels) could be under-counted against the RFC 7208 10-lookup limit, reporting a domain as fine when mail servers would actually treat it as a PermError; now recurses fully, with circular-include detection so it still can't hang",
+        text: "SPF Checker: deep or multi-vendor include chains (3+ levels) could be under-counted against the RFC 7208 10-lookup limit, reporting a domain as fine when mail servers would actually treat it as a PermError; now recurses fully, with circular-include detection so it still can't hang",
       },
     ],
   },
@@ -73,7 +73,7 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "About page — why Payloadify exists, the no-server-contact privacy stance, and how to report issues or request tools",
+        text: "About page: why Payloadify exists, the no-server-contact privacy stance, and how to report issues or request tools",
       },
       { category: "Improved", text: "Header nav on mobile now collapses into a hamburger menu with a swipe-to-close drawer, instead of cramming into the small-screen width" },
       { category: "Improved", text: "Active nav link (About / All tools) is now highlighted in both the desktop nav and the mobile drawer" },
@@ -88,7 +88,7 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "Subdomain Permutation Generator tool — build resolver-ready subdomain wordlists from environment, service, and region tokens plus your own keywords, entirely in your browser",
+        text: "Subdomain Permutation Generator tool: build resolver-ready subdomain wordlists from environment, service, and region tokens plus your own keywords, entirely in your browser",
       },
       {
         category: "Added",
@@ -97,7 +97,7 @@ export const changelogEntries: ChangelogEntry[] = [
       { category: "Improved", text: "Editable download filename and a collapsible tool-references list, reused across the Subdomain Permutation Generator and JWT tools" },
       {
         category: "Fixed",
-        text: "MSFVenom Generator — Windows x64 payloads (Meterpreter, Shell, VNC, PowerShell) now generate commands msfvenom actually accepts, since architecture is encoded in the payload path rather than a now-unsupported -a flag; the UDP shell payload is correctly limited to x86, and Meterpreter Reverse UDP (not a real msfvenom combination) has been removed",
+        text: "MSFVenom Generator: Windows x64 payloads (Meterpreter, Shell, VNC, PowerShell) now generate commands msfvenom actually accepts, since architecture is encoded in the payload path rather than a now-unsupported -a flag; the UDP shell payload is correctly limited to x86, and Meterpreter Reverse UDP (not a real msfvenom combination) has been removed",
       },
     ],
   },
@@ -106,7 +106,7 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "Changelog — see what's new on Payloadify, grouped by date and category, from the header",
+        text: "Changelog: see what's new on Payloadify, grouped by date and category, from the header",
       },
       { category: "Improved", text: "Widened the site's content area for a better fit on larger screens" },
       {
@@ -120,7 +120,7 @@ export const changelogEntries: ChangelogEntry[] = [
     items: [
       {
         category: "Added",
-        text: "JWT Generator tool — standard and enhanced secret keys, selectable 128–512-bit strength, secret masking, step-by-step walkthrough guide, \"copy all\" panel, and reference links",
+        text: "JWT Generator tool: standard and enhanced secret keys, selectable 128-512-bit strength, secret masking, step-by-step walkthrough guide, \"copy all\" panel, and reference links",
       },
       { category: "Added", text: "sitemap.xml and robots.txt for search engines" },
     ],
@@ -135,7 +135,7 @@ export const changelogEntries: ChangelogEntry[] = [
       { category: "Added", text: "Import/export for saved CVSS templates" },
       {
         category: "Fixed",
-        text: "Hardened CVSS template import validation — a corrupted or hand-edited import file could previously produce an incorrect (falsely \"Critical\") severity score instead of being rejected",
+        text: "Hardened CVSS template import validation: a corrupted or hand-edited import file could previously produce an incorrect (falsely \"Critical\") severity score instead of being rejected",
       },
       {
         category: "Fixed",
@@ -178,7 +178,7 @@ export const changelogEntries: ChangelogEntry[] = [
       { category: "Fixed", text: "JWT Decoder signature panel fix" },
       {
         category: "Improved",
-        text: "XSS generator — removed an unsafe \"cookie-exfil\" action, improved context-selection logic",
+        text: "XSS generator: removed an unsafe \"cookie-exfil\" action, improved context-selection logic",
       },
     ],
   },

@@ -5,9 +5,9 @@ import { WrappableCode } from "@/components/ui/WrappableCode";
 import { DmarcResult, DmarcPolicy } from "@/lib/email-auth/types";
 
 const POLICY_EXPLANATIONS: Record<DmarcPolicy, string> = {
-  none: "none — monitoring-only. Reports are generated but nothing is enforced against failing mail.",
-  quarantine: "quarantine — mail failing DMARC checks should be treated as suspicious (e.g. sent to spam).",
-  reject: "reject — mail failing DMARC checks should be rejected outright.",
+  none: "none: monitoring-only. Reports are generated but nothing is enforced against failing mail.",
+  quarantine: "quarantine: mail failing DMARC checks should be treated as suspicious (e.g. sent to spam).",
+  reject: "reject: mail failing DMARC checks should be rejected outright.",
 };
 
 export function DmarcResultPanel({ dmarc }: { dmarc: DmarcResult }) {
@@ -31,7 +31,7 @@ export function DmarcResultPanel({ dmarc }: { dmarc: DmarcResult }) {
 
       {dmarc.multipleRecords && (
         <p className="text-sm text-red-600 dark:text-red-400">
-          {dmarc.records.length} DMARC records found at this domain — a domain should publish exactly one (RFC 7489 §6.1). Behavior
+          {dmarc.records.length} DMARC records found at this domain. A domain should publish exactly one (RFC 7489 §6.1). Behavior
           with multiple records is undefined by receivers.
         </p>
       )}
@@ -55,11 +55,11 @@ export function DmarcResultPanel({ dmarc }: { dmarc: DmarcResult }) {
           )}
 
           <p className={`text-sm ${dmarc.pctBelow100 ? "text-amber-600 dark:text-amber-400" : "text-zinc-600 dark:text-zinc-400"}`}>
-            Applies to {dmarc.pct}% of mail{dmarc.pctBelow100 ? " — the policy only enforces against a portion of failing mail." : "."}
+            Applies to {dmarc.pct}% of mail{dmarc.pctBelow100 ? ": the policy only enforces against a portion of failing mail." : "."}
           </p>
 
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Alignment — DKIM: {dmarc.adkim === "s" ? "strict" : "relaxed"}, SPF: {dmarc.aspf === "s" ? "strict" : "relaxed"}
+            Alignment (DKIM: {dmarc.adkim === "s" ? "strict" : "relaxed"}, SPF: {dmarc.aspf === "s" ? "strict" : "relaxed"})
           </p>
 
           {dmarc.rua.length > 0 && (
@@ -69,7 +69,7 @@ export function DmarcResultPanel({ dmarc }: { dmarc: DmarcResult }) {
             <p className="text-sm text-zinc-600 dark:text-zinc-400">Forensic reports (ruf): {dmarc.ruf.join(", ")}</p>
           )}
           {dmarc.rua.length === 0 && dmarc.ruf.length === 0 && (
-            <p className="text-sm text-amber-600 dark:text-amber-400">No reporting addresses (rua/ruf) configured — failures won&apos;t be reported anywhere.</p>
+            <p className="text-sm text-amber-600 dark:text-amber-400">No reporting addresses (rua/ruf) configured. Failures won&apos;t be reported anywhere.</p>
           )}
         </>
       )}

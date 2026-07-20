@@ -6,7 +6,7 @@ import { HEADER_STATUS_CLASSES, headerStatusLabel } from "./statusClasses";
 
 export function HeaderFindingCard({ finding }: { finding: SecurityHeaderFinding }) {
   const statusLabel = headerStatusLabel(finding);
-  const copyText = `${finding.label}: ${statusLabel} — ${finding.detail}`;
+  const copyText = `${finding.label}: ${statusLabel} - ${finding.detail}`;
 
   return (
     <div className="flex flex-col gap-1.5 rounded border border-zinc-300 p-3 dark:border-zinc-700">

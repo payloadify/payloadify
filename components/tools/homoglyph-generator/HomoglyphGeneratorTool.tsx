@@ -4,10 +4,9 @@ import { useMemo, useState } from "react";
 import { applySelections, getAlternativesFor, randomizeText } from "@/lib/homoglyph/generate";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { inputClasses } from "@/components/ui/formClasses";
 
-// Denser than the shared `selectClasses` (less vertical padding, monospace) — these sit inline
-// among individual characters in the substitution row, not in a standalone form field.
+const inputClasses =
+  "w-full rounded border border-zinc-300 bg-white p-3 font-mono text-sm outline-none focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
 const selectClasses =
   "rounded border border-zinc-300 bg-white px-1.5 py-1 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
 
@@ -62,7 +61,7 @@ export function HomoglyphGeneratorTool() {
           </button>
         </div>
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Computed entirely in your browser — this text is never sent anywhere.
+          Computed entirely in your browser. This text is never sent anywhere.
         </p>
       </div>
 
@@ -96,7 +95,7 @@ export function HomoglyphGeneratorTool() {
                   <option value="">{char}</option>
                   {alternatives.map((alt) => (
                     <option key={alt.char} value={alt.char}>
-                      {alt.char} — {alt.script} ({alt.codePoint})
+                      {alt.char}, {alt.script} ({alt.codePoint})
                     </option>
                   ))}
                 </select>

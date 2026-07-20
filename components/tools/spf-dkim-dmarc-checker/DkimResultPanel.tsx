@@ -14,7 +14,7 @@ export function DkimResultPanel({ dkim, selectorsChecked }: { dkim: DkimSelector
       <p className="text-xs text-zinc-500 dark:text-zinc-500">
         Checked {selectorsChecked} selector{selectorsChecked === 1 ? "" : "s"} (any you supplied, plus a common-selector list). A
         selector not resolving here is <strong>not proof</strong>{" "}
-        that DKIM isn&apos;t configured — the actual selector may just not be on this list.
+        that DKIM isn&apos;t configured. The actual selector may just not be on this list.
       </p>
 
       {found.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-400">No DKIM record found at any checked selector.</p>}
@@ -34,7 +34,7 @@ export function DkimResultPanel({ dkim, selectorsChecked }: { dkim: DkimSelector
             </p>
             {r.revoked && (
               <p className="text-sm text-red-600 dark:text-red-400">
-                Empty public key (&quot;p=&quot;) — this key has been revoked (RFC 6376 §3.6.1). Mail signed with this selector will fail
+                Empty public key (&quot;p=&quot;). This key has been revoked (RFC 6376 §3.6.1). Mail signed with this selector will fail
                 verification.
               </p>
             )}

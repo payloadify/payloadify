@@ -211,7 +211,7 @@ export function XssGeneratorTool() {
           disabled={level === "custom"}
         />
         Maintain level (uncheck to randomize across all levels)
-        {level === "custom" && " — always off in Custom, since there's no level tier to maintain"}
+        {level === "custom" && " (always off in Custom, since there's no level tier to maintain)"}
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -263,7 +263,7 @@ export function XssGeneratorTool() {
                 key={char}
                 title={
                   unavoidable
-                    ? `The selected obfuscation always includes "${label}" — blacklisting it won't change the output.`
+                    ? `The selected obfuscation always includes "${label}". Blacklisting it won't change the output.`
                     : undefined
                 }
                 className={`flex items-center gap-1 rounded border border-zinc-300 px-2 py-1 text-xs font-mono text-zinc-600 dark:border-zinc-700 dark:text-zinc-400 ${
@@ -361,7 +361,7 @@ export function XssGeneratorTool() {
           {adapted.violations.length > 0 && (
             <Callout variant="warning">
               Couldn&apos;t fully avoid the blacklisted character(s){" "}
-              <code>{adapted.violations.join(" ")}</code> with this injection type/obfuscation combination — try
+              <code>{adapted.violations.join(" ")}</code> with this injection type/obfuscation combination. Try
               a different one.
             </Callout>
           )}

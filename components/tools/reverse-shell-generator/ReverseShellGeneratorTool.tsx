@@ -333,7 +333,7 @@ export function ReverseShellGeneratorTool() {
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 Will save as <code>{filename}</code>. The extension and MIME type are independent of each other and of the file&apos;s actual
-                content — useful for testing upload filters, but not a guarantee against magic-byte/content inspection.
+                content. This is useful for testing upload filters, but not a guarantee against magic-byte/content inspection.
               </p>
             </div>
           )}

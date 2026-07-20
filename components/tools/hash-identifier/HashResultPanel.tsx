@@ -18,12 +18,12 @@ const CONFIDENCE_STYLES: Record<"high" | "medium" | "low", string> = {
  *  "confirmed" — plaintext verification above is the only thing that actually confirms). */
 function getContextHint(candidateIds: string[], context: HashContextId, topCandidateName: string): string | null {
   if (context !== "unknown") {
-    return `Because you selected "${HASH_CONTEXTS_BY_ID[context].label}" as the source, ${topCandidateName} is shown first — this is a strong practical hint, not proof. Plaintext verification above is the only thing that fully confirms it.`;
+    return `Because you selected "${HASH_CONTEXTS_BY_ID[context].label}" as the source, ${topCandidateName} is shown first. This is a strong practical hint, not proof. Plaintext verification above is the only thing that fully confirms it.`;
   }
   if (candidateIds.includes("ntlm") && candidateIds.includes("md5")) {
-    return "Context matters — if this hash came from a Windows SAM/NTDS dump, it's likely NTLM. If from a generic web app, database, or Unix system, MD5 is far more likely. Pick a source above to reorder these candidates accordingly.";
+    return "Context matters. If this hash came from a Windows SAM/NTDS dump, it's likely NTLM. If from a generic web app, database, or Unix system, MD5 is far more likely. Pick a source above to reorder these candidates accordingly.";
   }
-  return "Context matters — where the hash came from (which system, which app) is often the best way to narrow this down further. Pick a source above, or use plaintext verification if you have a candidate password.";
+  return "Context matters: where the hash came from (which system, which app) is often the best way to narrow this down further. Pick a source above, or use plaintext verification if you have a candidate password.";
 }
 
 function CandidateRow({
@@ -117,13 +117,13 @@ export function HashResultPanel({
     <div className="flex flex-col gap-3">
       {confirmedId && (
         <Callout variant="success">
-          Confirmed by matching the provided plaintext — no longer ambiguous.
+          Confirmed by matching the provided plaintext. No longer ambiguous.
         </Callout>
       )}
 
       {result.salt && (
         <Callout variant="info">
-          Detected a <code>hash:salt</code> format — salt <code>{result.salt}</code> was separated
+          Detected a <code>hash:salt</code> format; salt <code>{result.salt}</code> was separated
           from the hash before identification.
         </Callout>
       )}

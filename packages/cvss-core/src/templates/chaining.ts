@@ -28,8 +28,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -44,8 +44,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -60,8 +60,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -76,8 +76,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -92,8 +92,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -108,8 +108,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -124,8 +124,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -140,8 +140,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -156,8 +156,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -172,8 +172,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -188,8 +188,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -204,8 +204,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -220,8 +220,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -236,8 +236,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -252,8 +252,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -268,8 +268,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -284,8 +284,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -300,8 +300,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -316,8 +316,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -332,8 +332,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -348,8 +348,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -364,8 +364,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -380,8 +380,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -396,8 +396,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -412,8 +412,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -428,8 +428,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -444,8 +444,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -460,8 +460,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -476,8 +476,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -492,8 +492,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -508,8 +508,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -524,8 +524,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -540,8 +540,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -556,8 +556,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
@@ -572,8 +572,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -588,8 +588,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -604,8 +604,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -620,8 +620,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -636,8 +636,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -652,8 +652,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -668,8 +668,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -684,8 +684,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -700,8 +700,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -716,8 +716,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -732,8 +732,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -748,8 +748,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -764,8 +764,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -780,8 +780,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -796,8 +796,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -812,8 +812,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -828,8 +828,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -844,8 +844,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -860,8 +860,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -876,8 +876,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -892,8 +892,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -908,8 +908,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -924,8 +924,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -940,8 +940,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -956,8 +956,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -972,8 +972,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -988,8 +988,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1004,8 +1004,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1020,8 +1020,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1036,8 +1036,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "open-redirect",
     cweId: "CWE-601",
     references: [
-      { label: "PortSwigger — Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
-      { label: "OWASP Cheat Sheet — Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
+      { label: "PortSwigger: Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
+      { label: "OWASP Cheat Sheet: Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1052,8 +1052,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1068,8 +1068,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1084,8 +1084,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1100,8 +1100,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
@@ -1116,8 +1116,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1132,8 +1132,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1148,8 +1148,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1164,8 +1164,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1180,8 +1180,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1196,8 +1196,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
@@ -1212,8 +1212,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1228,8 +1228,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1244,8 +1244,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1260,8 +1260,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1276,8 +1276,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1292,8 +1292,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1308,8 +1308,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -1324,8 +1324,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1340,8 +1340,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1356,8 +1356,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1372,8 +1372,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1388,8 +1388,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1404,8 +1404,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1420,8 +1420,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1436,8 +1436,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1452,8 +1452,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1468,8 +1468,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
 
@@ -1492,8 +1492,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1508,8 +1508,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1524,8 +1524,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1540,8 +1540,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
@@ -1556,8 +1556,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1572,8 +1572,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1588,8 +1588,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1604,8 +1604,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1620,8 +1620,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1636,8 +1636,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1652,8 +1652,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1668,8 +1668,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1684,8 +1684,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
@@ -1700,8 +1700,8 @@ export const CHAIN_MATRIX: ChainPair[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
 ];
@@ -1731,13 +1731,13 @@ const CURATED_CHAIN_IMPACT: Record<string, string> = {
   [chainPairKey("idor", "broken-access-control")]:
     "Chaining Insecure Direct Object Reference (IDOR) with Broken Access Control / Privilege Escalation: an object-level authorization gap that lets an attacker enumerate or modify another user's records is compounded by a missing role check on the same functionality, turning a horizontal data-access issue into a route to administrative or otherwise privileged actions.",
   [chainPairKey("ssrf", "sensitive-data-exposure")]:
-    "Chaining Server-Side Request Forgery (SSRF) with Sensitive Data Exposure / Cryptographic Failures: the forged server-side request is pointed at the cloud provider's instance metadata service or another internal secrets endpoint, and the credentials or tokens returned there are the sensitive data exposed — turning a request-forgery primitive into direct compromise of the provider account or downstream services those credentials unlock.",
+    "Chaining Server-Side Request Forgery (SSRF) with Sensitive Data Exposure / Cryptographic Failures: the forged server-side request is pointed at the cloud provider's instance metadata service or another internal secrets endpoint, and the credentials or tokens returned there are the sensitive data exposed, turning a request-forgery primitive into direct compromise of the provider account or downstream services those credentials unlock.",
   [chainPairKey("sqli", "command-injection")]:
-    "Chaining SQL Injection with OS Command Injection: once injection into the query is confirmed, database-specific command-execution features are used to escalate from data access to full host compromise — MSSQL's xp_cmdshell, MySQL's INTO OUTFILE to drop a web shell into a web-accessible directory, or PostgreSQL's COPY TO/FROM PROGRAM. This is one of the most well-documented SQLi escalation paths and turns a data-disclosure finding into remote code execution on the database host.",
+    "Chaining SQL Injection with OS Command Injection: once injection into the query is confirmed, database-specific command-execution features are used to escalate from data access to full host compromise: MSSQL's xp_cmdshell, MySQL's INTO OUTFILE to drop a web shell into a web-accessible directory, or PostgreSQL's COPY TO/FROM PROGRAM. This is one of the most well-documented SQLi escalation paths and turns a data-disclosure finding into remote code execution on the database host.",
   [chainPairKey("broken-access-control", "sensitive-data-exposure")]:
-    "Chaining Broken Access Control / Privilege Escalation with Sensitive Data Exposure / Cryptographic Failures: reaching functionality or an object tier the missing authorization check should have blocked exposes data (other users' records, admin-only exports, credentials) that was only ever protected by that same access-control gate — turning a single broken check into bulk, unauthorized data disclosure rather than a one-off action.",
+    "Chaining Broken Access Control / Privilege Escalation with Sensitive Data Exposure / Cryptographic Failures: reaching functionality or an object tier the missing authorization check should have blocked exposes data (other users' records, admin-only exports, credentials) that was only ever protected by that same access-control gate, turning a single broken check into bulk, unauthorized data disclosure rather than a one-off action.",
   [chainPairKey("ssrf", "xxe")]:
-    "Chaining Server-Side Request Forgery (SSRF) with XML External Entity (XXE) Injection: the XML parser's own external-entity resolution is the SSRF primitive — a custom entity is defined pointing at an internal host, cloud metadata endpoint, or otherwise unreachable service, and the parser (not a dedicated URL-fetch feature) is what issues the request. Especially relevant for blind XXE, where an out-of-band external DTD is often the only way to confirm and extract data from the reached destination.",
+    "Chaining Server-Side Request Forgery (SSRF) with XML External Entity (XXE) Injection: the XML parser's own external-entity resolution is the SSRF primitive: a custom entity is defined pointing at an internal host, cloud metadata endpoint, or otherwise unreachable service, and the parser (not a dedicated URL-fetch feature) is what issues the request. Especially relevant for blind XXE, where an out-of-band external DTD is often the only way to confirm and extract data from the reached destination.",
 };
 
 /** Draft for the "Chained Impact" field: a curated write-up for the pairs above, otherwise a
@@ -1749,5 +1749,5 @@ export function getChainedImpactDraft(vulnTypeIdA: string | null, vulnTypeIdB: s
   if (curated) return curated;
   const labelA = VULN_TYPES_BY_ID[vulnTypeIdA]?.label ?? vulnTypeIdA;
   const labelB = VULN_TYPES_BY_ID[vulnTypeIdB]?.label ?? vulnTypeIdB;
-  return `Combining ${labelA} with ${labelB} may increase impact — describe the specific attack path here.`;
+  return `Combining ${labelA} with ${labelB} may increase impact: describe the specific attack path here.`;
 }

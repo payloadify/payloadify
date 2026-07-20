@@ -187,7 +187,7 @@ export function SubdomainPermutationGeneratorTool() {
     <div className="flex flex-col gap-6">
       <AuthorizedUseNotice subject="domains" />
       <Callout variant="info">
-        100% client-side, generation only — this tool builds a candidate wordlist, it never queries DNS or contacts the target.
+        100% client-side, generation only. This tool builds a candidate wordlist; it never queries DNS or contacts the target.
       </Callout>
 
       <DomainAndSeedInputs

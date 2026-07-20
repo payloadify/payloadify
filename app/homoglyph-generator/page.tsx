@@ -4,9 +4,9 @@ import { HomoglyphTabs } from "@/components/tools/homoglyph-shared/HomoglyphTabs
 import { HomoglyphGeneratorTool } from "@/components/tools/homoglyph-generator/HomoglyphGeneratorTool";
 
 export const metadata: Metadata = {
-  title: "Homoglyph Generator — Create Lookalike Unicode Text",
+  title: "Homoglyph Generator: Create Lookalike Unicode Text",
   description:
-    "Generate homoglyph-substituted lookalike text using confusable Unicode characters — randomize or hand-pick specific substitutions, free, entirely in your browser.",
+    "Generate homoglyph-substituted lookalike text using confusable Unicode characters: randomize or hand-pick specific substitutions, free, entirely in your browser.",
 };
 
 export default function HomoglyphGeneratorPage() {

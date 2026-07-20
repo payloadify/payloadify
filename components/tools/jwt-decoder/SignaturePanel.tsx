@@ -51,7 +51,7 @@ export function SignaturePanel({
     <div className="flex flex-col gap-4">
       <div>
         <label className="mb-1 block text-sm font-medium">
-          Secret {decoded.alg ? `(for HS* algorithms — current alg: ${decoded.alg})` : ""}
+          Secret {decoded.alg ? `(for HS* algorithms, current alg: ${decoded.alg})` : ""}
         </label>
         <input
           type="text"

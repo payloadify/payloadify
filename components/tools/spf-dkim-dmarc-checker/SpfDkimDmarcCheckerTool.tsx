@@ -19,10 +19,10 @@ const HISTORY_KEY = "payloadify:spf-dkim-dmarc-checker:history";
 const REFERENCES_COLLAPSED_KEY = "payloadify:spf-dkim-dmarc-checker:references-collapsed";
 
 const REFERENCES = [
-  { id: "rfc7208", label: "RFC 7208 — Sender Policy Framework (SPF)", url: "https://www.rfc-editor.org/rfc/rfc7208", source: "IETF" },
-  { id: "rfc6376", label: "RFC 6376 — DomainKeys Identified Mail (DKIM)", url: "https://www.rfc-editor.org/rfc/rfc6376", source: "IETF" },
-  { id: "rfc7489", label: "RFC 7489 — Domain-based Message Authentication (DMARC)", url: "https://www.rfc-editor.org/rfc/rfc7489", source: "IETF" },
-  { id: "dmarc-org", label: "dmarc.org — overview and FAQ", url: "https://dmarc.org/overview/", source: "dmarc.org" },
+  { id: "rfc7208", label: "RFC 7208: Sender Policy Framework (SPF)", url: "https://www.rfc-editor.org/rfc/rfc7208", source: "IETF" },
+  { id: "rfc6376", label: "RFC 6376: DomainKeys Identified Mail (DKIM)", url: "https://www.rfc-editor.org/rfc/rfc6376", source: "IETF" },
+  { id: "rfc7489", label: "RFC 7489: Domain-based Message Authentication (DMARC)", url: "https://www.rfc-editor.org/rfc/rfc7489", source: "IETF" },
+  { id: "dmarc-org", label: "dmarc.org: overview and FAQ", url: "https://dmarc.org/overview/", source: "dmarc.org" },
 ];
 
 export function SpfDkimDmarcCheckerTool() {

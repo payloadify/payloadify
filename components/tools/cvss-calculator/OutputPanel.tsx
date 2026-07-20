@@ -144,7 +144,7 @@ export function OutputPanel({
                 value={meta.rationale}
                 onChange={(e) => onMetaChange({ rationale: e.target.value })}
                 rows={2}
-                placeholder="Free-text notes for this finding — not included unless you add it in Copy All."
+                placeholder="Free-text notes for this finding, not included unless you add it in Copy All."
                 className={`${inputClasses} font-sans`}
               />
             </div>
@@ -186,7 +186,7 @@ export function OutputPanel({
                   onChange={(e) => onMetaChange({ owaspRefId: e.target.value || null })}
                   className={`${selectClasses} w-full`}
                 >
-                  <option value="">— None —</option>
+                  <option value="">None</option>
                   {owaspByGroup.map(({ group, categories }) =>
                     categories.length > 0 ? (
                       <optgroup key={group} label={OWASP_GROUP_LABELS[group]}>
@@ -205,7 +205,7 @@ export function OutputPanel({
             {showOwaspApiNoteToggle && showOwaspApiNote && (
               <p className="-mt-2 text-xs text-zinc-500 dark:text-zinc-500">
                 This finding is on the API platform, but OWASP&apos;s API Security Top 10 has no category of its own for this
-                vulnerability type — it&apos;s only covered under the main OWASP Top 10 (Web), so that category is cited instead.
+                vulnerability type. It&apos;s only covered under the main OWASP Top 10 (Web), so that category is cited instead.
               </p>
             )}
 
@@ -213,7 +213,7 @@ export function OutputPanel({
               <div className="flex-1">
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-500">VRT Category</label>
                 <select value={meta.vrtRefId ?? ""} onChange={(e) => handleVrtChange(e.target.value)} className={`${selectClasses} w-full`}>
-                  <option value="">— None —</option>
+                  <option value="">None</option>
                   {vrtByGroup.map(({ group, categories }) => (
                     <optgroup key={group} label={group}>
                       {categories.map((v) => (
@@ -227,11 +227,11 @@ export function OutputPanel({
                 </select>
               </div>
               {vrt && (
-                <CopyButton text={`VRT — ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}`} label="Copy" />
+                <CopyButton text={`VRT: ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}`} label="Copy" />
               )}
             </div>
             {vrt?.inferred && (
-              <p className="-mt-2 text-xs text-zinc-500 dark:text-zinc-500">Inferred — not a literal VRT leaf. {vrt.note}</p>
+              <p className="-mt-2 text-xs text-zinc-500 dark:text-zinc-500">Inferred: not a literal VRT leaf. {vrt.note}</p>
             )}
 
             <div className="flex items-center gap-2">
@@ -242,7 +242,7 @@ export function OutputPanel({
                   onChange={(e) => onMetaChange({ cweId: e.target.value || null })}
                   className={`${selectClasses} w-full`}
                 >
-                  <option value="">— None —</option>
+                  <option value="">None</option>
                   {CWE_ENTRIES.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.id}: {c.label}
@@ -265,7 +265,7 @@ export function OutputPanel({
                       type="text"
                       value={ref.label}
                       onChange={(e) => updateReference(i, { label: e.target.value })}
-                      placeholder="Label, e.g. PortSwigger — XSS"
+                      placeholder="Label, e.g. PortSwigger: XSS"
                       className={`${inputClasses} flex-1 font-sans`}
                     />
                     <input

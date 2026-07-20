@@ -40,13 +40,13 @@ export const JWT_REFERENCES: JwtReference[] = [
   },
   {
     id: "rfc-7519",
-    label: "RFC 7519 — JSON Web Token (JWT)",
+    label: "RFC 7519: JSON Web Token (JWT)",
     url: "https://datatracker.ietf.org/doc/html/rfc7519",
     source: "IETF",
   },
   {
     id: "rfc-8725",
-    label: "RFC 8725 — JWT Best Current Practices",
+    label: "RFC 8725: JWT Best Current Practices",
     url: "https://www.rfc-editor.org/rfc/rfc8725.html",
     source: "IETF",
   },
