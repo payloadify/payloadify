@@ -43,7 +43,7 @@ export function PlatformVulnPicker({
   const vulnTypesForPlatform = VULN_TYPES.filter((v) => v.platforms.includes(platformFilter));
   const vulnTypesByCategory = VULN_CATEGORIES.map((category) => ({
     category,
-    types: vulnTypesForPlatform.filter((v) => v.categoryId === category.id),
+    types: vulnTypesForPlatform.filter((v) => v.categoryId === category.id).sort((a, b) => a.label.localeCompare(b.label)),
   })).filter((group) => group.types.length > 0);
 
   const templatesBySeverity = SEVERITY_ORDER.map((sev) => ({

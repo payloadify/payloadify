@@ -1,17 +1,17 @@
 import { Platform } from "../shared/types";
 
 /** Groups the 15 vuln-type families into 4 broad buckets for dropdown <optgroup> rendering.
- *  Order here is display order. */
+ *  Order here is display order, alphabetical by label so the dropdown reads A-Z. */
 export interface VulnCategory {
   id: string;
   label: string;
 }
 
 export const VULN_CATEGORIES: VulnCategory[] = [
-  { id: "injection", label: "Injection & Request Forgery" },
   { id: "access-control", label: "Access Control & Authentication" },
-  { id: "data-config", label: "Data Exposure & Configuration" },
   { id: "client-input", label: "Client-Side & Input Manipulation" },
+  { id: "data-config", label: "Data Exposure & Configuration" },
+  { id: "injection", label: "Injection & Request Forgery" },
 ];
 
 export interface VulnType {

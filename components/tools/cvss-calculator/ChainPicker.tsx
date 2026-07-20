@@ -14,7 +14,7 @@ export function ChainPicker({
 }) {
   const optionsByCategory = VULN_CATEGORIES.map((category) => ({
     category,
-    types: VULN_TYPES.filter((v) => v.categoryId === category.id && v.id !== firstVulnTypeId),
+    types: VULN_TYPES.filter((v) => v.categoryId === category.id && v.id !== firstVulnTypeId).sort((a, b) => a.label.localeCompare(b.label)),
   })).filter((group) => group.types.length > 0);
 
   return (

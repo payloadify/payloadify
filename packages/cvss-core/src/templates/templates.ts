@@ -317,7 +317,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "H", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a01-broken-access-control",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-862",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
@@ -333,7 +333,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "H", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api5-bfla",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-862",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP API Security Top 10 2023: API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
@@ -349,7 +349,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a01-broken-access-control",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-639",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
@@ -365,7 +365,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api1-bola",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-639",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP API Security Top 10 2023: API1 Broken Object Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" },
@@ -381,7 +381,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a01-broken-access-control",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-862",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
@@ -397,7 +397,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api5-bfla",
     vrtRefId: "broken-access-control",
-    cweId: "CWE-284",
+    cweId: "CWE-862",
     references: [
       { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
       { label: "OWASP API Security Top 10 2023: API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
