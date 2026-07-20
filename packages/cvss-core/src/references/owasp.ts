@@ -2,7 +2,7 @@ export type OwaspWebVersion = "2021" | "2025";
 
 /** Dropdown/optgroup grouping: the Web catalogue splits into two editions users can pick
  *  between (see OwaspWebVersion); API and Mobile each still have exactly one current edition. */
-export type OwaspGroup = "web-2021" | "web-2025" | "api" | "mobile";
+export type OwaspGroup = "web-2021" | "web-2025" | "api" | "mobile" | "llm";
 
 export interface OwaspCategory {
   id: string;
@@ -15,15 +15,18 @@ export const OWASP_GROUP_LABELS: Record<OwaspGroup, string> = {
   "web-2025": "OWASP Top 10 (2025): Web",
   api: "OWASP API Security Top 10 (2023)",
   mobile: "OWASP Mobile Top 10 (2024)",
+  llm: "OWASP Top 10 for LLM Applications (2025)",
 };
 
-export const OWASP_GROUP_ORDER: OwaspGroup[] = ["web-2021", "web-2025", "api", "mobile"];
+export const OWASP_GROUP_ORDER: OwaspGroup[] = ["web-2021", "web-2025", "api", "mobile", "llm"];
 
-/** Every id is authored with a "web-"/"web25-"/"api-"/"mobile-" prefix (see OWASP_CATEGORIES
- *  below) — reusing that instead of a separate per-entry field keeps the two from drifting apart. */
+/** Every id is authored with a "web-"/"web25-"/"api-"/"mobile-"/"llm-" prefix (see
+ *  OWASP_CATEGORIES below) — reusing that instead of a separate per-entry field keeps the two
+ *  from drifting apart. */
 export function owaspGroupOf(id: string): OwaspGroup {
   if (id.startsWith("api-")) return "api";
   if (id.startsWith("mobile-")) return "mobile";
+  if (id.startsWith("llm-")) return "llm";
   if (id.startsWith("web25-")) return "web-2025";
   return "web-2021";
 }
@@ -236,6 +239,45 @@ export const OWASP_CATEGORIES: OwaspCategory[] = [
     label: "A10:2025 - Mishandling of Exceptional Conditions",
     url: "https://owasp.org/Top10/2025/A10_2025-Mishandling_of_Exceptional_Conditions/",
   },
+
+  // ---- OWASP Top 10 for LLM Applications (2025), from the OWASP Gen AI Security Project
+  // (https://genai.owasp.org/llm-top-10/) — all 10 URLs verified live during authoring. LLM01's
+  // slug is irregular ("llm01-prompt-injection", no "2025" in the path) versus LLM02-LLM10's
+  // consistent "llmNN2025-..." pattern; not a typo. ----
+  { id: "llm-llm01-prompt-injection", label: "LLM01:2025 - Prompt Injection", url: "https://genai.owasp.org/llmrisk/llm01-prompt-injection/" },
+  {
+    id: "llm-llm02-sensitive-information-disclosure",
+    label: "LLM02:2025 - Sensitive Information Disclosure",
+    url: "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/",
+  },
+  { id: "llm-llm03-supply-chain", label: "LLM03:2025 - Supply Chain", url: "https://genai.owasp.org/llmrisk/llm032025-supply-chain/" },
+  {
+    id: "llm-llm04-data-model-poisoning",
+    label: "LLM04:2025 - Data and Model Poisoning",
+    url: "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/",
+  },
+  {
+    id: "llm-llm05-improper-output-handling",
+    label: "LLM05:2025 - Improper Output Handling",
+    url: "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/",
+  },
+  { id: "llm-llm06-excessive-agency", label: "LLM06:2025 - Excessive Agency", url: "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/" },
+  {
+    id: "llm-llm07-system-prompt-leakage",
+    label: "LLM07:2025 - System Prompt Leakage",
+    url: "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/",
+  },
+  {
+    id: "llm-llm08-vector-embedding-weaknesses",
+    label: "LLM08:2025 - Vector and Embedding Weaknesses",
+    url: "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/",
+  },
+  { id: "llm-llm09-misinformation", label: "LLM09:2025 - Misinformation", url: "https://genai.owasp.org/llmrisk/llm092025-misinformation/" },
+  {
+    id: "llm-llm10-unbounded-consumption",
+    label: "LLM10:2025 - Unbounded Consumption",
+    url: "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/",
+  },
 ];
 
 export const OWASP_CATEGORIES_BY_ID: Record<string, OwaspCategory> = Object.fromEntries(OWASP_CATEGORIES.map((c) => [c.id, c]));
@@ -287,6 +329,7 @@ export const OWASP_WEB_2025_CWE_MAP: Record<string, string> = {
   "CWE-502": "web25-a08-software-or-data-integrity-failures",
   "CWE-472": "web25-a06-insecure-design",
   "CWE-362": "web25-a06-insecure-design",
+  "CWE-1104": "web25-a03-software-supply-chain-failures",
 };
 
 /** The 2021 counterpart of OWASP_WEB_2025_CWE_MAP — every CWE above's *original* 2021 Web
@@ -318,18 +361,19 @@ export const OWASP_WEB_2021_CWE_MAP: Record<string, string> = {
   "CWE-502": "web-a08-software-data-integrity",
   "CWE-472": "web-a04-insecure-design",
   "CWE-362": "web-a04-insecure-design",
+  "CWE-1104": "web-a06-vulnerable-outdated-components",
 };
 
 /** Resolves a Web owaspRefId + its finding's cweId to the requested Web edition. Returns the
- *  original id unchanged for non-Web (api-/mobile-) ids, or if the CWE has no verified mapping
- *  for the target edition (see OWASP_WEB_2025_CWE_MAP / OWASP_WEB_2021_CWE_MAP). Used both when
- *  a template/chain/saved template is applied and when the user flips the edition toggle on an
- *  already-selected category — the latter matters because a category picked while on one
- *  edition would otherwise silently stay on that edition after switching, looking like the
- *  toggle "does nothing". */
+ *  original id unchanged for non-Web (api-/mobile-/llm-) ids, or if the CWE has no verified
+ *  mapping for the target edition (see OWASP_WEB_2025_CWE_MAP / OWASP_WEB_2021_CWE_MAP). Used
+ *  both when a template/chain/saved template is applied and when the user flips the edition
+ *  toggle on an already-selected category — the latter matters because a category picked while
+ *  on one edition would otherwise silently stay on that edition after switching, looking like
+ *  the toggle "does nothing". */
 export function toOwaspWebVersion(owaspRefId: string, cweId: string, targetVersion: OwaspWebVersion): string {
   const group = owaspGroupOf(owaspRefId);
-  if (group === "api" || group === "mobile") return owaspRefId;
+  if (group === "api" || group === "mobile" || group === "llm") return owaspRefId;
   const map = targetVersion === "2025" ? OWASP_WEB_2025_CWE_MAP : OWASP_WEB_2021_CWE_MAP;
   return map[cweId] ?? owaspRefId;
 }

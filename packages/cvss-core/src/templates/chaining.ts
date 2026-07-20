@@ -2,7 +2,7 @@ import { ChainPair } from "./types";
 import { VULN_TYPES_BY_ID } from "./vulnTypes";
 
 /**
- * Every unique unordered pair of the 16 VulnType families (vulnTypes.ts) — C(16,2) = 120
+ * Every unique unordered pair of the 17 VulnType families (vulnTypes.ts) — C(17,2) = 136
  * entries, one per pair, per the confirmed "fully hand-authored matrix" scope decision. No
  * runtime "no override" fallback exists; chaining.test.ts asserts this file has exactly one
  * entry for every pair and fails loudly if a family is added without its new pair entries.
@@ -1946,6 +1946,266 @@ export const CHAIN_MATRIX: ChainPair[] = [
     references: [
       { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
       { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+    ],
+  },
+
+  // ---- vulnerable-components (added after the 16-family / 120-pair matrix; the vulnerable-
+  // components side of every merge below uses its own worst-case template, the known-CVE RCE
+  // scenario: AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H) ----
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "xss",
+    label: "Using Components with Known Vulnerabilities chained with Cross-Site Scripting (XSS)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Cross-Site Scripting (XSS). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "sqli",
+    label: "Using Components with Known Vulnerabilities chained with SQL Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and SQL Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "idor",
+    label: "Using Components with Known Vulnerabilities chained with Insecure Direct Object Reference (IDOR)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Insecure Direct Object Reference (IDOR). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "broken-access-control",
+    label: "Using Components with Known Vulnerabilities chained with Broken Access Control / Privilege Escalation",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Broken Access Control / Privilege Escalation. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "broken-access-control",
+    cweId: "CWE-284",
+    references: [
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "ssrf",
+    label: "Using Components with Known Vulnerabilities chained with Server-Side Request Forgery (SSRF)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"H","SI":"H","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.9
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Server-Side Request Forgery (SSRF). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "csrf",
+    label: "Using Components with Known Vulnerabilities chained with Cross-Site Request Forgery (CSRF)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Cross-Site Request Forgery (CSRF). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "race-condition",
+    label: "Using Components with Known Vulnerabilities chained with Race Condition (TOCTOU)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Race Condition (TOCTOU). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "sensitive-data-exposure",
+    label: "Using Components with Known Vulnerabilities chained with Sensitive Data Exposure / Cryptographic Failures",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Sensitive Data Exposure / Cryptographic Failures. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "open-redirect",
+    label: "Using Components with Known Vulnerabilities chained with Open Redirect",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Open Redirect. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "security-misconfiguration",
+    label: "Using Components with Known Vulnerabilities chained with Security Misconfiguration",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Security Misconfiguration. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a05-security-misconfiguration",
+    vrtRefId: "security-misconfiguration",
+    cweId: "CWE-1392",
+    references: [
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "insecure-deserialization",
+    label: "Using Components with Known Vulnerabilities chained with Insecure Deserialization",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Insecure Deserialization. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "xxe",
+    label: "Using Components with Known Vulnerabilities chained with XML External Entity (XXE) Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and XML External Entity (XXE) Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "path-traversal",
+    label: "Using Components with Known Vulnerabilities chained with Path Traversal / Local File Inclusion",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Path Traversal / Local File Inclusion. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "broken-authentication",
+    label: "Using Components with Known Vulnerabilities chained with Broken Authentication / Session Management",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Broken Authentication / Session Management. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "command-injection",
+    label: "Using Components with Known Vulnerabilities chained with OS Command Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and OS Command Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "command-injection",
+    cweId: "CWE-78",
+    references: [
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "vulnerable-components",
+    vulnTypeIdB: "parameter-tampering",
+    label: "Using Components with Known Vulnerabilities chained with Parameter Tampering",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Using Components with Known Vulnerabilities and Parameter Tampering. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
     ],
   },
 ];

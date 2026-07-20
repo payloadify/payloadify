@@ -14,15 +14,19 @@ describe("OWASP_CATEGORIES", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("every entry has a well-formed https:// owasp.org URL", () => {
+  it("every entry has a well-formed https:// owasp.org or genai.owasp.org URL", () => {
     for (const c of OWASP_CATEGORIES) {
       expect(() => new URL(c.url), c.id).not.toThrow();
-      expect(c.url.startsWith("https://owasp.org/"), c.id).toBe(true);
+      expect(c.url.startsWith("https://owasp.org/") || c.url.startsWith("https://genai.owasp.org/"), c.id).toBe(true);
     }
   });
 
   it("has exactly 10 Web 2025 categories", () => {
     expect(OWASP_CATEGORIES.filter((c) => owaspGroupOf(c.id) === "web-2025")).toHaveLength(10);
+  });
+
+  it("has exactly 10 LLM categories", () => {
+    expect(OWASP_CATEGORIES.filter((c) => owaspGroupOf(c.id) === "llm")).toHaveLength(10);
   });
 });
 
@@ -64,8 +68,9 @@ describe("toOwaspWebVersion", () => {
     expect(toOwaspWebVersion("web25-a05-injection", "CWE-79", "2025")).toBe("web25-a05-injection");
   });
 
-  it("passes through api-/mobile- ids unchanged regardless of target edition", () => {
+  it("passes through api-/mobile-/llm- ids unchanged regardless of target edition", () => {
     expect(toOwaspWebVersion("api-api1-bola", "CWE-639", "2025")).toBe("api-api1-bola");
     expect(toOwaspWebVersion("mobile-m9-insecure-data-storage", "CWE-312", "2021")).toBe("mobile-m9-insecure-data-storage");
+    expect(toOwaspWebVersion("llm-llm01-prompt-injection", "CWE-20", "2025")).toBe("llm-llm01-prompt-injection");
   });
 });

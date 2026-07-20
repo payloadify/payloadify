@@ -880,6 +880,79 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     ],
   },
 
+  // ---- vulnerable-components ----
+  // vc-api-known-cve-rce cites the Web category (web-a06-vulnerable-outdated-components) for the
+  // same reason sqli/xss/command-injection's API variants do above: OWASP's API Security Top 10
+  // (2023) has no dedicated "vulnerable components" category of its own.
+  {
+    id: "vc-web-known-cve-rce",
+    vulnTypeId: "vulnerable-components",
+    label: "Known-CVE remote code execution via an unpatched third-party library (web app)",
+    platforms: ["web"],
+    description:
+      "The application runs an outdated version of a third-party framework or library with a publicly disclosed CVE and a documented exploit (e.g. an unauthenticated deserialization or expression-injection bug in that library), giving an attacker full remote code execution on the host running it without needing to find a first-party bug at all.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "H" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "H", VA: "H", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "vc-api-known-cve-rce",
+    vulnTypeId: "vulnerable-components",
+    label: "Known-CVE remote code execution via an unpatched third-party library (API/microservice)",
+    platforms: ["api"],
+    description:
+      "A backend API or microservice runs an outdated version of a third-party library (e.g. a JSON/XML parsing library or message-queue client) with a publicly disclosed CVE and a documented exploit, giving an attacker full remote code execution on the service without needing to find a first-party bug at all.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "H" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "H", VI: "H", VA: "H", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "vc-web-outdated-client-library",
+    vulnTypeId: "vulnerable-components",
+    label: "Outdated client-side JavaScript library with a known XSS/prototype-pollution CVE",
+    platforms: ["web"],
+    description:
+      "The page loads an outdated build of a popular client-side JavaScript library (e.g. an old jQuery version or UI framework build) that has its own publicly disclosed XSS or prototype-pollution CVE, letting an attacker trigger the library's known flaw directly rather than needing a first-party code defect.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "R", S: "C", C: "L", I: "L", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "P", VC: "L", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a06-vulnerable-outdated-components",
+    vrtRefId: "using-components-with-known-vulnerabilities-unpatched-javascript-libraries",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    id: "vc-desktop-bundled-dependency",
+    vulnTypeId: "vulnerable-components",
+    label: "Bundled third-party library with a known CVE enables local code execution (desktop app)",
+    platforms: ["desktop-windows", "desktop-mac", "desktop-linux"],
+    description:
+      "The desktop application ships and loads an outdated, vulnerable version of a third-party library or framework with a publicly known CVE. A local low-privileged process, or a malicious file the app opens, can trigger that library's own known flaw to execute code in the application's context.",
+    cvss31: { AV: "L", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "H", A: "H" },
+    cvss40: { AV: "L", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "H", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: null,
+    vrtRefId: "using-components-with-known-vulnerabilities-outdated-software-version",
+    cweId: "CWE-1104",
+    references: [
+      { label: "OWASP Top 10 2021: A06 Vulnerable and Outdated Components", url: "https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/" },
+      { label: "OWASP Cheat Sheet: Vulnerable Dependency Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html" },
+    ],
+  },
+
   // ---- insecure-deserialization ----
   // Both templates below include the api platform but still cite a Web category
   // (web-a08-software-data-integrity) — OWASP's API Security Top 10 (2023) has no dedicated

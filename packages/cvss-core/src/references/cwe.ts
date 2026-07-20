@@ -141,6 +141,7 @@ export const CWE_ENTRIES: CweEntry[] = [
   { id: "CWE-656", label: "Reliance on Security Through Obscurity", url: "https://cwe.mitre.org/data/definitions/656.html", category: "insecure-design-config" },
   { id: "CWE-942", label: "Permissive Cross-domain Security Policy with Untrusted Domains", url: "https://cwe.mitre.org/data/definitions/942.html", category: "insecure-design-config" },
   { id: "CWE-1188", label: "Initialization of a Resource with an Insecure Default", url: "https://cwe.mitre.org/data/definitions/1188.html", category: "insecure-design-config" },
+  { id: "CWE-1104", label: "Use of Unmaintained Third Party Components", url: "https://cwe.mitre.org/data/definitions/1104.html", category: "insecure-design-config" },
 
   // ---- File & Resource Handling (parent: CWE-664) ----
   { id: "CWE-664", label: "Improper Control of a Resource Through its Lifetime", url: "https://cwe.mitre.org/data/definitions/664.html", category: "file-resource", isParent: true },

@@ -81,6 +81,12 @@ export const VULN_TYPE_FALLBACK_DESCRIPTION_IMPACT: Record<string, VulnDescripti
     impact:
       "May allow an attacker to trick an authenticated victim's browser into performing an unwanted state-changing action without the victim's knowledge or consent.",
   },
+  "vulnerable-components": {
+    description:
+      "The application runs a third-party library, framework, plugin, or other dependency with a publicly disclosed vulnerability (a known CVE) that has not been patched or upgraded, exposing the flaw that library already has rather than a bug in the application's own code.",
+    impact:
+      "May allow an attacker to exploit the dependency's already-documented vulnerability, using public write-ups or exploit code, with an impact ranging from information disclosure up to full remote code execution depending on the specific CVE.",
+  },
   "race-condition": {
     description:
       "Two or more requests that should be handled sequentially are instead processed concurrently, and the application fails to synchronize the shared state (e.g. a balance, a redemption counter, a one-time-use flag) they depend on, leaving a window where a check and the action that relies on it can be interleaved with another request.",
@@ -406,6 +412,32 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   "sm-verbose-error-disclosure-api": {
     description: "Unhandled API errors return verbose stack traces or raw database error text instead of a generic message, disclosing internal file paths, library versions, or query structure.",
     impact: "May give an attacker information (internal paths, versions, query logic) that meaningfully narrows down and assists a follow-up, more damaging attack, even though the disclosure itself is only informational.",
+  },
+
+  // ---- vulnerable-components ----
+  "vc-web-known-cve-rce": {
+    description:
+      "The web application runs an outdated version of a third-party framework or library that has a publicly disclosed CVE with a documented, working exploit, giving an attacker a pre-built attack path that requires no first-party bug discovery at all.",
+    impact:
+      "May allow an attacker to achieve full remote code execution on the host running the vulnerable library, using an existing public exploit for the disclosed CVE.",
+  },
+  "vc-api-known-cve-rce": {
+    description:
+      "A backend API or microservice runs an outdated version of a third-party library that has a publicly disclosed CVE with a documented, working exploit, giving an attacker a pre-built attack path that requires no first-party bug discovery at all.",
+    impact:
+      "May allow an attacker to achieve full remote code execution on the vulnerable service, using an existing public exploit for the disclosed CVE.",
+  },
+  "vc-web-outdated-client-library": {
+    description:
+      "The page loads an outdated build of a client-side JavaScript library that has its own publicly disclosed CVE (typically XSS or prototype pollution), so the vulnerability lives in the third-party code the page trusts rather than in the site's first-party logic.",
+    impact:
+      "May allow an attacker to trigger the library's own known flaw against any visitor loading the affected page, without needing to find a first-party injection point.",
+  },
+  "vc-desktop-bundled-dependency": {
+    description:
+      "The desktop application ships and loads an outdated, vulnerable version of a bundled third-party library or framework with a publicly known CVE, rather than a bug in the application's own code.",
+    impact:
+      "May allow a local low-privileged process, or a malicious file the application opens, to trigger the bundled library's known flaw and execute code in the application's context.",
   },
 
   // ---- insecure-deserialization ----

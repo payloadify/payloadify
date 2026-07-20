@@ -21,7 +21,7 @@ export interface VulnType {
   categoryId: string;
 }
 
-/** ~16 vulnerability-type families for v1, drawn from OWASP Top 10 (2021) / API Top 10 (2023)
+/** ~17 vulnerability-type families for v1, drawn from OWASP Top 10 (2021) / API Top 10 (2023)
  *  so the OWASP-category mapping (see references/owasp.ts) has clean, real coverage. Each
  *  family gets 2-5 scenario templates in templates.ts varying by platform/impact context. */
 export const VULN_TYPES: VulnType[] = [
@@ -68,6 +68,12 @@ export const VULN_TYPES: VulnType[] = [
     id: "security-misconfiguration",
     label: "Security Misconfiguration",
     platforms: ["web", "api", "desktop-windows", "desktop-linux"],
+    categoryId: "data-config",
+  },
+  {
+    id: "vulnerable-components",
+    label: "Using Components with Known Vulnerabilities",
+    platforms: ["web", "api", "desktop-windows", "desktop-mac", "desktop-linux"],
     categoryId: "data-config",
   },
 
