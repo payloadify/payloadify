@@ -52,7 +52,7 @@ export function DomainAndSelectorInput({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="email-auth-selector" className="text-xs font-medium text-zinc-500 dark:text-zinc-500">
-          DKIM selector (optional — leave blank to also try common selectors)
+          DKIM selector (optional, leave blank to also try common selectors)
         </label>
         <input
           id="email-auth-selector"

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { selectClasses } from "@/components/ui/formClasses";
+import { HASH_CONTEXTS, HashContextId } from "@/lib/hash/context";
 import { identifyHash } from "@/lib/hash/detect";
 import { isVerifiable, verifyPlaintext } from "@/lib/hash/verify";
 import { HashResultPanel } from "./HashResultPanel";
@@ -12,6 +14,7 @@ export function HashIdentifierTool() {
   const [plaintext, setPlaintext] = useState("");
   const [confirmedId, setConfirmedId] = useState<string | null>(null);
   const [verifyStatus, setVerifyStatus] = useState<"idle" | "checking" | "no-match">("idle");
+  const [context, setContext] = useState<HashContextId>("unknown");
 
   // Bumped on every Verify/Reset/new-hash-submission so an in-flight verifyPlaintext() that
   // resolves afterward can detect it's stale and skip applying its now-outdated result.
@@ -75,7 +78,26 @@ export function HashIdentifierTool() {
           </button>
         </div>
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          One hash at a time — batch identification of hash lists is planned for a future update.
+          One hash at a time. Batch identification of hash lists is planned for a future update.
+        </p>
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-medium">Where did this hash come from? (optional)</label>
+        <select
+          value={context}
+          onChange={(e) => setContext(e.target.value as HashContextId)}
+          className={`${selectClasses} w-full sm:w-auto`}
+        >
+          {HASH_CONTEXTS.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          Doesn&apos;t change what&apos;s structurally possible; only reorders same-length candidates (e.g. MD5 vs
+          NTLM) by which is actually likely given where you found this hash.
         </p>
       </div>
 
@@ -110,7 +132,7 @@ export function HashIdentifierTool() {
             </button>
           </div>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            Computed entirely in your browser — this text is never sent anywhere. If it matches
+            Computed entirely in your browser; this text is never sent anywhere. If it matches
             one of the candidates below (e.g. MD5 vs NTLM), that candidate is confirmed.
           </p>
           {verifyStatus === "no-match" && (
@@ -121,7 +143,7 @@ export function HashIdentifierTool() {
         </div>
       )}
 
-      <HashResultPanel result={result} confirmedId={confirmedId} />
+      <HashResultPanel result={result} confirmedId={confirmedId} context={context} />
     </div>
   );
 }

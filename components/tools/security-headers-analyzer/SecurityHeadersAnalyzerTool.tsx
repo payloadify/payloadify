@@ -70,7 +70,7 @@ export function SecurityHeadersAnalyzerTool() {
     ? data.findings.map((f) => ({
         id: f.id,
         label: f.label,
-        value: `${f.label}: ${headerStatusLabel(f)} — ${f.detail}`,
+        value: `${f.label}: ${headerStatusLabel(f)} - ${f.detail}`,
         url: f.owaspUrl,
       }))
     : [];
@@ -110,7 +110,7 @@ export function SecurityHeadersAnalyzerTool() {
             <Callout variant="warning">
               You&apos;re checking Payloadify&apos;s own domain. This check runs from our own Cloudflare Worker, and
               our zone&apos;s bot/security protections can occasionally treat that self-originating traffic
-              differently than a real visitor&apos;s browser — so results here may not match what visitors
+              differently than a real visitor&apos;s browser, so results here may not match what visitors
               actually see. If something looks off, verify with an external checker like{" "}
               <a href="https://securityheaders.com" target="_blank" rel="noopener noreferrer" className="underline">
                 securityheaders.com

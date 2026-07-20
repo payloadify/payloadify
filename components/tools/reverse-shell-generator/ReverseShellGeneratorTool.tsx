@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
+import { CommandBlock, InlineCommandRow } from "@/components/ui/CommandBlock";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { DownloadButton } from "@/components/ui/DownloadButton";
 import { checkboxLabelClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
@@ -285,31 +286,16 @@ export function ReverseShellGeneratorTool() {
 
       {generatedShell && result !== null && (
         <div className="flex flex-col gap-4">
-          <div>
-            <div className="mb-1 flex items-center justify-between">
-              <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Payload</p>
-              <CopyButton text={result} />
-            </div>
-            <code className="block rounded border border-zinc-200 bg-white p-3 text-sm break-all whitespace-pre-wrap dark:border-zinc-800 dark:bg-zinc-900">
-              {result}
-            </code>
+          <CommandBlock label="Payload" command={result} actions={<CopyButton text={result} />}>
             {encoder.usageNote && <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{encoder.usageNote}</p>}
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
               {generatedShell.os.join(" / ")} · {generatedShell.group} · {generatedShell.label}
               {encoder.id !== "none" && <> · {encoder.label}</>}
             </p>
-          </div>
+          </CommandBlock>
 
           {listenerCommand && (
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Listener (attacker side)</p>
-                <CopyButton text={listenerCommand} />
-              </div>
-              <code className="block rounded border border-zinc-200 bg-white p-3 text-sm break-all whitespace-pre-wrap dark:border-zinc-800 dark:bg-zinc-900">
-                {listenerCommand}
-              </code>
-            </div>
+            <CommandBlock label="Listener (attacker side)" command={listenerCommand} actions={<CopyButton text={listenerCommand} />} />
           )}
 
           {fileBody && (
@@ -347,7 +333,7 @@ export function ReverseShellGeneratorTool() {
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 Will save as <code>{filename}</code>. The extension and MIME type are independent of each other and of the file&apos;s actual
-                content — useful for testing upload filters, but not a guarantee against magic-byte/content inspection.
+                content. This is useful for testing upload filters, but not a guarantee against magic-byte/content inspection.
               </p>
             </div>
           )}
@@ -356,12 +342,7 @@ export function ReverseShellGeneratorTool() {
             <summary className="cursor-pointer px-3 py-2 text-sm font-medium">After you catch the shell</summary>
             <div className="flex flex-col gap-2 px-3 pb-3 text-sm text-zinc-600 dark:text-zinc-400">
               <p>Upgrade a bare Unix shell to a full interactive TTY:</p>
-              <div className="flex items-center justify-between gap-2">
-                <code className="block flex-1 rounded border border-zinc-200 bg-white p-2 text-xs break-all dark:border-zinc-800 dark:bg-zinc-900">
-                  python3 -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;
-                </code>
-                <CopyButton text={'python3 -c \'import pty; pty.spawn("/bin/bash")\''} />
-              </div>
+              <InlineCommandRow command={'python3 -c \'import pty; pty.spawn("/bin/bash")\''} />
               <p>
                 Then background it (<code>Ctrl+Z</code>), run <code>stty raw -echo; fg</code>, press Enter twice, and set{" "}
                 <code>export TERM=xterm</code> for working arrow keys/Ctrl+C and a correct terminal size.

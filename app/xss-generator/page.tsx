@@ -3,9 +3,9 @@ import { ToolPageLayout } from "@/components/layout/ToolPageLayout";
 import { XssGeneratorTool } from "@/components/tools/xss-generator/XssGeneratorTool";
 
 export const metadata: Metadata = {
-  title: "XSS Payload Generator — WAF Bypass & Encoding Techniques",
+  title: "XSS Payload Generator: WAF Bypass & Encoding Techniques",
   description:
-    "Generate XSS payloads across basic to advanced WAF-bypass and encoding techniques, for reflected/stored or DOM-based contexts — free, entirely in your browser.",
+    "Generate XSS payloads across basic to advanced WAF-bypass and encoding techniques, for reflected/stored or DOM-based contexts. Free, entirely in your browser.",
 };
 
 export default function XssGeneratorPage() {

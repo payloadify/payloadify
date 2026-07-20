@@ -16,7 +16,7 @@ export function SummaryBar({ data }: { data: SecurityHeadersResponse }) {
       )}
       {data.redirected && (
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Redirected — analyzed the final response from <code className="font-mono">{data.finalUrl}</code>.
+          Redirected: analyzed the final response from <code className="font-mono">{data.finalUrl}</code>.
         </p>
       )}
     </div>

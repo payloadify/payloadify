@@ -13,14 +13,14 @@ export function WarningsBanner({
   if (decoded.isAlgNone) {
     warnings.push({
       variant: "danger",
-      text: 'Header sets "alg": "none" — some libraries accept this and skip signature verification entirely.',
+      text: 'Header sets "alg": "none". Some libraries accept this and skip signature verification entirely.',
     });
   }
 
   if (decoded.alg && !decoded.alg.toLowerCase().startsWith("hs") && !decoded.isAlgNone) {
     warnings.push({
       variant: "warning",
-      text: `Algorithm "${decoded.alg}" uses asymmetric or unknown signing — this tool can't verify or re-sign it without a private/public key. Watch for alg-confusion attacks (e.g. swapping RS256 for HS256 using the public key as an HMAC secret).`,
+      text: `Algorithm "${decoded.alg}" uses asymmetric or unknown signing. This tool can't verify or re-sign it without a private/public key. Watch for alg-confusion attacks (e.g. swapping RS256 for HS256 using the public key as an HMAC secret).`,
     });
   }
 

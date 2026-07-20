@@ -10,14 +10,14 @@ export const tools: Tool[] = [
     slug: "jwt-decoder",
     name: "JWT Decoder/Tamper & Generator",
     shortDescription:
-      "Decode JWT header and payload, flag alg:none and weak signing, edit claims and re-sign — or build and sign a brand-new token with HMAC, RSA, ECDSA, or RSA-PSS.",
+      "Decode JWT header and payload, flag alg:none and weak signing, edit claims and re-sign, or build and sign a brand-new token with HMAC, RSA, ECDSA, or RSA-PSS.",
     status: "live",
   },
   {
     slug: "jwt-generator",
     name: "JWT Generator",
     shortDescription:
-      "Build and sign a JWT with HMAC, RSA, ECDSA, or RSA-PSS — generate secrets or keypairs, quick-add claims, scenario presets, and weakness flags.",
+      "Build and sign a JWT with HMAC, RSA, ECDSA, or RSA-PSS. Generate secrets or keypairs, quick-add claims, scenario presets, and weakness flags.",
     status: "live",
   },
   {
@@ -66,7 +66,7 @@ export const tools: Tool[] = [
     slug: "msfvenom-generator",
     name: "MSFVenom Command Generator",
     shortDescription:
-      "Build msfvenom commands with template presets for Windows, Linux, macOS, and Android payloads, evasion encoders, and architectures — copy-ready, with a listener setup guide.",
+      "Build msfvenom commands with template presets for Windows, Linux, macOS, and Android payloads, evasion encoders, and architectures. Copy-ready, with a listener setup guide.",
     status: "live",
   },
   {
@@ -80,21 +80,28 @@ export const tools: Tool[] = [
     slug: "subdomain-permutation-generator",
     name: "Subdomain Permutation Generator",
     shortDescription:
-      "Generate candidate subdomain wordlists from a base domain, environment/service/region tokens, and your own keywords — dedup'd, capped, and ready to pipe into massdns/puredns/dnsx. No DNS lookups happen here.",
+      "Generate candidate subdomain wordlists from a base domain, environment/service/region tokens, and your own keywords. Dedup'd, capped, and ready to pipe into massdns/puredns/dnsx. No DNS lookups happen here.",
     status: "live",
   },
   {
     slug: "security-headers-analyzer",
     name: "HTTP Security Headers Analyzer",
     shortDescription:
-      "Fetch any URL's response headers and check them against the OWASP Secure Headers Project — HSTS, CSP, X-Frame-Options, and more — with pass/warn/missing status, plain-language explanations, and copy-ready findings.",
+      "Fetch any URL's response headers and check them against the OWASP Secure Headers Project (HSTS, CSP, X-Frame-Options, and more), with pass/warn/missing status, plain-language explanations, and copy-ready findings.",
     status: "live",
   },
   {
     slug: "spf-dkim-dmarc-checker",
     name: "SPF / DKIM / DMARC Checker",
     shortDescription:
-      "Check a domain's SPF, DKIM, and DMARC records — parsed mechanisms, policy explanations, and common misconfiguration flags (multiple SPF records, revoked DKIM keys, monitoring-only DMARC) — with copy-ready results.",
+      "Check a domain's SPF, DKIM, and DMARC records: parsed mechanisms, policy explanations, and common misconfiguration flags (multiple SPF records, revoked DKIM keys, monitoring-only DMARC), with copy-ready results.",
+    status: "live",
+  },
+  {
+    slug: "hashcat-command-builder",
+    name: "Hashcat Command Generator",
+    shortDescription:
+      "Build a complete hashcat command: mode, attack type, wordlists, masks, rules, and advanced flags. Pre-filled with the mode number when you arrive from the Hash Identifier.",
     status: "live",
   },
 ];

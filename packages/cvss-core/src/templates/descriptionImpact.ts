@@ -83,7 +83,7 @@ export const VULN_TYPE_FALLBACK_DESCRIPTION_IMPACT: Record<string, VulnDescripti
   },
   "sensitive-data-exposure": {
     description:
-      "Sensitive data (such as credentials, tokens, or personal information) is transmitted, stored, or logged without adequate protection — for example missing encryption, an overly broad API response, or insecure local storage.",
+      "Sensitive data (such as credentials, tokens, or personal information) is transmitted, stored, or logged without adequate protection: for example missing encryption, an overly broad API response, or insecure local storage.",
     impact:
       "May allow an attacker with access to the exposure point (network traffic, storage, logs, or device) to obtain sensitive data belonging to users or the application.",
   },
@@ -109,7 +109,7 @@ export const VULN_TYPE_FALLBACK_DESCRIPTION_IMPACT: Record<string, VulnDescripti
     description:
       "The application trusts a client-controllable parameter (e.g. a price, quantity, or role flag) to make a server-side decision, without sufficiently re-validating that value on the server.",
     impact:
-      "May allow an attacker to alter application logic in their favor — such as changing a price, quantity, or permission flag — by submitting a modified parameter value directly.",
+      "May allow an attacker to alter application logic in their favor (such as changing a price, quantity, or permission flag) by submitting a modified parameter value directly.",
   },
 };
 
@@ -121,11 +121,11 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
     description:
       "A crafted link reflects attacker-controlled input directly into the page response without sufficient output encoding, executing arbitrary JavaScript in the victim's browser as soon as they click the link. Because the payload lives entirely in the URL, it requires a victim to visit or click a malicious link and leaves no persistent trace on the server.",
     impact:
-      "May allow an attacker to steal the victim's session cookie — particularly damaging when it lacks the HttpOnly flag — or otherwise act in the victim's authenticated context, enabling session hijacking.",
+      "May allow an attacker to steal the victim's session cookie (particularly damaging when it lacks the HttpOnly flag) or otherwise act in the victim's authenticated context, enabling session hijacking.",
   },
   "xss-stored-web": {
     description:
-      "A payload submitted through an ordinary application feature (e.g. a comment, profile field, or support ticket) is stored server-side and rendered back to every subsequent visitor without sufficient output encoding, executing automatically for anyone — including administrators — who later views the affected page.",
+      "A payload submitted through an ordinary application feature (e.g. a comment, profile field, or support ticket) is stored server-side and rendered back to every subsequent visitor without sufficient output encoding, executing automatically for anyone (including administrators) who later views the affected page.",
     impact:
       "May allow an attacker to compromise the session or account of any user who views the infected content, including higher-privileged users such as administrators, without needing to trick any individual victim into clicking a link.",
   },
@@ -199,7 +199,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
     description:
       "The API enriches user-supplied data by querying a third-party service and stores that service's response directly in a local SQL-backed database without sanitization; an attacker plants a SQL injection payload in data they control on the third-party service, then triggers the victim API to retrieve and store it, so it executes once consumed.",
     impact:
-      "May allow an attacker to compromise the victim API's local database purely by controlling data on a trusted third-party service, without ever directly submitting a payload to the vulnerable application — bypassing input validation aimed only at direct user input.",
+      "May allow an attacker to compromise the victim API's local database purely by controlling data on a trusted third-party service, without ever directly submitting a payload to the vulnerable application, bypassing input validation aimed only at direct user input.",
   },
 
   // ---- idor ----
@@ -215,7 +215,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "idor-mobile-api-unauthenticated": {
     description:
-      "The API backing a mobile application never validates that the caller owns the requested object ID and, in this scenario, requires no authentication token at all — any caller, not just other authenticated users, can request arbitrary objects directly.",
+      "The API backing a mobile application never validates that the caller owns the requested object ID and, in this scenario, requires no authentication token at all; any caller, not just other authenticated users, can request arbitrary objects directly.",
     impact: "May allow a completely unauthenticated attacker to read or manipulate any user's data at scale, since no session or authorization check gates the vulnerable endpoint.",
   },
 
@@ -227,17 +227,17 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "bac-vertical-privesc-admin-panel-api": {
     description:
-      "A missing server-side role or permission check lets any authenticated user invoke administrator-only API endpoints directly, regardless of what the official client exposes to that user's role — a function-level authorization gap matching API5:2023 exactly.",
+      "A missing server-side role or permission check lets any authenticated user invoke administrator-only API endpoints directly, regardless of what the official client exposes to that user's role, a function-level authorization gap matching API5:2023 exactly.",
     impact: "May allow a low-privileged user to gain full administrative capability over the application by directly calling restricted endpoints that the official client simply never surfaces to them.",
   },
   "bac-horizontal-privesc-web": {
     description:
-      "An authenticated user can perform write actions — not merely view — on another same-tier user's data or settings, because the server checks that the requester is authenticated but not that they own the specific resource being modified.",
+      "An authenticated user can perform write actions (not merely view) on another same-tier user's data or settings, because the server checks that the requester is authenticated but not that they own the specific resource being modified.",
     impact: "May allow an attacker to modify another user's data or account settings without their consent, going beyond a read-only information disclosure into unauthorized state changes.",
   },
   "bac-horizontal-privesc-api": {
     description:
-      "An authenticated API caller can perform write actions on another peer user's object, not just read it — an object-level authorization gap (BOLA) that is triggered by a write rather than a read.",
+      "An authenticated API caller can perform write actions on another peer user's object, not just read it, an object-level authorization gap (BOLA) that is triggered by a write rather than a read.",
     impact: "May allow an attacker to modify another user's data through the API without their consent, going beyond a read-only object-level disclosure into unauthorized state changes.",
   },
   "bac-forced-browsing-unauth-endpoint-web": {
@@ -247,7 +247,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "bac-forced-browsing-unauth-endpoint-api": {
     description:
-      "An undocumented but guessable or discoverable API endpoint (e.g. /api/admin/export) performs no authentication check at all, returning sensitive data to any caller — a missing function-level permission check, per API5:2023.",
+      "An undocumented but guessable or discoverable API endpoint (e.g. /api/admin/export) performs no authentication check at all, returning sensitive data to any caller, a missing function-level permission check, per API5:2023.",
     impact: "May allow a completely unauthenticated attacker to retrieve sensitive data simply by calling an endpoint that was never meant to be reachable without authentication.",
   },
 
@@ -259,7 +259,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "ssrf-cloud-metadata-credential-theft-api": {
     description:
-      "An API's URL-fetching parameter (e.g. a webhook or import-from-URL feature) is abused to make the server issue a request to the cloud provider's internal instance metadata service, a destination the parameter was never intended to reach — matching API7:2023 exactly.",
+      "An API's URL-fetching parameter (e.g. a webhook or import-from-URL feature) is abused to make the server issue a request to the cloud provider's internal instance metadata service, a destination the parameter was never intended to reach, matching API7:2023 exactly.",
     impact: "May allow an attacker to steal the instance's IAM credentials from the metadata endpoint, granting access to cloud resources and services well beyond the vulnerable API itself.",
   },
   "ssrf-internal-port-scan-web": {
@@ -292,7 +292,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   "csrf-account-takeover": {
     description:
       "The same missing anti-CSRF protection on the password-change or email-linking flow is chained across multiple steps to achieve a full account takeover, rather than triggering just one isolated unwanted action.",
-    impact: "May allow an attacker to achieve complete account takeover — not just a single forged action — by chaining CSRF against the account-recovery or credential-change flow.",
+    impact: "May allow an attacker to achieve complete account takeover (not just a single forged action) by chaining CSRF against the account-recovery or credential-change flow.",
   },
 
   // ---- sensitive-data-exposure ----
@@ -303,7 +303,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "sde-api-excessive-data-exposure": {
     description:
-      "An API endpoint returns the entire backing object — including fields like a password hash or government ID that the client UI never displays — relying on the client to filter what it shows rather than the server withholding sensitive fields.",
+      "An API endpoint returns the entire backing object, including fields like a password hash or government ID that the client UI never displays, relying on the client to filter what it shows rather than the server withholding sensitive fields.",
     impact: "May allow anyone who inspects the raw API response, rather than only the rendered UI, to obtain sensitive fields the application never intended to expose, such as password hashes or personal identifiers.",
   },
   "sde-hardcoded-secrets-desktop-windows": {
@@ -314,7 +314,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   "sde-unencrypted-storage-mobile": {
     description:
       "The mobile app stores authentication tokens or personal data in plaintext in local or shared device storage instead of an OS-provided secure storage mechanism (e.g. Keystore/Keychain).",
-    impact: "May allow anyone with physical or forensic access to the device — including via a lost or stolen device, or another app on a rooted/jailbroken device — to recover tokens or personal data without needing to exploit the app itself.",
+    impact: "May allow anyone with physical or forensic access to the device (including via a lost or stolen device, or another app on a rooted/jailbroken device) to recover tokens or personal data without needing to exploit the app itself.",
   },
   "sde-config-file-secrets-desktop-linux": {
     description:
@@ -369,11 +369,11 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "sm-verbose-error-disclosure-web": {
     description: "Unhandled application errors return verbose stack traces or raw database error text instead of a generic message, disclosing internal file paths, library versions, or query structure.",
-    impact: "May give an attacker information — internal paths, versions, query logic — that meaningfully narrows down and assists a follow-up, more damaging attack, even though the disclosure itself is only informational.",
+    impact: "May give an attacker information (internal paths, versions, query logic) that meaningfully narrows down and assists a follow-up, more damaging attack, even though the disclosure itself is only informational.",
   },
   "sm-verbose-error-disclosure-api": {
     description: "Unhandled API errors return verbose stack traces or raw database error text instead of a generic message, disclosing internal file paths, library versions, or query structure.",
-    impact: "May give an attacker information — internal paths, versions, query logic — that meaningfully narrows down and assists a follow-up, more damaging attack, even though the disclosure itself is only informational.",
+    impact: "May give an attacker information (internal paths, versions, query logic) that meaningfully narrows down and assists a follow-up, more damaging attack, even though the disclosure itself is only informational.",
   },
 
   // ---- insecure-deserialization ----
@@ -453,7 +453,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "ba-missing-mfa-brute-force-api": {
     description:
-      "The login API endpoint — whether called directly or via a mobile app — has no rate-limiting, lockout, or MFA requirement, so an attacker can submit unlimited password guesses against the backend regardless of which client normally calls it.",
+      "The login API endpoint (whether called directly or via a mobile app) has no rate-limiting, lockout, or MFA requirement, so an attacker can submit unlimited password guesses against the backend regardless of which client normally calls it.",
     impact: "May allow an attacker to compromise accounts protected only by a weak password through sustained automated guessing against the backend API, bypassing any throttling the official client UI might otherwise appear to imply.",
   },
 
@@ -478,7 +478,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   "param-web-checkout-price-tampering": {
     description:
       "A checkout flow sends the unit price, quantity, or discount amount as a client-editable form field or hidden parameter, and the server accepts that value as-is instead of recalculating it from trusted, server-side product/pricing data.",
-    impact: "May allow an attacker — including one with no account at all — to complete a purchase at an arbitrary, attacker-chosen price by editing the client-supplied value before submission.",
+    impact: "May allow an attacker (including one with no account at all) to complete a purchase at an arbitrary, attacker-chosen price by editing the client-supplied value before submission.",
   },
   "param-api-mass-assignment-role-field": {
     description:
@@ -487,7 +487,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "param-mobile-client-side-purchase-validation": {
     description:
-      "A mobile app calculates a purchase amount or a premium-feature entitlement flag on the client and sends it to the backend as a trusted value, rather than having the backend independently derive and verify it — including for anonymous, device-linked sessions with no registered account.",
+      "A mobile app calculates a purchase amount or a premium-feature entitlement flag on the client and sends it to the backend as a trusted value, rather than having the backend independently derive and verify it, including for anonymous, device-linked sessions with no registered account.",
     impact: "May allow an attacker who intercepts and edits the app's own request (e.g. via a proxy) to unlock paid content or pay an arbitrary, attacker-chosen amount.",
   },
   "param-web-hidden-field-workflow-bypass": {
@@ -497,7 +497,7 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
   },
   "param-web-hidden-field-vote-review-integrity": {
     description:
-      "A review, rating, survey, or voting feature relies on a client-set hidden field — rather than a server-side per-user/per-session record — to block repeat submissions, so resetting that field before resubmitting bypasses the intended one-submission-per-user limit.",
+      "A review, rating, survey, or voting feature relies on a client-set hidden field (rather than a server-side per-user/per-session record) to block repeat submissions, so resetting that field before resubmitting bypasses the intended one-submission-per-user limit.",
     impact: "May allow a single user to submit unlimited times, skewing aggregated ratings, poll results, or review data for everyone who later views them.",
   },
 };

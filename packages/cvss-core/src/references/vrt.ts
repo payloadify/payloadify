@@ -26,7 +26,7 @@ export const VRT_CATEGORIES: VrtCategory[] = [
   },
   {
     id: "xss-dom",
-    label: "Cross-Site Scripting (XSS) — DOM-based",
+    label: "Cross-Site Scripting (XSS): DOM-based",
     group: "Cross-Site Scripting (XSS)",
     priority: null,
     inferred: true,

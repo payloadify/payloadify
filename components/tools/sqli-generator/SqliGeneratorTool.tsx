@@ -269,7 +269,7 @@ export function SqliGeneratorTool() {
     } catch {
       // No technique in the pool is supported for this dialect/level/context combination — e.g.
       // Advanced + Oracle + no valid info field leaves every advanced technique unsupported.
-      setBlockedMsg("No technique is available for this combination of dialect, level, and context — try a different level, context, or info field.");
+      setBlockedMsg("No technique is available for this combination of dialect, level, and context. Try a different level, context, or info field.");
     }
   }
 
@@ -323,7 +323,7 @@ export function SqliGeneratorTool() {
           disabled={level === "custom"}
         />
         Maintain level (uncheck to randomize across all levels)
-        {level === "custom" && " — always off in Custom, since there's no level tier to maintain"}
+        {level === "custom" && " (always off in Custom, since there's no level tier to maintain)"}
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -372,7 +372,7 @@ export function SqliGeneratorTool() {
             className={`${selectClasses} w-24`}
           />
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            UNION SELECT must return the same number of columns as the original query — pad with the count you&apos;ve probed for (e.g. via ORDER
+            UNION SELECT must return the same number of columns as the original query. Pad with the count you&apos;ve probed for (e.g. via ORDER
             BY). Max {MAX_COLUMN_COUNT}.
           </p>
         </div>
@@ -388,7 +388,7 @@ export function SqliGeneratorTool() {
                 key={char}
                 title={
                   unavoidable
-                    ? `The selected obfuscation always includes "${label}" — blacklisting it won't change the output.`
+                    ? `The selected obfuscation always includes "${label}". Blacklisting it won't change the output.`
                     : undefined
                 }
                 className={`flex items-center gap-1 rounded border border-zinc-300 px-2 py-1 text-xs font-mono text-zinc-600 dark:border-zinc-700 dark:text-zinc-400 ${
@@ -463,7 +463,7 @@ export function SqliGeneratorTool() {
           + Add info
         </button>
         <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-          Only UNION-based, error-based, and boolean-based-blind techniques use this — tautology, time-based blind, and stacked queries
+          Only UNION-based, error-based, and boolean-based-blind techniques use this; tautology, time-based blind, and stacked queries
           don&apos;t extract data. Chaining multiple fields fully applies to UNION-based/error-based only; boolean-blind uses just the first
           field.
         </p>
@@ -509,7 +509,7 @@ export function SqliGeneratorTool() {
           )}
         </div>
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Applied to the whole rendered payload as a final transport-layer step — e.g. URL-encoding for a GET parameter. Blacklist checking above
+          Applied to the whole rendered payload as a final transport-layer step (e.g. URL-encoding for a GET parameter). Blacklist checking above
           applies to the raw SQL, not this final-encoded output.
         </p>
       </div>
@@ -544,7 +544,7 @@ export function SqliGeneratorTool() {
 
           {generatedTechnique.id === "stacked-queries" && (
             <Callout variant="warning">
-              Only works if the vulnerable application&apos;s code path executes multi-statement queries — many DB drivers/APIs block this by
+              Only works if the vulnerable application&apos;s code path executes multi-statement queries; many DB drivers/APIs block this by
               default, so this technique is less reliable than the others.
             </Callout>
           )}
@@ -558,7 +558,7 @@ export function SqliGeneratorTool() {
           {adapted.violations.length > 0 && (
             <Callout variant="warning">
               Couldn&apos;t fully avoid the blacklisted character(s) <code>{adapted.violations.join(" ")}</code> with this technique/obfuscation
-              combination — try a different one.
+              combination. Try a different one.
             </Callout>
           )}
         </div>

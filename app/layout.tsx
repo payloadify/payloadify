@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Payloadify — Free Pentest Tools",
+    default: "Payloadify: Free Pentest Tools",
     template: "%s | Payloadify",
   },
   description:

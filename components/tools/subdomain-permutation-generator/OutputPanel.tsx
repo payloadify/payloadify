@@ -63,7 +63,7 @@ export function OutputPanel({
       name: "massdns",
       command: `massdns -r resolvers.txt -t A -o S ${filename} | cut -d' ' -f1 | sort -u > resolved.txt`,
       description:
-        "performs fast bulk A record lookups; -o S prints \"name type data\" per record, so cutting field 1 and deduplicating gives you the list of subdomains that resolved (not the IPs — those are field 3).",
+        "performs fast bulk A record lookups; -o S prints \"name type data\" per record, so cutting field 1 and deduplicating gives you the list of subdomains that resolved (not the IPs; those are field 3).",
     },
     {
       name: "dnsx",
@@ -140,7 +140,7 @@ export function OutputPanel({
 
       {generatedResult.cappedAt !== null && (
         <Callout variant="warning">
-          Capped at {generatedResult.cappedAt.toLocaleString()} candidates — raise the max output above to generate more.
+          Capped at {generatedResult.cappedAt.toLocaleString()} candidates. Raise the max output above to generate more.
         </Callout>
       )}
 
@@ -155,7 +155,7 @@ export function OutputPanel({
         <summary className="cursor-pointer px-3 py-2 text-sm font-medium">Resolve these candidates</summary>
         <div className="flex flex-col gap-2 px-3 pb-3">
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            This tool only generates candidate names — nothing here queries DNS. Save the output above as{" "}
+            This tool only generates candidate names. Nothing here queries DNS. Save the output above as{" "}
             <code>{filename}</code>, then pipe it into a resolver with one of the commands below (each expects a{" "}
             <code>resolvers.txt</code> file of resolver IPs, one per line):
           </p>
@@ -167,7 +167,7 @@ export function OutputPanel({
                   <CopyButton text={tool.command} />
                 </div>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-                  <span className="font-medium text-zinc-600 dark:text-zinc-300">{tool.name}</span> — {tool.description}
+                  <span className="font-medium text-zinc-600 dark:text-zinc-300">{tool.name}</span>: {tool.description}
                 </p>
               </li>
             ))}

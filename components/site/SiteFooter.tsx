@@ -8,7 +8,7 @@ export function SiteFooter() {
           <Link href="/about" className="hover:text-zinc-300">
             Payloadify
           </Link>{" "}
-          — free pentest utility tools. Everything runs client-side in your
+          : free pentest utility tools. Everything runs client-side in your
           browser; nothing you paste here is sent to a server.
         </p>
         <Link href="/privacy-policy" className="shrink-0 hover:text-zinc-300">

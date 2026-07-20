@@ -14,7 +14,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "xss-reflected-web",
     vulnTypeId: "xss",
-    label: "Reflected XSS — session cookie theft (no HttpOnly)",
+    label: "Reflected XSS: session cookie theft (no HttpOnly)",
     platforms: ["web"],
     description:
       "A crafted link reflects unsanitized input into the page, executing attacker JS in the victim's browser. No HttpOnly flag lets the payload read the session cookie.",
@@ -24,31 +24,31 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xss-reflected",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xss-stored-web",
     vulnTypeId: "xss",
-    label: "Stored XSS — fires against every viewer, including admins",
+    label: "Stored XSS: fires against every viewer, including admins",
     platforms: ["web"],
     description:
-      "A low-privileged user posts a payload (e.g. in a comment or profile field) that executes against anyone who later views it, including administrators — no click required beyond viewing the page.",
+      "A low-privileged user posts a payload (e.g. in a comment or profile field) that executes against anyone who later views it, including administrators. No click is required beyond viewing the page.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "H", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
     vrtRefId: "xss-stored",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xss-dom-web",
     vulnTypeId: "xss",
-    label: "DOM-based XSS — client-side sink, no server round trip",
+    label: "DOM-based XSS: client-side sink, no server round trip",
     platforms: ["web"],
     description:
       "Attacker-controlled data (e.g. a URL fragment) flows into a dangerous client-side sink like innerHTML entirely in the browser, without the server ever seeing the payload.",
@@ -58,14 +58,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xss-dom",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xss-api-json-reflected",
     vulnTypeId: "xss",
-    label: "API-reflected XSS — unsanitized field rendered by a downstream client",
+    label: "API-reflected XSS: unsanitized field rendered by a downstream client",
     platforms: ["api"],
     description:
       "An API echoes an unsanitized field (e.g. an error message) back in a JSON response; a client application renders it unsafely, executing the payload in that client's context.",
@@ -75,14 +75,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xss-reflected",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet — XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xss-mobile-webview",
     vulnTypeId: "xss",
-    label: "WebView XSS — JS bridge exposes native functionality",
+    label: "WebView XSS: JS bridge exposes native functionality",
     platforms: ["mobile"],
     description:
       "A mobile app's WebView renders attacker-influenced content; a misconfigured JavaScript bridge lets the resulting script call native app functions and read device data.",
@@ -92,8 +92,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xss-reflected",
     cweId: "CWE-79",
     references: [
-      { label: "PortSwigger — Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Mobile Top 10 2024 — M4 Insufficient Input/Output Validation", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m4-insufficient-input-output-validation.html" },
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Mobile Top 10 2024: M4 Insufficient Input/Output Validation", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m4-insufficient-input-output-validation.html" },
     ],
   },
 
@@ -109,7 +109,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "sqli-auth-bypass-web",
     vulnTypeId: "sqli",
-    label: "SQL injection — authentication bypass (web login form)",
+    label: "SQL injection: authentication bypass (web login form)",
     platforms: ["web"],
     description: "A classic ' OR 1=1-- style payload in the web login form bypasses authentication entirely, logging the attacker in as any user.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -118,14 +118,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "sqli-auth-bypass-api",
     vulnTypeId: "sqli",
-    label: "SQL injection — authentication bypass (API login endpoint)",
+    label: "SQL injection: authentication bypass (API login endpoint)",
     platforms: ["api"],
     description: "A classic ' OR 1=1-- style payload sent directly to an API login endpoint bypasses authentication entirely, logging the attacker in as any user.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -134,14 +134,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "sqli-union-data-extraction-web",
     vulnTypeId: "sqli",
-    label: "SQL injection — UNION-based full database dump (web app)",
+    label: "SQL injection: UNION-based full database dump (web app)",
     platforms: ["web"],
     description: "A UNION SELECT payload in a vulnerable web query parameter dumps arbitrary tables, including other users' data and credentials.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -150,14 +150,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "sqli-union-data-extraction-api",
     vulnTypeId: "sqli",
-    label: "SQL injection — UNION-based full database dump (API parameter)",
+    label: "SQL injection: UNION-based full database dump (API parameter)",
     platforms: ["api"],
     description: "A UNION SELECT payload in a vulnerable API query/body parameter dumps arbitrary tables, including other users' data and credentials.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -166,14 +166,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "sqli-blind-boolean-time-web",
     vulnTypeId: "sqli",
-    label: "SQL injection — blind boolean/time-based (web app)",
+    label: "SQL injection: blind boolean/time-based (web app)",
     platforms: ["web"],
     description:
       "No query output is returned directly by the web app; data is exfiltrated one bit at a time via true/false or timing (SLEEP()) responses. Heavy time-based queries can also degrade database availability.",
@@ -183,14 +183,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "sqli-blind-boolean-time-api",
     vulnTypeId: "sqli",
-    label: "SQL injection — blind boolean/time-based (API parameter)",
+    label: "SQL injection: blind boolean/time-based (API parameter)",
     platforms: ["api"],
     description:
       "No query output is returned directly by the API; data is exfiltrated one bit at a time via true/false or timing (SLEEP()) responses. Heavy time-based queries can also degrade database availability.",
@@ -200,8 +200,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -217,8 +217,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -234,8 +234,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP Cheat Sheet — SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -244,15 +244,15 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     label: "SQL injection via unsafe consumption of a third-party API response",
     platforms: ["api"],
     description:
-      "The API enriches user-supplied data (e.g. a business address) by querying a third-party service, then stores that service's response directly in a local SQL-backed database with no sanitization. An attacker plants a malicious SQLi payload in data they control on the third-party service, then triggers the victim API to pull it — the payload executes against the local database once consumed, exfiltrating data to an attacker-controlled destination. Matches OWASP API Security Top 10 2023's own API10 worked example exactly.",
+      "The API enriches user-supplied data (e.g. a business address) by querying a third-party service, then stores that service's response directly in a local SQL-backed database with no sanitization. An attacker plants a malicious SQLi payload in data they control on the third-party service, then triggers the victim API to pull it: the payload executes against the local database once consumed, exfiltrating data to an attacker-controlled destination. Matches OWASP API Security Top 10 2023's own API10 worked example exactly.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "H", AT: "P", PR: "N", UI: "N", VC: "H", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api10-unsafe-consumption",
     vrtRefId: "sqli-generic",
     cweId: "CWE-89",
     references: [
-      { label: "PortSwigger — SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
-      { label: "OWASP API Security Top 10 2023 — API10 Unsafe Consumption of APIs", url: "https://owasp.org/API-Security/editions/2023/en/0xaa-unsafe-consumption-of-apis/" },
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP API Security Top 10 2023: API10 Unsafe Consumption of APIs", url: "https://owasp.org/API-Security/editions/2023/en/0xaa-unsafe-consumption-of-apis/" },
     ],
   },
 
@@ -260,7 +260,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "idor-web-account-takeover",
     vulnTypeId: "idor",
-    label: "IDOR — edit another user's account via a guessable ID",
+    label: "IDOR: edit another user's account via a guessable ID",
     platforms: ["web"],
     description: "Changing a user_id parameter lets an authenticated attacker view and modify another user's account, including email/password reset.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "H", A: "N" },
@@ -269,14 +269,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
     id: "idor-api-object-access",
     vulnTypeId: "idor",
-    label: "IDOR — read-only access to another user's API object",
+    label: "IDOR: read-only access to another user's API object",
     platforms: ["api"],
     description: "An authenticated API request for a sequential/guessable object ID (e.g. /api/orders/{id}) returns another user's private data.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -285,14 +285,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
   {
     id: "idor-mobile-api-unauthenticated",
     vulnTypeId: "idor",
-    label: "IDOR — mobile backend API with no auth check at all",
+    label: "IDOR: mobile backend API with no auth check at all",
     platforms: ["mobile", "api"],
     description: "The API backing a mobile app never validates that the caller owns the requested object ID, and requires no authentication token either.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -301,8 +301,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "idor",
     cweId: "CWE-639",
     references: [
-      { label: "PortSwigger — Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
-      { label: "PortSwigger — Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
     ],
   },
 
@@ -310,7 +310,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "bac-vertical-privesc-admin-panel-web",
     vulnTypeId: "broken-access-control",
-    label: "Vertical privilege escalation — regular user reaches admin functionality (web app)",
+    label: "Vertical privilege escalation: regular user reaches admin functionality (web app)",
     platforms: ["web"],
     description: "A missing server-side role check lets any authenticated user invoke admin-only endpoints directly, gaining full administrative capability.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "H", A: "H" },
@@ -319,14 +319,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
     id: "bac-vertical-privesc-admin-panel-api",
     vulnTypeId: "broken-access-control",
-    label: "Vertical privilege escalation — regular user reaches admin-only API endpoint",
+    label: "Vertical privilege escalation: regular user reaches admin-only API endpoint",
     platforms: ["api"],
     description: "A missing server-side role check lets any authenticated user invoke admin-only API endpoints directly, gaining full administrative capability. Matches API5:2023's function-level authorization gap exactly.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "H", A: "H" },
@@ -335,14 +335,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP API Security Top 10 2023 — API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP API Security Top 10 2023: API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
     ],
   },
   {
     id: "bac-horizontal-privesc-web",
     vulnTypeId: "broken-access-control",
-    label: "Horizontal privilege escalation — act as another same-tier user (web app)",
+    label: "Horizontal privilege escalation: act as another same-tier user (web app)",
     platforms: ["web"],
     description: "An authenticated user can perform write actions on another peer user's data or settings, not just read them (distinct from a read-only IDOR).",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "H", A: "N" },
@@ -351,30 +351,30 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
     id: "bac-horizontal-privesc-api",
     vulnTypeId: "broken-access-control",
-    label: "Horizontal privilege escalation — act as another same-tier user via the API",
+    label: "Horizontal privilege escalation: act as another same-tier user via the API",
     platforms: ["api"],
-    description: "An authenticated API caller can perform write actions on another peer user's object, not just read it — an object-level authorization gap (BOLA), just triggered via a write rather than a read.",
+    description: "An authenticated API caller can perform write actions on another peer user's object, not just read it, an object-level authorization gap (BOLA), just triggered via a write rather than a read.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "H", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "H", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api1-bola",
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP API Security Top 10 2023 — API1 Broken Object Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP API Security Top 10 2023: API1 Broken Object Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" },
     ],
   },
   {
     id: "bac-forced-browsing-unauth-endpoint-web",
     vulnTypeId: "broken-access-control",
-    label: "Forced browsing — sensitive web endpoint has no auth check",
+    label: "Forced browsing: sensitive web endpoint has no auth check",
     platforms: ["web"],
     description: "An unlinked but guessable/discoverable endpoint (e.g. /admin/export) performs no authentication check at all and returns sensitive data to anyone.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -383,14 +383,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP Top 10 2021 — A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
     ],
   },
   {
     id: "bac-forced-browsing-unauth-endpoint-api",
     vulnTypeId: "broken-access-control",
-    label: "Forced browsing — sensitive API endpoint has no auth check",
+    label: "Forced browsing: sensitive API endpoint has no auth check",
     platforms: ["api"],
     description: "An undocumented but guessable/discoverable API endpoint (e.g. /api/admin/export) performs no authentication check at all and returns sensitive data to anyone. A missing function-level permission check, per API5:2023.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -399,8 +399,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-access-control",
     cweId: "CWE-284",
     references: [
-      { label: "PortSwigger — Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
-      { label: "OWASP API Security Top 10 2023 — API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP API Security Top 10 2023: API5 Broken Function Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/" },
     ],
   },
 
@@ -408,7 +408,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "ssrf-cloud-metadata-credential-theft-web",
     vulnTypeId: "ssrf",
-    label: "SSRF — cloud metadata endpoint reached, IAM credentials stolen (web app)",
+    label: "SSRF: cloud metadata endpoint reached, IAM credentials stolen (web app)",
     platforms: ["web"],
     description:
       "A URL-fetching feature is abused to reach the cloud provider's instance metadata service (e.g. 169.254.169.254), stealing IAM credentials that grant access well beyond the vulnerable app itself.",
@@ -418,14 +418,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ssrf-cloud-metadata-credential-theft-api",
     vulnTypeId: "ssrf",
-    label: "SSRF — cloud metadata endpoint reached via an API parameter, IAM credentials stolen",
+    label: "SSRF: cloud metadata endpoint reached via an API parameter, IAM credentials stolen",
     platforms: ["api"],
     description:
       "An API's URL-fetching parameter (e.g. a webhook or import-from-URL feature) is abused to reach the cloud provider's instance metadata service, stealing IAM credentials that grant access well beyond the vulnerable API itself. Matches API7:2023 exactly.",
@@ -435,14 +435,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP API Security Top 10 2023 — API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP API Security Top 10 2023: API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
     ],
   },
   {
     id: "ssrf-internal-port-scan-web",
     vulnTypeId: "ssrf",
-    label: "SSRF — internal network/service reconnaissance (web app)",
+    label: "SSRF: internal network/service reconnaissance (web app)",
     platforms: ["web"],
     description: "The same URL-fetching feature is used to reach internal-only services and admin interfaces not otherwise exposed to the internet.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "N", A: "N" },
@@ -451,14 +451,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ssrf-internal-port-scan-api",
     vulnTypeId: "ssrf",
-    label: "SSRF — internal network/service reconnaissance via an API parameter",
+    label: "SSRF: internal network/service reconnaissance via an API parameter",
     platforms: ["api"],
     description: "An API's URL-fetching parameter is used to reach internal-only services and admin interfaces not otherwise exposed to the internet.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "N", A: "N" },
@@ -467,14 +467,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP API Security Top 10 2023 — API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP API Security Top 10 2023: API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
     ],
   },
   {
     id: "ssrf-blind-oob-web",
     vulnTypeId: "ssrf",
-    label: "Blind SSRF — confirmed only via out-of-band callback (web app)",
+    label: "Blind SSRF: confirmed only via out-of-band callback (web app)",
     platforms: ["web"],
     description: "No response is returned to the attacker; the request is only confirmed via an out-of-band DNS/HTTP interaction, limiting but not eliminating impact.",
     cvss31: { AV: "N", AC: "H", PR: "L", UI: "N", S: "C", C: "L", I: "L", A: "N" },
@@ -483,14 +483,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP Cheat Sheet — SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ssrf-blind-oob-api",
     vulnTypeId: "ssrf",
-    label: "Blind SSRF via an API parameter — confirmed only via out-of-band callback",
+    label: "Blind SSRF via an API parameter: confirmed only via out-of-band callback",
     platforms: ["api"],
     description: "No response is returned to the attacker; the request from a vulnerable API parameter is only confirmed via an out-of-band DNS/HTTP interaction, limiting but not eliminating impact.",
     cvss31: { AV: "N", AC: "H", PR: "L", UI: "N", S: "C", C: "L", I: "L", A: "N" },
@@ -499,8 +499,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "ssrf",
     cweId: "CWE-918",
     references: [
-      { label: "PortSwigger — Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
-      { label: "OWASP API Security Top 10 2023 — API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP API Security Top 10 2023: API7 Server Side Request Forgery", url: "https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/" },
     ],
   },
 
@@ -508,7 +508,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "csrf-state-changing-action",
     vulnTypeId: "csrf",
-    label: "CSRF — unauthorized state-changing action (no anti-CSRF token)",
+    label: "CSRF: unauthorized state-changing action (no anti-CSRF token)",
     platforms: ["web"],
     description: "A state-changing endpoint (e.g. change email) lacks an anti-CSRF token; a malicious page auto-submits a forged request using the victim's active session.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "R", S: "U", C: "N", I: "H", A: "N" },
@@ -517,8 +517,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
@@ -533,8 +533,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "csrf",
     cweId: "CWE-352",
     references: [
-      { label: "PortSwigger — Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
-      { label: "OWASP Cheat Sheet — CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
     ],
   },
 
@@ -542,7 +542,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "sde-web-sensitive-data-in-url",
     vulnTypeId: "sensitive-data-exposure",
-    label: "Sensitive data passed in the URL — leaks via history, logs, and Referer",
+    label: "Sensitive data passed in the URL: leaks via history, logs, and Referer",
     platforms: ["web"],
     description: "A session token, password-reset code, or API key is passed as a GET query-string parameter instead of a header/cookie/POST body, leaking into browser history, server access logs, and the Referer header sent to third-party resources on the page.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -551,14 +551,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-200",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Top 10 2021 — A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Top 10 2021: A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
     ],
   },
   {
     id: "sde-api-excessive-data-exposure",
     vulnTypeId: "sensitive-data-exposure",
-    label: "API excessive data exposure — full object returned, not just displayed fields",
+    label: "API excessive data exposure: full object returned, not just displayed fields",
     platforms: ["api"],
     description: "An API endpoint returns the entire backing object (e.g. password hash, SSN) even though the client UI only displays a subset of it.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -567,8 +567,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-200",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Top 10 2021 — A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Top 10 2021: A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
     ],
   },
   {
@@ -583,8 +583,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-798",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Top 10 2021 — A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Top 10 2021: A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
     ],
   },
   {
@@ -599,8 +599,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-312",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Mobile Top 10 2024 — M9 Insecure Data Storage", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m9-insecure-data-storage.html" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Mobile Top 10 2024: M9 Insecure Data Storage", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m9-insecure-data-storage.html" },
     ],
   },
   {
@@ -615,8 +615,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-798",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Top 10 2021 — A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Top 10 2021: A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
     ],
   },
   {
@@ -631,8 +631,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "sensitive-data-exposure",
     cweId: "CWE-312",
     references: [
-      { label: "PortSwigger — Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
-      { label: "OWASP Top 10 2021 — A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
+      { label: "PortSwigger: Information disclosure", url: "https://portswigger.net/web-security/information-disclosure" },
+      { label: "OWASP Top 10 2021: A02 Cryptographic Failures", url: "https://owasp.org/Top10/2021/A02_2021-Cryptographic_Failures/" },
     ],
   },
 
@@ -649,8 +649,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "open-redirect",
     cweId: "CWE-601",
     references: [
-      { label: "PortSwigger — Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
-      { label: "OWASP Cheat Sheet — Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
+      { label: "PortSwigger: Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
+      { label: "OWASP Cheat Sheet: Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
     ],
   },
   {
@@ -665,8 +665,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "open-redirect",
     cweId: "CWE-601",
     references: [
-      { label: "PortSwigger — Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
-      { label: "OWASP Cheat Sheet — Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
+      { label: "PortSwigger: Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
+      { label: "OWASP Cheat Sheet: Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
     ],
   },
 
@@ -683,8 +683,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-489",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -699,8 +699,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-489",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP API Security Top 10 2023 — API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP API Security Top 10 2023: API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
     ],
   },
   {
@@ -715,8 +715,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -731,8 +731,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP API Security Top 10 2023 — API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP API Security Top 10 2023: API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
     ],
   },
   {
@@ -747,8 +747,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-1392",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -763,8 +763,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-306",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -772,15 +772,15 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vulnTypeId: "security-misconfiguration",
     label: "Verbose error messages disclose internals (web app)",
     platforms: ["web"],
-    description: "Unhandled errors return verbose stack traces or database error text, disclosing internal paths, library versions, or query structure — informational but useful for further attacks.",
+    description: "Unhandled errors return verbose stack traces or database error text, disclosing internal paths, library versions, or query structure, informational but useful for further attacks.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "L", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "L", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a05-security-misconfiguration",
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-209",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP Top 10 2021 — A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
     ],
   },
   {
@@ -788,15 +788,15 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vulnTypeId: "security-misconfiguration",
     label: "Verbose error messages disclose internals (API)",
     platforms: ["api"],
-    description: "Unhandled API errors return verbose stack traces or database error text, disclosing internal paths, library versions, or query structure — informational but useful for further attacks.",
+    description: "Unhandled API errors return verbose stack traces or database error text, disclosing internal paths, library versions, or query structure, informational but useful for further attacks.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "L", I: "N", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "L", VI: "N", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api8-security-misconfiguration",
     vrtRefId: "security-misconfiguration",
     cweId: "CWE-209",
     references: [
-      { label: "PortSwigger — Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
-      { label: "OWASP API Security Top 10 2023 — API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP API Security Top 10 2023: API8 Security Misconfiguration", url: "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/" },
     ],
   },
 
@@ -809,7 +809,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "id-java-gadget-chain-rce",
     vulnTypeId: "insecure-deserialization",
-    label: "Java deserialization — gadget chain leads to RCE",
+    label: "Java deserialization: gadget chain leads to RCE",
     platforms: ["web", "api", "desktop-windows", "desktop-linux"],
     description: "Untrusted data is passed to Java's native deserialization with a vulnerable library (e.g. Commons Collections) on the classpath, enabling a gadget chain to full remote code execution.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "H" },
@@ -818,8 +818,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
   {
@@ -834,19 +834,19 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "insecure-deserialization",
     cweId: "CWE-502",
     references: [
-      { label: "PortSwigger — Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
-      { label: "OWASP Cheat Sheet — Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
     ],
   },
 
   // ---- xxe ----
-  // Platform-split for the same reason as sqli above: OWASP's API Security Top 10 (2023) has no
+  // Platform-split for the same reason as sqli above — OWASP's API Security Top 10 (2023) has no
   // injection-family category, so a direct XXE finding still cites the Web Security
   // Misconfiguration category (web-a05-security-misconfiguration) even on the api platform.
   {
     id: "xxe-file-disclosure-web",
     vulnTypeId: "xxe",
-    label: "XXE — local file disclosure via XML external entity (web app)",
+    label: "XXE: local file disclosure via XML external entity (web app)",
     platforms: ["web"],
     description: "A web app's XML parser resolves external entities, letting an attacker define one that reads arbitrary local files (e.g. /etc/passwd, app config with secrets) back into the response.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -855,14 +855,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xxe-file-disclosure-api",
     vulnTypeId: "xxe",
-    label: "XXE — local file disclosure via XML external entity (API endpoint)",
+    label: "XXE: local file disclosure via XML external entity (API endpoint)",
     platforms: ["api"],
     description: "An API endpoint accepting XML (e.g. a SOAP call or XML file upload) resolves external entities, letting an attacker define one that reads arbitrary local files (e.g. /etc/passwd, app config with secrets) back into the response.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -871,14 +871,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xxe-blind-oob-web",
     vulnTypeId: "xxe",
-    label: "Blind XXE — out-of-band exfiltration, SSRF-like pivot (web app)",
+    label: "Blind XXE: out-of-band exfiltration, SSRF-like pivot (web app)",
     platforms: ["web"],
     description: "No file contents are returned directly by the web app; data is exfiltrated via an external DTD and an out-of-band HTTP/DNS channel, which can also reach internal-only network endpoints.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
@@ -887,14 +887,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
   {
     id: "xxe-blind-oob-api",
     vulnTypeId: "xxe",
-    label: "Blind XXE — out-of-band exfiltration, SSRF-like pivot (API endpoint)",
+    label: "Blind XXE: out-of-band exfiltration, SSRF-like pivot (API endpoint)",
     platforms: ["api"],
     description: "No file contents are returned directly by the API; data is exfiltrated via an external DTD and an out-of-band HTTP/DNS channel, which can also reach internal-only network endpoints.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "C", C: "H", I: "N", A: "N" },
@@ -903,8 +903,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "xxe",
     cweId: "CWE-611",
     references: [
-      { label: "PortSwigger — XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
-      { label: "OWASP Cheat Sheet — XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
     ],
   },
 
@@ -912,7 +912,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "pt-web-lfi-read",
     vulnTypeId: "path-traversal",
-    label: "Path traversal — arbitrary file read via a file parameter",
+    label: "Path traversal: arbitrary file read via a file parameter",
     platforms: ["web"],
     description: "A ../../../../etc/passwd-style payload in a file-loading parameter reads arbitrary files the web server process can access.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -921,14 +921,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
     id: "pt-api-file-download-traversal",
     vulnTypeId: "path-traversal",
-    label: "Path traversal — API file-download endpoint",
+    label: "Path traversal: API file-download endpoint",
     platforms: ["api"],
     description: "An API's file-download endpoint doesn't sanitize the requested filename, permitting retrieval of arbitrary files outside the intended directory.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "H", I: "N", A: "N" },
@@ -937,8 +937,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
@@ -953,8 +953,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
@@ -969,8 +969,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
   {
@@ -985,8 +985,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "path-traversal",
     cweId: "CWE-22",
     references: [
-      { label: "PortSwigger — Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
-      { label: "OWASP — Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
     ],
   },
 
@@ -994,7 +994,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "ba-weak-password-reset-web",
     vulnTypeId: "broken-authentication",
-    label: "Weak password-reset flow — predictable or leaked token (web app)",
+    label: "Weak password-reset flow: predictable or leaked token (web app)",
     platforms: ["web"],
     description: "The password-reset token is predictable, non-expiring, or leaked via the Referer header, letting an attacker take over any account.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "N" },
@@ -1003,14 +1003,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ba-weak-password-reset-api",
     vulnTypeId: "broken-authentication",
-    label: "Weak password-reset flow — predictable or leaked token (API)",
+    label: "Weak password-reset flow: predictable or leaked token (API)",
     platforms: ["api"],
     description: "An API's password-reset token is predictable or non-expiring, letting an attacker take over any account by calling the reset endpoint directly.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "N" },
@@ -1019,14 +1019,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-640",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP API Security Top 10 2023 — API2 Broken Authentication", url: "https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP API Security Top 10 2023: API2 Broken Authentication", url: "https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/" },
     ],
   },
   {
     id: "ba-session-fixation",
     vulnTypeId: "broken-authentication",
-    label: "Session fixation — session ID not regenerated after login",
+    label: "Session fixation: session ID not regenerated after login",
     platforms: ["web"],
     description: "The application doesn't regenerate the session ID after login, letting an attacker fixate a known session ID on the victim and hijack it once they authenticate.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "R", S: "U", C: "H", I: "H", A: "N" },
@@ -1035,14 +1035,14 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-384",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ba-missing-mfa-brute-force-web",
     vulnTypeId: "broken-authentication",
-    label: "No rate-limiting/MFA — credential brute-forcing succeeds (web login form)",
+    label: "No rate-limiting/MFA: credential brute-forcing succeeds (web login form)",
     platforms: ["web"],
     description: "The web login form has no rate-limiting, lockout, or MFA, allowing an attacker to brute-force credentials until a weak password succeeds.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "U", C: "H", I: "L", A: "N" },
@@ -1051,37 +1051,37 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "broken-authentication",
     cweId: "CWE-307",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP Cheat Sheet — Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
     ],
   },
   {
     id: "ba-missing-mfa-brute-force-api",
     vulnTypeId: "broken-authentication",
-    label: "No rate-limiting/MFA — credential brute-forcing succeeds (API/mobile login)",
+    label: "No rate-limiting/MFA: credential brute-forcing succeeds (API/mobile login)",
     platforms: ["api", "mobile"],
-    description: "The login API endpoint — called directly or via a mobile app — has no rate-limiting, lockout, or MFA, allowing an attacker to brute-force credentials until a weak password succeeds. The flaw lives in the backend API regardless of which client reaches it, so it's scored as an API finding even when discovered through mobile testing.",
+    description: "The login API endpoint (called directly or via a mobile app) has no rate-limiting, lockout, or MFA, allowing an attacker to brute-force credentials until a weak password succeeds. The flaw lives in the backend API regardless of which client reaches it, so it's scored as an API finding even when discovered through mobile testing.",
     cvss31: { AV: "N", AC: "H", PR: "N", UI: "N", S: "U", C: "H", I: "L", A: "N" },
     cvss40: { AV: "N", AC: "H", AT: "P", PR: "N", UI: "N", VC: "H", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "api-api2-broken-authentication",
     vrtRefId: "broken-authentication",
     cweId: "CWE-307",
     references: [
-      { label: "PortSwigger — Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
-      { label: "OWASP API Security Top 10 2023 — API2 Broken Authentication", url: "https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/" },
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP API Security Top 10 2023: API2 Broken Authentication", url: "https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/" },
     ],
   },
 
   // ---- command-injection ----
   // ci-api-command-injection below cites a Web category (web-a03-injection) for the same
-  // reason given above the sqli section: OWASP API Security Top 10 (2023) explicitly folds
+  // reason given above the sqli section — OWASP API Security Top 10 (2023) explicitly folds
   // classic injection (SQLi/NoSQLi/command injection) into the main OWASP Top 10 rather than
   // giving it its own API category, so a direct command-injection finding on an API endpoint
   // still cites the Web Injection category even though the platform is "api".
   {
     id: "ci-web-os-command-injection",
     vulnTypeId: "command-injection",
-    label: "OS command injection — unsanitized input reaches a shell command",
+    label: "OS command injection: unsanitized input reaches a shell command",
     platforms: ["web"],
     description: "A feature that shells out (e.g. a network diagnostic \"ping\" tool) passes unsanitized user input to the OS shell, giving full remote code execution as the web server user.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "H", I: "H", A: "H" },
@@ -1090,8 +1090,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1106,8 +1106,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
   {
@@ -1122,8 +1122,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "command-injection",
     cweId: "CWE-78",
     references: [
-      { label: "PortSwigger — OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
-      { label: "OWASP Cheat Sheet — OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
     ],
   },
 
@@ -1131,23 +1131,23 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
   {
     id: "param-web-checkout-price-tampering",
     vulnTypeId: "parameter-tampering",
-    label: "Checkout price/quantity tampering — client-supplied value trusted without server revalidation",
+    label: "Checkout price/quantity tampering: client-supplied value trusted without server revalidation",
     platforms: ["web"],
-    description: "A guest or logged-in checkout flow sends the unit price, quantity, or discount amount as a client-editable form field or hidden parameter, and the server accepts it as-is instead of recalculating it from trusted server-side data — letting an attacker buy at an arbitrary price without needing an account at all.",
+    description: "A guest or logged-in checkout flow sends the unit price, quantity, or discount amount as a client-editable form field or hidden parameter, and the server accepts it as-is instead of recalculating it from trusted server-side data, letting an attacker buy at an arbitrary price without needing an account at all.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "N", I: "H", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "N", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a04-insecure-design",
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
     id: "param-api-mass-assignment-role-field",
     vulnTypeId: "parameter-tampering",
-    label: "Mass assignment — undocumented \"role\"/\"isAdmin\" request field grants privilege",
+    label: "Mass assignment: undocumented \"role\"/\"isAdmin\" request field grants privilege",
     platforms: ["api"],
     description: "An API endpoint binds the entire JSON request body directly to an internal object without an allow-list, so a low-privileged authenticated user can add an undocumented property (e.g. \"role\": \"admin\") to a request and have it accepted, granting themselves elevated privileges.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "C", C: "H", I: "H", A: "H" },
@@ -1156,8 +1156,8 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-915",
     references: [
-      { label: "OWASP Cheat Sheet — Mass Assignment", url: "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html" },
-      { label: "OWASP API Security Top 10 2023 — API3 Broken Object Property Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/" },
+      { label: "OWASP Cheat Sheet: Mass Assignment", url: "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html" },
+      { label: "OWASP API Security Top 10 2023: API3 Broken Object Property Level Authorization", url: "https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/" },
     ],
   },
   {
@@ -1172,42 +1172,42 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Mobile Top 10 2024 — M3 Insecure Authentication/Authorization", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m3-insecure-authentication-authorization.html" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Mobile Top 10 2024: M3 Insecure Authentication/Authorization", url: "https://owasp.org/www-project-mobile-top-10/2023-risks/m3-insecure-authentication-authorization.html" },
     ],
   },
   {
     id: "param-web-hidden-field-workflow-bypass",
     vulnTypeId: "parameter-tampering",
-    label: "Hidden field tampering — workflow/approval-state flag bypasses a required verification step",
+    label: "Hidden field tampering: workflow/approval-state flag bypasses a required verification step",
     platforms: ["web"],
     description:
-      "A multi-step web feature (e.g. an application form, KYC/document-review flow, or approval workflow) tracks its progress in a hidden form field (e.g. <input type=\"hidden\" name=\"verified\" value=\"false\">) that the client is only supposed to flip once a required check passes. Editing that hidden value directly in the page or an intercepted request — without ever actually passing the check — is accepted by the server as-is, letting the record persist as \"verified\"/\"approved\" and corrupting the true state of that workflow.",
+      "A multi-step web feature (e.g. an application form, KYC/document-review flow, or approval workflow) tracks its progress in a hidden form field (e.g. <input type=\"hidden\" name=\"verified\" value=\"false\">) that the client is only supposed to flip once a required check passes. Editing that hidden value directly in the page or an intercepted request (without ever actually passing the check) is accepted by the server as-is, letting the record persist as \"verified\"/\"approved\" and corrupting the true state of that workflow.",
     cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "N", I: "H", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "N", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a04-insecure-design",
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
   {
     id: "param-web-hidden-field-vote-review-integrity",
     vulnTypeId: "parameter-tampering",
-    label: "Hidden field tampering — \"already submitted\" flag reset to allow unlimited resubmissions",
+    label: "Hidden field tampering: \"already submitted\" flag reset to allow unlimited resubmissions",
     platforms: ["web"],
     description:
-      "A review, rating, survey, or voting feature sets a hidden field (e.g. <input type=\"hidden\" name=\"hasVoted\" value=\"true\">) once a user submits, and relies on that client-set value — instead of a server-side per-user/per-session record — to block repeat submissions. Resetting the hidden field to its original value before resubmitting lets a single user submit unlimited times, skewing the aggregated ratings/poll results and undermining the integrity of that data for everyone who later views it.",
+      "A review, rating, survey, or voting feature sets a hidden field (e.g. <input type=\"hidden\" name=\"hasVoted\" value=\"true\">) once a user submits, and relies on that client-set value (instead of a server-side per-user/per-session record) to block repeat submissions. Resetting the hidden field to its original value before resubmitting lets a single user submit unlimited times, skewing the aggregated ratings/poll results and undermining the integrity of that data for everyone who later views it.",
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "N", I: "H", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "N", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a04-insecure-design",
     vrtRefId: "parameter-tampering",
     cweId: "CWE-472",
     references: [
-      { label: "PortSwigger — Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
-      { label: "OWASP Top 10 2021 — A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
 ];

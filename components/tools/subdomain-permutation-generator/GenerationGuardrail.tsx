@@ -68,7 +68,7 @@ export function GenerationGuardrail({
           {outOfRange && (
             <p className="max-w-xs text-right text-xs text-red-600 dark:text-red-400">
               Enter a whole number between {MAX_OUTPUT_FLOOR.toLocaleString()} and {MAX_OUTPUT_CEILING.toLocaleString()}. Rendering more
-              than that in-browser risks freezing the tab (500k+ can take several seconds, 1M+ can hang it) — generation will use{" "}
+              than that in-browser risks freezing the tab (500k+ can take several seconds, 1M+ can hang it). Generation will use{" "}
               {effectiveMaxOutput.toLocaleString()}
               {" "}instead of what&apos;s typed here.
             </p>
@@ -78,7 +78,7 @@ export function GenerationGuardrail({
 
       {estimate.exceedsCap && (
         <Callout variant="warning">
-          Current settings could produce more than {effectiveMaxOutput.toLocaleString()} candidates — generation will stop at the cap
+          Current settings could produce more than {effectiveMaxOutput.toLocaleString()} candidates. Generation will stop at the cap
           and the list may be incomplete. Narrow the modes above or raise the cap deliberately.
         </Callout>
       )}
