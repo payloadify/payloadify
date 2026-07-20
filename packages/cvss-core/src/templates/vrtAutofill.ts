@@ -9,8 +9,13 @@ export interface VrtAutofillEntry {
 /** Suggested OWASP category + CWE + references to autofill when the user manually picks a VRT
  *  category in the Additional Info editor (custom/no-template mode) — a starting point only,
  *  the user can change or delete any of it afterward. Values mirror the canonical per-vuln-type
- *  defaults already used by templates.ts/chaining.ts (the three XSS VRT sub-variants and the
- *  single SQLi VRT id all resolve to their shared parent family's defaults). */
+ *  defaults already used by templates.ts/chaining.ts (the two XSS VRT sub-variants and the
+ *  single SQLi VRT id all resolve to their shared parent family's defaults).
+ *
+ *  This is best-effort, not exhaustive: VRT_CATEGORIES now covers the full official Bugcrowd
+ *  taxonomy (~440 entries), and only the ids below (mostly the pre-existing hand-authored set)
+ *  have a verified CWE/OWASP/reference mapping. Picking a VRT category with no entry here just
+ *  leaves CWE/OWASP/references blank for the user to fill in manually. */
 export const VRT_AUTOFILL: Record<string, VrtAutofillEntry> = {
   "xss-reflected": {
     owaspRefId: "web-a03-injection",
@@ -21,14 +26,6 @@ export const VRT_AUTOFILL: Record<string, VrtAutofillEntry> = {
     ],
   },
   "xss-stored": {
-    owaspRefId: "web-a03-injection",
-    cweId: "CWE-79",
-    references: [
-      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
-      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
-    ],
-  },
-  "xss-dom": {
     owaspRefId: "web-a03-injection",
     cweId: "CWE-79",
     references: [

@@ -5,11 +5,11 @@ import { VRT_CATEGORIES } from "../references/vrt";
 import { VRT_AUTOFILL } from "./vrtAutofill";
 
 describe("VRT_AUTOFILL", () => {
-  it("has exactly one entry per VRT category id — every VRT pick must have an autofill suggestion", () => {
-    for (const vrt of VRT_CATEGORIES) {
-      expect(VRT_AUTOFILL[vrt.id], `missing autofill entry for VRT id "${vrt.id}"`).toBeDefined();
+  it("is best-effort: every key resolves to a real VRT_CATEGORIES entry, but not every entry needs a key", () => {
+    const vrtIds = new Set(VRT_CATEGORIES.map((v) => v.id));
+    for (const vrtId of Object.keys(VRT_AUTOFILL)) {
+      expect(vrtIds.has(vrtId), `VRT_AUTOFILL has an entry for unknown VRT id "${vrtId}"`).toBe(true);
     }
-    expect(Object.keys(VRT_AUTOFILL).sort()).toEqual(VRT_CATEGORIES.map((v) => v.id).sort());
   });
 
   it("every cweId and non-null owaspRefId resolves to a real entry", () => {

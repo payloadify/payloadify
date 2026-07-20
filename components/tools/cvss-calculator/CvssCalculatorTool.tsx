@@ -42,6 +42,7 @@ import {
   Platform,
   toOwaspWebVersion,
   VRT_CATEGORIES_BY_ID,
+  VRT_VERSION,
 } from "@payloadify/cvss-core";
 import {
   MAX_SAVED_CVSS_TEMPLATES,
@@ -410,7 +411,7 @@ export function CvssCalculatorTool() {
     const vrt = meta.vrtRefId ? VRT_CATEGORIES_BY_ID[meta.vrtRefId] : null;
     const cwe = meta.cweId ? CWE_ENTRIES_BY_ID[meta.cweId] : null;
     if (owasp) fields.push({ id: "owasp", label: "OWASP Category", value: owasp.label, url: owasp.url });
-    if (vrt) fields.push({ id: "vrt", label: "VRT Category", value: `VRT: ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}` });
+    if (vrt) fields.push({ id: "vrt", label: "VRT Category", value: `VRT ${VRT_VERSION} - ${vrt.label}` });
     if (cwe) fields.push({ id: "cwe", label: "CWE", value: `${cwe.id}: ${cwe.label}`, url: cwe.url });
     if (meta.references.length > 0) {
       fields.push({ id: "references", label: "References", value: meta.references.map((r) => r.url).join("\n") });

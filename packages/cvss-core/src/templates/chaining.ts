@@ -2,7 +2,7 @@ import { ChainPair } from "./types";
 import { VULN_TYPES_BY_ID } from "./vulnTypes";
 
 /**
- * Every unique unordered pair of the 15 VulnType families (vulnTypes.ts) — C(15,2) = 105
+ * Every unique unordered pair of the 16 VulnType families (vulnTypes.ts) — C(16,2) = 120
  * entries, one per pair, per the confirmed "fully hand-authored matrix" scope decision. No
  * runtime "no override" fallback exists; chaining.test.ts asserts this file has exactly one
  * entry for every pair and fails loudly if a family is added without its new pair entries.
@@ -1702,6 +1702,250 @@ export const CHAIN_MATRIX: ChainPair[] = [
     references: [
       { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
       { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+    ],
+  },
+
+  // ---- race-condition (added after the original 15-family / 105-pair matrix; the race-
+  // condition side of every merge below uses its own worst-case template, the double-spend
+  // scenario: AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N) ----
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "xss",
+    label: "Race Condition (TOCTOU) chained with Cross-Site Scripting (XSS)",
+    cvss31: {"AV":"N","AC":"L","PR":"L","UI":"N","S":"C","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"L","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.6 4.0=8.6
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Cross-Site Scripting (XSS). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "xss-stored",
+    cweId: "CWE-79",
+    references: [
+      { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
+      { label: "OWASP Cheat Sheet: XSS Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "sqli",
+    label: "Race Condition (TOCTOU) chained with SQL Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"L"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"L","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.4 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and SQL Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "sqli-generic",
+    cweId: "CWE-89",
+    references: [
+      { label: "PortSwigger: SQL injection", url: "https://portswigger.net/web-security/sql-injection" },
+      { label: "OWASP Cheat Sheet: SQL Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "idor",
+    label: "Race Condition (TOCTOU) chained with Insecure Direct Object Reference (IDOR)",
+    cvss31: {"AV":"N","AC":"L","PR":"L","UI":"N","S":"U","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"L","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=8.1 4.0=8.6
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Insecure Direct Object Reference (IDOR). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "idor",
+    cweId: "CWE-639",
+    references: [
+      { label: "PortSwigger: Insecure direct object references (IDOR)", url: "https://portswigger.net/web-security/access-control/idor" },
+      { label: "PortSwigger: Top 10 API vulnerabilities", url: "https://portswigger.net/web-security/api-testing/top-10-api-vulnerabilities" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "broken-access-control",
+    label: "Race Condition (TOCTOU) chained with Broken Access Control / Privilege Escalation",
+    cvss31: {"AV":"N","AC":"L","PR":"L","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"L","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.9 4.0=8.7
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Broken Access Control / Privilege Escalation. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "broken-access-control",
+    cweId: "CWE-284",
+    references: [
+      { label: "PortSwigger: Access control vulnerabilities", url: "https://portswigger.net/web-security/access-control" },
+      { label: "OWASP Top 10 2021: A01 Broken Access Control", url: "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "ssrf",
+    label: "Race Condition (TOCTOU) chained with Server-Side Request Forgery (SSRF)",
+    cvss31: {"AV":"N","AC":"L","PR":"L","UI":"N","S":"C","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"L","UI":"N","VC":"L","VI":"H","VA":"N","SC":"H","SI":"H","SA":"N","E":"X"},
+    // combined score 3.1=9.6 4.0=8.4
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Server-Side Request Forgery (SSRF). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a10-ssrf",
+    vrtRefId: "ssrf",
+    cweId: "CWE-918",
+    references: [
+      { label: "PortSwigger: Server-side request forgery (SSRF)", url: "https://portswigger.net/web-security/ssrf" },
+      { label: "OWASP Cheat Sheet: SSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "csrf",
+    label: "Race Condition (TOCTOU) chained with Cross-Site Request Forgery (CSRF)",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Cross-Site Request Forgery (CSRF). Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "csrf",
+    cweId: "CWE-352",
+    references: [
+      { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
+      { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "sensitive-data-exposure",
+    label: "Race Condition (TOCTOU) chained with Sensitive Data Exposure / Cryptographic Failures",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.1 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Sensitive Data Exposure / Cryptographic Failures. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a04-insecure-design",
+    vrtRefId: "server-security-misconfiguration-race-condition",
+    cweId: "CWE-362",
+    references: [
+      { label: "PortSwigger: Race conditions", url: "https://portswigger.net/web-security/race-conditions" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "open-redirect",
+    label: "Race Condition (TOCTOU) chained with Open Redirect",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=10 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Open Redirect. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "open-redirect",
+    cweId: "CWE-601",
+    references: [
+      { label: "PortSwigger: Open redirection", url: "https://portswigger.net/kb/issues/00500100_open-redirection-reflected" },
+      { label: "OWASP Cheat Sheet: Unvalidated Redirects and Forwards", url: "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "security-misconfiguration",
+    label: "Race Condition (TOCTOU) chained with Security Misconfiguration",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Security Misconfiguration. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a05-security-misconfiguration",
+    vrtRefId: "security-misconfiguration",
+    cweId: "CWE-1392",
+    references: [
+      { label: "PortSwigger: Testing for security misconfiguration", url: "https://portswigger.net/support/using-burp-to-test-for-security-misconfiguration-issues" },
+      { label: "OWASP Top 10 2021: A05 Security Misconfiguration", url: "https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "insecure-deserialization",
+    label: "Race Condition (TOCTOU) chained with Insecure Deserialization",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Insecure Deserialization. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a08-software-data-integrity",
+    vrtRefId: "insecure-deserialization",
+    cweId: "CWE-502",
+    references: [
+      { label: "PortSwigger: Insecure deserialization", url: "https://portswigger.net/web-security/deserialization" },
+      { label: "OWASP Cheat Sheet: Deserialization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "xxe",
+    label: "Race Condition (TOCTOU) chained with XML External Entity (XXE) Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.1 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and XML External Entity (XXE) Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a05-security-misconfiguration",
+    vrtRefId: "xxe",
+    cweId: "CWE-611",
+    references: [
+      { label: "PortSwigger: XML external entity (XXE) injection", url: "https://portswigger.net/web-security/xxe" },
+      { label: "OWASP Cheat Sheet: XXE Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "path-traversal",
+    label: "Race Condition (TOCTOU) chained with Path Traversal / Local File Inclusion",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.1 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Path Traversal / Local File Inclusion. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a01-broken-access-control",
+    vrtRefId: "path-traversal",
+    cweId: "CWE-22",
+    references: [
+      { label: "PortSwigger: Directory/path traversal", url: "https://portswigger.net/web-security/file-path-traversal" },
+      { label: "OWASP: Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "broken-authentication",
+    label: "Race Condition (TOCTOU) chained with Broken Authentication / Session Management",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.1 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Broken Authentication / Session Management. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a07-auth-failures",
+    vrtRefId: "broken-authentication",
+    cweId: "CWE-640",
+    references: [
+      { label: "PortSwigger: Authentication vulnerabilities", url: "https://portswigger.net/web-security/authentication" },
+      { label: "OWASP Cheat Sheet: Session Management", url: "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "command-injection",
+    label: "Race Condition (TOCTOU) chained with OS Command Injection",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"H","I":"H","A":"H"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"H","VI":"H","VA":"H","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=9.8 4.0=9.3
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and OS Command Injection. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a03-injection",
+    vrtRefId: "command-injection",
+    cweId: "CWE-78",
+    references: [
+      { label: "PortSwigger: OS command injection", url: "https://portswigger.net/web-security/os-command-injection" },
+      { label: "OWASP Cheat Sheet: OS Command Injection Defense", url: "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" },
+    ],
+  },
+  {
+    vulnTypeIdA: "race-condition",
+    vulnTypeIdB: "parameter-tampering",
+    label: "Race Condition (TOCTOU) chained with Parameter Tampering",
+    cvss31: {"AV":"N","AC":"L","PR":"N","UI":"N","S":"U","C":"N","I":"H","A":"N"},
+    cvss40: {"AV":"N","AC":"L","AT":"N","PR":"N","UI":"N","VC":"N","VI":"H","VA":"N","SC":"N","SI":"N","SA":"N","E":"X"},
+    // combined score 3.1=7.5 4.0=8.7
+    rationale: "Combined by taking the more severe rating per metric between Race Condition (TOCTOU) and Parameter Tampering. Category shown reflects whichever of the two carries the higher standalone severity.",
+    owaspRefId: "web-a04-insecure-design",
+    vrtRefId: "parameter-tampering",
+    cweId: "CWE-472",
+    references: [
+      { label: "PortSwigger: Business logic vulnerabilities", url: "https://portswigger.net/web-security/logic-flaws" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
     ],
   },
 ];

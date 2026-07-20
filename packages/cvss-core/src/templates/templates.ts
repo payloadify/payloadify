@@ -55,7 +55,7 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     cvss31: { AV: "N", AC: "L", PR: "N", UI: "R", S: "C", C: "L", I: "L", A: "N" },
     cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "P", VC: "L", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
     owaspRefId: "web-a03-injection",
-    vrtRefId: "xss-dom",
+    vrtRefId: "xss-reflected",
     cweId: "CWE-79",
     references: [
       { label: "PortSwigger: Cross-site scripting", url: "https://portswigger.net/web-security/cross-site-scripting" },
@@ -535,6 +535,86 @@ export const CVSS_TEMPLATES: CvssTemplate[] = [
     references: [
       { label: "PortSwigger: Cross-site request forgery (CSRF)", url: "https://portswigger.net/web-security/csrf" },
       { label: "OWASP Cheat Sheet: CSRF Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+    ],
+  },
+
+  // ---- race-condition ----
+  // Modern race-condition exploitation (single-packet/last-byte-sync techniques, e.g.
+  // PortSwigger's Turbo Intruder work) makes reliably winning the timing window a solved,
+  // repeatable technique rather than a matter of luck, so these are scored AC:L rather than
+  // AC:H despite the underlying timing dependency.
+  {
+    id: "race-limit-bypass-web",
+    vulnTypeId: "race-condition",
+    label: "Race condition: single-use discount code redeemed multiple times (web checkout)",
+    platforms: ["web"],
+    description:
+      "A single-use discount/promo code's redemption count is checked and then incremented in two separate steps. Firing many concurrent checkout requests wins the race and lets the same code apply its discount more than once before the counter catches up.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "N", I: "L", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "N", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a04-insecure-design",
+    vrtRefId: "server-security-misconfiguration-race-condition",
+    cweId: "CWE-362",
+    references: [
+      { label: "PortSwigger: Race conditions", url: "https://portswigger.net/web-security/race-conditions" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+    ],
+  },
+  {
+    id: "race-limit-bypass-api",
+    vulnTypeId: "race-condition",
+    label: "Race condition: single-use discount code redeemed multiple times (API endpoint)",
+    platforms: ["api"],
+    description:
+      "A single-use discount/promo code's redemption count is checked and then incremented in two separate steps of the same API call. Firing many concurrent requests at the endpoint wins the race and lets the same code apply its discount more than once before the counter catches up.",
+    cvss31: { AV: "N", AC: "L", PR: "N", UI: "N", S: "U", C: "N", I: "L", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "N", UI: "N", VC: "N", VI: "L", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "api-api6-unrestricted-business-flows",
+    vrtRefId: "server-security-misconfiguration-race-condition",
+    cweId: "CWE-362",
+    references: [
+      { label: "PortSwigger: Race conditions", url: "https://portswigger.net/web-security/race-conditions" },
+      {
+        label: "OWASP API Security Top 10 2023: API6 Unrestricted Access to Sensitive Business Flows",
+        url: "https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/",
+      },
+    ],
+  },
+  {
+    id: "race-fund-double-spend-web",
+    vulnTypeId: "race-condition",
+    label: "Race condition: double-spend via concurrent balance/withdrawal requests (web app)",
+    platforms: ["web"],
+    description:
+      "A withdrawal or fund-transfer feature reads the account balance, then debits it, as two separate steps. An authenticated attacker fires several withdrawal requests at once so multiple of them read the same starting balance before any of them writes the debit back, withdrawing more than the account actually holds.",
+    cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "N", I: "H", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "N", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "web-a04-insecure-design",
+    vrtRefId: "server-security-misconfiguration-race-condition",
+    cweId: "CWE-362",
+    references: [
+      { label: "PortSwigger: Race conditions", url: "https://portswigger.net/web-security/race-conditions" },
+      { label: "OWASP Top 10 2021: A04 Insecure Design", url: "https://owasp.org/Top10/2021/A04_2021-Insecure_Design/" },
+    ],
+  },
+  {
+    id: "race-fund-double-spend-api",
+    vulnTypeId: "race-condition",
+    label: "Race condition: double-spend via concurrent balance/withdrawal requests (API)",
+    platforms: ["api"],
+    description:
+      "A withdrawal or fund-transfer API endpoint reads the account balance, then debits it, as two separate steps. An authenticated attacker fires several withdrawal requests at the endpoint at once so multiple of them read the same starting balance before any of them writes the debit back, withdrawing more than the account actually holds.",
+    cvss31: { AV: "N", AC: "L", PR: "L", UI: "N", S: "U", C: "N", I: "H", A: "N" },
+    cvss40: { AV: "N", AC: "L", AT: "N", PR: "L", UI: "N", VC: "N", VI: "H", VA: "N", SC: "N", SI: "N", SA: "N", E: "X" },
+    owaspRefId: "api-api6-unrestricted-business-flows",
+    vrtRefId: "server-security-misconfiguration-race-condition",
+    cweId: "CWE-362",
+    references: [
+      { label: "PortSwigger: Race conditions", url: "https://portswigger.net/web-security/race-conditions" },
+      {
+        label: "OWASP API Security Top 10 2023: API6 Unrestricted Access to Sensitive Business Flows",
+        url: "https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/",
+      },
     ],
   },
 

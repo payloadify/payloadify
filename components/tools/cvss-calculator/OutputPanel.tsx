@@ -21,6 +21,7 @@ import {
   VRT_AUTOFILL,
   VRT_CATEGORIES,
   VRT_CATEGORIES_BY_ID,
+  VRT_VERSION,
 } from "@payloadify/cvss-core";
 import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
 
@@ -81,7 +82,9 @@ export function OutputPanel({
     if (existing) existing.categories.push(category);
     else groups.push({ group: category.group, categories: [category] });
     return groups;
-  }, []);
+  }, [])
+    .sort((a, b) => a.group.localeCompare(b.group))
+    .map((g) => ({ ...g, categories: [...g.categories].sort((a, b) => a.label.localeCompare(b.label)) }));
 
   // The broad "parent" CWE for a category (if any) is always sorted first within its optgroup,
   // flagged as such in the UI, since it's commonly picked as a fallback when the reporter isn't
@@ -238,9 +241,7 @@ export function OutputPanel({
                   ))}
                 </select>
               </div>
-              {vrt && (
-                <CopyButton text={`VRT: ${vrt.label}${vrt.priority ? ` (${vrt.priority})` : ""}`} label="Copy" />
-              )}
+              {vrt && <CopyButton text={`VRT ${VRT_VERSION} - ${vrt.label}`} label="Copy" />}
             </div>
             {vrt?.inferred && (
               <p className="-mt-2 text-xs text-zinc-500 dark:text-zinc-500">Inferred: not a literal VRT leaf. {vrt.note}</p>

@@ -21,7 +21,7 @@ export interface VulnType {
   categoryId: string;
 }
 
-/** ~15 vulnerability-type families for v1, drawn from OWASP Top 10 (2021) / API Top 10 (2023)
+/** ~16 vulnerability-type families for v1, drawn from OWASP Top 10 (2021) / API Top 10 (2023)
  *  so the OWASP-category mapping (see references/owasp.ts) has clean, real coverage. Each
  *  family gets 2-5 scenario templates in templates.ts varying by platform/impact context. */
 export const VULN_TYPES: VulnType[] = [
@@ -56,6 +56,7 @@ export const VULN_TYPES: VulnType[] = [
     categoryId: "access-control",
   },
   { id: "csrf", label: "Cross-Site Request Forgery (CSRF)", platforms: ["web"], categoryId: "access-control" },
+  { id: "race-condition", label: "Race Condition (TOCTOU)", platforms: ["web", "api"], categoryId: "access-control" },
 
   {
     id: "sensitive-data-exposure",

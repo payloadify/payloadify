@@ -81,6 +81,12 @@ export const VULN_TYPE_FALLBACK_DESCRIPTION_IMPACT: Record<string, VulnDescripti
     impact:
       "May allow an attacker to trick an authenticated victim's browser into performing an unwanted state-changing action without the victim's knowledge or consent.",
   },
+  "race-condition": {
+    description:
+      "Two or more requests that should be handled sequentially are instead processed concurrently, and the application fails to synchronize the shared state (e.g. a balance, a redemption counter, a one-time-use flag) they depend on, leaving a window where a check and the action that relies on it can be interleaved with another request.",
+    impact:
+      "May allow an attacker to bypass a limit, quota, or one-time-use control, or read/write shared state inconsistently, by firing requests in parallel, undermining the integrity of the affected business logic or data.",
+  },
   "sensitive-data-exposure": {
     description:
       "Sensitive data (such as credentials, tokens, or personal information) is transmitted, stored, or logged without adequate protection: for example missing encryption, an overly broad API response, or insecure local storage.",
@@ -293,6 +299,32 @@ export const TEMPLATE_DESCRIPTION_IMPACT: Record<string, VulnDescriptionImpact> 
     description:
       "The same missing anti-CSRF protection on the password-change or email-linking flow is chained across multiple steps to achieve a full account takeover, rather than triggering just one isolated unwanted action.",
     impact: "May allow an attacker to achieve complete account takeover (not just a single forged action) by chaining CSRF against the account-recovery or credential-change flow.",
+  },
+
+  // ---- race-condition ----
+  "race-limit-bypass-web": {
+    description:
+      "A single-use discount/promo code's redemption count is checked and then incremented as two separate steps of the checkout flow, rather than atomically. Submitting many checkout requests for the same code at once wins the race and lets several of them read the same pre-redemption count before any of them writes the increment back.",
+    impact:
+      "May allow an attacker to redeem a single-use discount code far more times than intended, causing direct financial loss to the business rather than compromising any individual user's data.",
+  },
+  "race-limit-bypass-api": {
+    description:
+      "A single-use discount/promo code's redemption count is checked and then incremented as two separate steps within the same API call, rather than atomically. Firing many concurrent requests at the endpoint wins the race and lets several of them read the same pre-redemption count before any of them writes the increment back.",
+    impact:
+      "May allow an attacker to redeem a single-use discount code far more times than intended via direct API calls, causing direct financial loss to the business rather than compromising any individual user's data.",
+  },
+  "race-fund-double-spend-web": {
+    description:
+      "A withdrawal or fund-transfer feature reads the account balance and then debits it as two separate steps, rather than atomically. An authenticated attacker submits several withdrawal requests through the web UI at once, so more than one of them reads the same starting balance before any of them writes its debit back.",
+    impact:
+      "May allow an authenticated attacker to withdraw or transfer out more funds than their account actually holds, directly compromising the integrity of financial balance data.",
+  },
+  "race-fund-double-spend-api": {
+    description:
+      "A withdrawal or fund-transfer API endpoint reads the account balance and then debits it as two separate steps, rather than atomically. An authenticated attacker fires several requests at the endpoint at once, so more than one of them reads the same starting balance before any of them writes its debit back.",
+    impact:
+      "May allow an authenticated attacker to withdraw or transfer out more funds than their account actually holds via direct API calls, directly compromising the integrity of financial balance data.",
   },
 
   // ---- sensitive-data-exposure ----

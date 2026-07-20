@@ -286,6 +286,7 @@ export const OWASP_WEB_2025_CWE_MAP: Record<string, string> = {
   "CWE-209": "web25-a10-mishandling-exceptional-conditions",
   "CWE-502": "web25-a08-software-or-data-integrity-failures",
   "CWE-472": "web25-a06-insecure-design",
+  "CWE-362": "web25-a06-insecure-design",
 };
 
 /** The 2021 counterpart of OWASP_WEB_2025_CWE_MAP — every CWE above's *original* 2021 Web
@@ -316,6 +317,7 @@ export const OWASP_WEB_2021_CWE_MAP: Record<string, string> = {
   "CWE-209": "web-a05-security-misconfiguration",
   "CWE-502": "web-a08-software-data-integrity",
   "CWE-472": "web-a04-insecure-design",
+  "CWE-362": "web-a04-insecure-design",
 };
 
 /** Resolves a Web owaspRefId + its finding's cweId to the requested Web edition. Returns the
