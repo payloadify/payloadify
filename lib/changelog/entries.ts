@@ -14,6 +14,35 @@ export interface ChangelogEntry {
 // Newest first. To ship a new entry, add a new object at the TOP of this array.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2026-07-20",
+    items: [
+      {
+        category: "Added",
+        text: "CVSS Calculator: AI/LLM platform option, with 10 scenario templates covering the OWASP Top 10 for LLM Applications (2025), including prompt injection, sensitive information disclosure, and system prompt leakage",
+      },
+      {
+        category: "Added",
+        text: "CVSS Calculator: Race Condition (TOCTOU) and Using Components with Known Vulnerabilities vuln types, each with web, API, and (for components) desktop scenario templates",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: CWE dropdown expanded from 23 to 57 entries, grouped into 12 categories, with the broad parent CWE flagged and listed first in each group",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: VRT dropdown now covers Bugcrowd's full published taxonomy (about 440 entries) instead of a small hand-picked list, with the taxonomy version shown in the copied output",
+      },
+      {
+        category: "Fixed",
+        text: "CVSS Calculator: rationale/notes text wasn't being included in the Copy All panel output",
+      },
+      {
+        category: "Fixed",
+        text: "CVSS Calculator: VRT autofill for two of the new LLM categories (Supply Chain, System Prompt Leakage) pointed at the wrong or a missing OWASP/CWE suggestion",
+      },
+    ],
+  },
+  {
     date: "2026-07-17",
     items: [
       {
