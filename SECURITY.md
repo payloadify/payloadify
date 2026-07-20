@@ -8,11 +8,11 @@ issues on payloadify.com seriously and appreciate responsible disclosure.
 
 If you find a security issue on **payloadify.com itself** (as opposed to a
 tool's generated output being inaccurate — see [CONTRIBUTING.md](CONTRIBUTING.md)
-or open a [GitHub issue](https://github.com/payloadify/payloadify/issues) for
+or open a [GitHub issue](https://github.com/payloadify/payloadify-web/issues) for
 that instead), please report it privately rather than opening a public issue:
 
 - Email **contact@payloadify.com**, or
-- Use GitHub's [private vulnerability reporting](https://github.com/payloadify/payloadify/security/advisories/new)
+- Use GitHub's [private vulnerability reporting](https://github.com/payloadify/payloadify-web/security/advisories/new)
 
 Please include:
 
@@ -34,7 +34,7 @@ exposure, dependency vulnerabilities).
 
 Out of scope: the accuracy or behavior of a tool's *generated output*
 (e.g. a payload or command a tool produces) — report those as regular bugs
-via [GitHub issues](https://github.com/payloadify/payloadify/issues).
+via [GitHub issues](https://github.com/payloadify/payloadify-web/issues).
 
 ## Known, accepted limitation — Security Headers Analyzer SSRF guard
 

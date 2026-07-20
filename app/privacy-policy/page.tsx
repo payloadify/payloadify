@@ -174,7 +174,7 @@ export default function PrivacyPolicyPage() {
           <p>
             Found a bug in a tool, or have a feature request? Open an issue on{" "}
             <a
-              href="https://github.com/payloadify/payloadify/issues"
+              href="https://github.com/payloadify/payloadify-web/issues"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-900 underline dark:text-zinc-100"

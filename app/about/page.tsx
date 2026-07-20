@@ -50,12 +50,12 @@ export default function AboutPage() {
           <p>
             Don't take that on faith. Check the code:{" "}
             <a
-              href="https://github.com/payloadify/payloadify"
+              href="https://github.com/payloadify/payloadify-web"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-900 underline dark:text-zinc-100"
             >
-              github.com/payloadify/payloadify
+              github.com/payloadify/payloadify-web
             </a>
             .
           </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
             against known-good references before it ships. If something looks
             wrong, report it as a{" "}
             <a
-              href="https://github.com/payloadify/payloadify/issues"
+              href="https://github.com/payloadify/payloadify-web/issues"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-900 underline dark:text-zinc-100"
@@ -88,7 +88,7 @@ export default function AboutPage() {
           <p>
             Found a bug, or want a tool built?{" "}
             <a
-              href="https://github.com/payloadify/payloadify/issues"
+              href="https://github.com/payloadify/payloadify-web/issues"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-900 underline dark:text-zinc-100"
