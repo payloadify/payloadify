@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useMemo, useRef, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { saveAsFile } from "@/lib/download/saveAsFile";
@@ -43,6 +44,7 @@ import {
   toOwaspWebVersion,
   VRT_CATEGORIES_BY_ID,
   VRT_VERSION,
+  VULN_TYPES_BY_ID,
 } from "@payloadify/cvss-core";
 import {
   MAX_SAVED_CVSS_TEMPLATES,
@@ -402,23 +404,36 @@ export function CvssCalculatorTool() {
   const severity = version === "3.1" ? severity31 : severity40;
   const vector = version === "3.1" ? vector31 : vector40;
 
+  /** The finding's headline: the chained pair's "X Lead to Y" once a chain is picked, otherwise
+   *  just the selected vulnerability type's name. Empty for a fully custom (no vuln type) session. */
+  const title = useMemo(() => {
+    if (chainVulnTypeId && currentTemplate) {
+      const first = VULN_TYPES_BY_ID[currentTemplate.vulnTypeId]?.label;
+      const second = VULN_TYPES_BY_ID[chainVulnTypeId]?.label;
+      if (first && second) return `${first} Lead to ${second}`;
+    }
+    return vulnTypeId ? (VULN_TYPES_BY_ID[vulnTypeId]?.label ?? "") : "";
+  }, [vulnTypeId, chainVulnTypeId, currentTemplate]);
+
   const copyFields: CopyField[] = useMemo(() => {
-    const fields: CopyField[] = [{ id: "vector", label: "Vector String", value: vector }];
-    if (meta.description.trim()) fields.push({ id: "description", label: "Vulnerability Description", value: meta.description.trim() });
+    const fields: CopyField[] = [];
+    if (title) fields.push({ id: "title", label: "Title", value: title });
+    if (meta.description.trim()) fields.push({ id: "description", label: "Description", value: meta.description.trim() });
     if (meta.impact.trim()) fields.push({ id: "impact", label: "Impact", value: meta.impact.trim() });
     if (chainVulnTypeId && meta.chainedImpact.trim()) fields.push({ id: "chainedImpact", label: "Chained Impact", value: meta.chainedImpact.trim() });
+    if (meta.rationale.trim()) fields.push({ id: "rationale", label: "Notes", value: meta.rationale.trim() });
+    fields.push({ id: "vector", label: "Vector String", value: vector });
     const owasp = meta.owaspRefId ? OWASP_CATEGORIES_BY_ID[meta.owaspRefId] : null;
     const vrt = meta.vrtRefId ? VRT_CATEGORIES_BY_ID[meta.vrtRefId] : null;
     const cwe = meta.cweId ? CWE_ENTRIES_BY_ID[meta.cweId] : null;
     if (owasp) fields.push({ id: "owasp", label: "OWASP Category", value: owasp.label, url: owasp.url });
     if (vrt) fields.push({ id: "vrt", label: "VRT Category", value: `VRT ${VRT_VERSION} - ${vrt.label}` });
-    if (meta.rationale.trim()) fields.push({ id: "rationale", label: "Rationale / Notes", value: meta.rationale.trim() });
     if (cwe) fields.push({ id: "cwe", label: "CWE", value: `${cwe.id}: ${cwe.label}`, url: cwe.url });
     if (meta.references.length > 0) {
       fields.push({ id: "references", label: "References", value: meta.references.map((r) => r.url).join("\n") });
     }
     return fields;
-  }, [vector, meta, chainVulnTypeId]);
+  }, [title, vector, meta, chainVulnTypeId]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -442,6 +457,13 @@ export function CvssCalculatorTool() {
       />
 
       {currentTemplate && <ChainPicker firstVulnTypeId={currentTemplate.vulnTypeId} chainVulnTypeId={chainVulnTypeId} onChainChange={selectChain} />}
+
+      {title && (
+        <div className="flex items-center gap-2 rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700">
+          <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-700 dark:text-zinc-300">{title}</span>
+          <CopyButton text={title} label="Copy Title" />
+        </div>
+      )}
 
       <DescriptionImpactFields meta={meta} onMetaChange={updateMeta} showChainedImpact={!!chainVulnTypeId} />
 

@@ -15,6 +15,9 @@ export interface CvssCopyAllSettings {
   urlFieldIds: string[];
   styleKind: CopyStyle["kind"];
   customPrefix: string;
+  /** Whether each field's own label (e.g. "Title:", "Description:") is prepended in the Copy
+   *  All output. Defaults on; toggled off via the "Labels" button beside "Wrap". */
+  labelsEnabled: boolean;
 }
 
 const STORAGE_KEY = "payloadify:cvss-calculator:copy-all-settings";
@@ -25,6 +28,7 @@ const DEFAULT_SETTINGS: CvssCopyAllSettings = {
   urlFieldIds: [],
   styleKind: "none",
   customPrefix: "- ",
+  labelsEnabled: true,
 };
 
 function isValidSettings(value: unknown): value is CvssCopyAllSettings {
@@ -44,7 +48,9 @@ function readSettings(): CvssCopyAllSettings {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_SETTINGS;
     const parsed = JSON.parse(raw);
-    return isValidSettings(parsed) ? parsed : DEFAULT_SETTINGS;
+    // Spread over defaults so settings saved before `labelsEnabled` existed still load with a
+    // defined value instead of undefined (same reasoning as saved-CVSS-template loading).
+    return isValidSettings(parsed) ? { ...DEFAULT_SETTINGS, ...parsed } : DEFAULT_SETTINGS;
   } catch {
     return DEFAULT_SETTINGS;
   }

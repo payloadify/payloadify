@@ -23,19 +23,21 @@ export function CopyAllAdditionalSettings({
   const allSelected = fields.length > 0 && fields.every((field) => urlFieldIds.has(field.id));
 
   return (
-    <div className="border-t border-zinc-200 pt-3 dark:border-zinc-800">
+    <div className="rounded border border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950/40">
       <button
         type="button"
         onClick={onToggleCollapsed}
         aria-expanded={!collapsed}
-        className="flex w-full items-center justify-between text-sm font-medium text-zinc-700 dark:text-zinc-300"
+        className="flex w-full items-center justify-between rounded px-3 py-2 text-left text-sm font-medium text-blue-800 transition-colors hover:bg-blue-100 dark:text-blue-200 dark:hover:bg-blue-900/40"
       >
-        Additional Settings
-        <span className="text-zinc-400">{collapsed ? "▸" : "▾"}</span>
+        <span>
+          Additional Settings
+        </span>
+        <span className={`transition-transform ${collapsed ? "" : "rotate-90"}`}>▸</span>
       </button>
 
       {!collapsed && (
-        <div className="mt-3 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 border-t border-blue-200 px-3 pb-3 pt-3 dark:border-blue-900">
           <button
             type="button"
             onClick={() => onToggleAll(!allSelected)}

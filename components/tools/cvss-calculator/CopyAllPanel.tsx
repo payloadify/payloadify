@@ -17,7 +17,7 @@ export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
   const [additionalSettingsCollapsed, setAdditionalSettingsCollapsed] = usePersistedBoolean(ADDITIONAL_SETTINGS_COLLAPSED_KEY, true);
   const excludedIds = useMemo(() => new Set(settings.excludedIds), [settings.excludedIds]);
   const urlFieldIds = useMemo(() => new Set(settings.urlFieldIds), [settings.urlFieldIds]);
-  const { styleKind, customPrefix } = settings;
+  const { styleKind, customPrefix, labelsEnabled } = settings;
   const urlCapableFields = useMemo(() => fields.filter((f) => f.url), [fields]);
 
   // Keep `order` in sync when the available fields change (e.g. switching templates changes
@@ -42,7 +42,10 @@ export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
     () => (styleKind === "custom" ? { kind: "custom", prefix: customPrefix } : { kind: styleKind }),
     [styleKind, customPrefix],
   );
-  const formatted = useMemo(() => formatList(includedFields, includedOrder, style), [includedFields, includedOrder, style]);
+  const formatted = useMemo(
+    () => formatList(includedFields, includedOrder, style, labelsEnabled),
+    [includedFields, includedOrder, style, labelsEnabled],
+  );
 
   function setPosition(fieldId: string, position: number) {
     // Reorder only among included fields — excluded ones are hidden from output and kept
@@ -109,7 +112,20 @@ export function CopyAllPanel({ fields }: { fields: CopyField[] }) {
 
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <WrappableCode text={includedFields.length > 0 ? formatted : "No fields selected. Check at least one field above."} />
+          <WrappableCode
+            text={includedFields.length > 0 ? formatted : "No fields selected. Check at least one field above."}
+            extraControls={
+              <button
+                type="button"
+                onClick={() => updateSettings({ labelsEnabled: !labelsEnabled })}
+                aria-pressed={labelsEnabled}
+                title="Prepend each field's label (e.g. 'Title:') in the Copy All output"
+                className="rounded border border-zinc-300 px-2 py-0.5 text-xs text-zinc-500 hover:border-zinc-400 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500"
+              >
+                {labelsEnabled ? "Labels: On" : "Labels: Off"}
+              </button>
+            }
+          />
         </div>
         <CopyButton text={formatted} label="Copy All" disabled={includedFields.length === 0} />
       </div>
