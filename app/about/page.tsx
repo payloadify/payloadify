@@ -16,7 +16,7 @@ export default function AboutPage() {
             Pentesting and bug bounty work are full of tasks that are simple
             in theory and a pain in practice: remembering the right hashcat
             mode and flags, assembling a reverse shell one-liner without
-            breaking the quoting, decoding a JWT to check if it's signed with{" "}
+            breaking the quoting, decoding a JWT to check if it&apos;s signed with{" "}
             <code>alg: none</code>. None of it is hard. All of it is easy to
             get slightly wrong, and today it gets pieced together from cheat
             sheets, slow or cluttered sites, or memory.
@@ -24,15 +24,15 @@ export default function AboutPage() {
           <p>
             Scoring CVSS is the same problem: every finding needs a score,
             and searching for a score you already used in a previous report
-            is a hassle. That's why the CVSS calculator lets you save a
-            finding's scoring and click to reload it next time. That
+            is a hassle. That&apos;s why the CVSS calculator lets you save a
+            finding&apos;s scoring and click to reload it next time. That
             friction, everywhere and not just CVSS, is the reason Payloadify
             exists.
           </p>
           <p>
             The goal is to collapse that multi-step, syntax-heavy work
             into one clean, fast, click-driven flow: pick options, copy the
-            result. It's for people who wants a quick, reliable, and private tool to get the job done.
+            result. It&apos;s for people who wants a quick, reliable, and private tool to get the job done.
           </p>
         </section>
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
             sent to a server.
           </p>
           <p>
-            Don't take that on faith. Check the code:{" "}
+            Don&apos;t take that on faith. Check the code:{" "}
             <a
               href="https://github.com/payloadify/payloadify-web"
               target="_blank"
@@ -84,7 +84,7 @@ export default function AboutPage() {
             >
               GitHub issue
             </a>
-            . That's how it gets fixed.
+            . That&apos;s how it gets fixed.
           </p>
         </section>
 
