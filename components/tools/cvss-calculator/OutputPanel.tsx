@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
+import { iconButtonClasses, inputClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import {
   CvssMeta,
   CvssReference,
@@ -24,6 +24,7 @@ import {
   VRT_VERSION,
 } from "@payloadify/cvss-core";
 import { usePersistedBoolean } from "@/lib/storage/persistedBoolean";
+import { SearchableSelect, SearchableSelectOption } from "@/components/ui/SearchableSelect";
 
 const ADDITIONAL_INFO_COLLAPSED_KEY = "payloadify:cvss-calculator:additional-info-collapsed";
 
@@ -72,29 +73,38 @@ export function OutputPanel({
   // flipping owaspWebVersion also re-resolves the currently selected category (see
   // CvssCalculatorTool's changeOwaspWebVersion) — manual picks from either edition should
   // still be selectable at any time.
-  const owaspByGroup = OWASP_GROUP_ORDER.map((group) => ({
-    group,
-    categories: OWASP_CATEGORIES.filter((c) => owaspGroupOf(c.id) === group),
-  }));
+  const owaspOptions: SearchableSelectOption[] = OWASP_GROUP_ORDER.flatMap((group) =>
+    OWASP_CATEGORIES.filter((c) => owaspGroupOf(c.id) === group).map((c) => ({
+      value: c.id,
+      label: c.label,
+      group: OWASP_GROUP_LABELS[group],
+    })),
+  );
 
-  const vrtByGroup = VRT_CATEGORIES.reduce<{ group: string; categories: typeof VRT_CATEGORIES }[]>((groups, category) => {
-    const existing = groups.find((g) => g.group === category.group);
-    if (existing) existing.categories.push(category);
-    else groups.push({ group: category.group, categories: [category] });
-    return groups;
-  }, [])
-    .sort((a, b) => a.group.localeCompare(b.group))
-    .map((g) => ({ ...g, categories: [...g.categories].sort((a, b) => a.label.localeCompare(b.label)) }));
+  const vrtGroupOrder = [...new Set(VRT_CATEGORIES.map((c) => c.group))].sort((a, b) => a.localeCompare(b));
+  const vrtOptions: SearchableSelectOption[] = vrtGroupOrder.flatMap((group) =>
+    [...VRT_CATEGORIES.filter((c) => c.group === group)]
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((v) => ({
+        value: v.id,
+        label: `${v.label}${v.priority ? ` (${v.priority})` : ""}`,
+        group,
+      })),
+  );
 
-  // The broad "parent" CWE for a category (if any) is always sorted first within its optgroup,
+  // The broad "parent" CWE for a category (if any) is always sorted first within its group,
   // flagged as such in the UI, since it's commonly picked as a fallback when the reporter isn't
   // sure of the exact child weakness even though CWE itself discourages mapping to it directly.
-  const cweByCategory = CWE_CATEGORY_ORDER.map((category) => ({
-    category,
-    entries: CWE_ENTRIES.filter((c) => c.category === category).sort((a, b) =>
-      a.isParent === b.isParent ? Number(a.id.slice(4)) - Number(b.id.slice(4)) : a.isParent ? -1 : 1,
-    ),
-  }));
+  const cweOptions: SearchableSelectOption[] = CWE_CATEGORY_ORDER.flatMap((category) =>
+    CWE_ENTRIES.filter((c) => c.category === category)
+      .sort((a, b) => (a.isParent === b.isParent ? Number(a.id.slice(4)) - Number(b.id.slice(4)) : a.isParent ? -1 : 1))
+      .map((c) => ({
+        value: c.id,
+        label: `${c.isParent ? "" : "↳ "}${c.id}: ${c.label}${c.isParent ? " (broad)" : ""}`,
+        group: CWE_CATEGORY_LABELS[category],
+        searchText: c.id,
+      })),
+  );
 
   function handleVrtChange(newVrtId: string) {
     if (!newVrtId) {
@@ -165,7 +175,7 @@ export function OutputPanel({
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-500">OWASP Category</label>
@@ -196,24 +206,13 @@ export function OutputPanel({
                     ))}
                   </div>
                 </div>
-                <select
+                <SearchableSelect
                   value={meta.owaspRefId ?? ""}
-                  onChange={(e) => onMetaChange({ owaspRefId: e.target.value || null })}
-                  className={`${selectClasses} w-full`}
-                >
-                  <option value="">None</option>
-                  {owaspByGroup.map(({ group, categories }) =>
-                    categories.length > 0 ? (
-                      <optgroup key={group} label={OWASP_GROUP_LABELS[group]}>
-                        {categories.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.label}
-                          </option>
-                        ))}
-                      </optgroup>
-                    ) : null,
-                  )}
-                </select>
+                  onChange={(v) => onMetaChange({ owaspRefId: v || null })}
+                  options={owaspOptions}
+                  placeholder="Search OWASP categories..."
+                  ariaLabel="OWASP Category"
+                />
               </div>
               {owasp && <CopyButton text={owasp.label} label="Copy" />}
             </div>
@@ -225,21 +224,15 @@ export function OutputPanel({
             )}
 
             <div className="flex items-center gap-2">
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-500">VRT Category</label>
-                <select value={meta.vrtRefId ?? ""} onChange={(e) => handleVrtChange(e.target.value)} className={`${selectClasses} w-full`}>
-                  <option value="">None</option>
-                  {vrtByGroup.map(({ group, categories }) => (
-                    <optgroup key={group} label={group}>
-                      {categories.map((v) => (
-                        <option key={v.id} value={v.id}>
-                          {v.label}
-                          {v.priority ? ` (${v.priority})` : ""}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
+                <SearchableSelect
+                  value={meta.vrtRefId ?? ""}
+                  onChange={handleVrtChange}
+                  options={vrtOptions}
+                  placeholder="Search VRT categories..."
+                  ariaLabel="VRT Category"
+                />
               </div>
               {vrt && <CopyButton text={`VRT ${VRT_VERSION} - ${vrt.label}`} label="Copy" />}
             </div>
@@ -248,28 +241,15 @@ export function OutputPanel({
             )}
 
             <div className="flex items-center gap-2">
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-500">CWE</label>
-                <select
+                <SearchableSelect
                   value={meta.cweId ?? ""}
-                  onChange={(e) => onMetaChange({ cweId: e.target.value || null })}
-                  className={`${selectClasses} w-full`}
-                >
-                  <option value="">None</option>
-                  {cweByCategory.map(({ category, entries }) =>
-                    entries.length > 0 ? (
-                      <optgroup key={category} label={CWE_CATEGORY_LABELS[category]}>
-                        {entries.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.isParent ? "" : "↳ "}
-                            {c.id}: {c.label}
-                            {c.isParent ? " (broad)" : ""}
-                          </option>
-                        ))}
-                      </optgroup>
-                    ) : null,
-                  )}
-                </select>
+                  onChange={(v) => onMetaChange({ cweId: v || null })}
+                  options={cweOptions}
+                  placeholder="Search CWE (id or name)..."
+                  ariaLabel="CWE"
+                />
               </div>
               {cwe && <CopyButton text={`${cwe.id}: ${cwe.label}`} label="Copy" />}
             </div>

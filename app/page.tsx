@@ -3,16 +3,16 @@ import { getTool } from "@/lib/tools-registry";
 
 const sections: { title: string; slugs: string[] }[] = [
   {
+    title: "Calculators",
+    slugs: ["cvss-calculator"],
+  },
+  {
     title: "Hashing",
     slugs: ["hash-identifier"],
   },
   {
-    title: "Encoding & Decoding",
+    title: "Text & Token Tools",
     slugs: ["jwt-decoder", "payload-encode", "homoglyph-identifier"],
-  },
-  {
-    title: "Calculators",
-    slugs: ["cvss-calculator"],
   },
   {
     title: "Payload Generators",

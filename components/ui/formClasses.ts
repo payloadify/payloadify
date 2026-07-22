@@ -14,4 +14,12 @@ export const inputClasses =
 export const iconButtonClasses =
   "rounded border border-zinc-300 px-2 py-1.5 text-sm text-zinc-600 hover:border-zinc-400 disabled:opacity-30 disabled:hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:disabled:hover:border-zinc-700";
 
+/** Same shape as iconButtonClasses, for an action that saves/confirms something positive. */
+export const successButtonClasses =
+  "rounded border border-green-300 px-2 py-1.5 text-sm text-green-700 hover:border-green-400 hover:bg-green-50 disabled:opacity-30 disabled:hover:border-green-300 disabled:hover:bg-transparent dark:border-green-800 dark:text-green-400 dark:hover:border-green-600 dark:hover:bg-green-950/40";
+
+/** Same shape as iconButtonClasses, for a destructive action (e.g. deleting all saved data). */
+export const dangerButtonClasses =
+  "rounded border border-red-300 px-2 py-1.5 text-sm text-red-600 hover:border-red-400 hover:bg-red-50 disabled:opacity-30 disabled:hover:border-red-300 disabled:hover:bg-transparent dark:border-red-800 dark:text-red-400 dark:hover:border-red-600 dark:hover:bg-red-950/40";
+
 export const checkboxLabelClasses = "flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400";

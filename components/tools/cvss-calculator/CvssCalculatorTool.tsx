@@ -3,7 +3,7 @@
 import { ChangeEvent, useMemo, useRef, useState } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { iconButtonClasses, inputClasses, selectClasses, toggleButtonClasses } from "@/components/ui/formClasses";
+import { dangerButtonClasses, iconButtonClasses, inputClasses, selectClasses, successButtonClasses, toggleButtonClasses } from "@/components/ui/formClasses";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { saveAsFile } from "@/lib/download/saveAsFile";
 import {
@@ -585,7 +585,7 @@ export function CvssCalculatorTool() {
               className={inputClasses}
             />
           </div>
-          <button type="button" onClick={saveCurrentAsTemplate} className={iconButtonClasses}>
+          <button type="button" onClick={saveCurrentAsTemplate} className={successButtonClasses}>
             Save This Template
           </button>
         </div>
@@ -645,7 +645,7 @@ export function CvssCalculatorTool() {
                 </>
               )}
             </div>
-            <button type="button" onClick={deleteAllSavedTemplates} disabled={savedTemplates.length === 0} className={iconButtonClasses}>
+            <button type="button" onClick={deleteAllSavedTemplates} disabled={savedTemplates.length === 0} className={dangerButtonClasses}>
               Delete All
             </button>
             <button type="button" onClick={resetWorkingState} title="Clears the current working state; does not delete any saved templates" className={iconButtonClasses}>
