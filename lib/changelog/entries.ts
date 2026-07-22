@@ -52,6 +52,10 @@ export const changelogEntries: ChangelogEntry[] = [
         category: "Improved",
         text: "CVSS Calculator: the Additional Settings section in Copy All is now more visually distinct, with its own color and hover effect",
       },
+      {
+        category: "Fixed",
+        text: "MSFVenom Generator: PowerShell Reverse TCP and Bind TCP payloads now generate with the correct format (-f raw with a .ps1 filename) instead of -f ps1, which produced an unusable byte-array dump rather than a working script. EXITFUNC is no longer offered for these two payloads, since it doesn't apply to native (non-shellcode) payloads",
+      },
     ],
   },
   {
