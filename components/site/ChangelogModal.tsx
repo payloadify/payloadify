@@ -56,26 +56,26 @@ export function ChangelogModal({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby={headingId}
         tabIndex={-1}
-        className="relative z-10 w-full max-w-lg rounded border border-zinc-800 bg-zinc-950 p-6 shadow-xl outline-none"
+        className="relative z-10 w-full max-w-lg rounded border border-zinc-200 bg-white p-6 shadow-xl outline-none dark:border-zinc-800 dark:bg-zinc-950"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 id={headingId} className="text-lg font-semibold text-zinc-100">
+          <h2 id={headingId} className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             Changelog
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded px-1.5 py-0.5 text-lg text-zinc-500 hover:bg-zinc-800 hover:text-zinc-200"
+            className="rounded px-1.5 py-0.5 text-lg text-zinc-500 hover:bg-zinc-200 hover:text-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
           >
             ✕
           </button>
         </div>
 
-        <div className="flex max-h-[70vh] flex-col divide-y divide-zinc-800 overflow-y-auto pr-1">
+        <div className="flex max-h-[70vh] flex-col divide-y divide-zinc-200 overflow-y-auto pr-1 dark:divide-zinc-800">
           {changelogEntries.map((entry) => (
             <div key={entry.date} className="py-4 first:pt-0 last:pb-0">
-              <h3 className="mb-2 text-sm font-bold text-zinc-300">
+              <h3 className="mb-2 text-sm font-bold text-zinc-700 dark:text-zinc-300">
                 {entry.title ?? formatDate(entry.date)}
                 {entry.title && <span className="ml-2 text-xs font-normal text-zinc-500">{formatDate(entry.date)}</span>}
               </h3>
@@ -85,9 +85,9 @@ export function ChangelogModal({ onClose }: { onClose: () => void }) {
                     <p className={`mb-1 text-xs font-medium uppercase tracking-wide ${CATEGORY_CLASSES[group.category]}`}>
                       {group.category}
                     </p>
-                    <ul className="flex list-disc flex-col gap-1 pl-4 marker:text-zinc-600">
+                    <ul className="flex list-disc flex-col gap-1 pl-4 marker:text-zinc-400 dark:marker:text-zinc-600">
                       {group.items.map((item, i) => (
-                        <li key={i} className="text-sm text-zinc-400">
+                        <li key={i} className="text-sm text-zinc-600 dark:text-zinc-400">
                           {item.text}
                         </li>
                       ))}

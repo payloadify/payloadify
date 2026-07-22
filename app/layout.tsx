@@ -42,6 +42,20 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
+// Runs before paint (not React) so the correct theme class is on <html> before
+// first render, avoiding a flash of the wrong theme. Default is dark, matching
+// the site's existing look, unless the visitor previously chose light.
+const THEME_INIT_SCRIPT = `
+(function () {
+  try {
+    var theme = localStorage.getItem("payloadify:theme");
+    if (theme !== "light") document.documentElement.classList.add("dark");
+  } catch (e) {
+    document.documentElement.classList.add("dark");
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,7 +65,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <SiteHeader />
         {children}

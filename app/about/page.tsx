@@ -99,7 +99,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <div className="flex flex-col items-center border-t border-zinc-800 pt-8">
+        <div className="flex flex-col items-center border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <a
             href="https://saasbrowser.com/en/saas/1572292/payloadify"
             target="_blank"
