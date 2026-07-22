@@ -36,7 +36,12 @@ export interface SavedCvssTemplate {
   meta: CvssMeta;
 }
 
-export const MAX_SAVED_CVSS_TEMPLATES = 50;
+export const MAX_SAVED_CVSS_TEMPLATES = 100;
+
+/** Soft-warning threshold shown in the UI (e.g. "80/100 templates saved, export a backup soon")
+ *  well before the hard cap blocks new saves, so imports and one-off saves don't run into the
+ *  limit with no warning. */
+export const SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD = 80;
 
 /** Checks `value` is a string matching one of `options`' ids — used to validate every CVSS
  *  metric enum below rather than just trusting `typeof === "string"`, since an out-of-range
@@ -86,8 +91,8 @@ function isValidCvssReference(value: unknown): value is CvssReference {
   return typeof v.label === "string" && typeof v.url === "string";
 }
 
-/** description/impact/chainedImpact are allowed to be `undefined` (not just the right type) —
- *  they were added after this feature originally shipped, so templates saved to a user's
+/** description/impact/chainedImpact/title are allowed to be `undefined` (not just the right
+ *  type) — each was added after this feature originally shipped, so templates saved to a user's
  *  localStorage by an older build won't have them at all. CvssCalculatorTool spreads over
  *  EMPTY_CVSS_META on load, which fills the missing keys with "" — rejecting them here would
  *  silently drop pre-existing saved templates for anyone upgrading. Every other field predates
@@ -104,7 +109,8 @@ function isValidCvssMeta(value: unknown): value is CvssMeta {
     v.references.every(isValidCvssReference) &&
     (v.description === undefined || typeof v.description === "string") &&
     (v.impact === undefined || typeof v.impact === "string") &&
-    (v.chainedImpact === undefined || typeof v.chainedImpact === "string")
+    (v.chainedImpact === undefined || typeof v.chainedImpact === "string") &&
+    (v.title === undefined || typeof v.title === "string")
   );
 }
 

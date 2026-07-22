@@ -5,6 +5,7 @@ import {
   mergeImportedCvssTemplates,
   parseSavedCvssTemplatesImport,
   planSaveCvssTemplate,
+  SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD,
   SavedCvssTemplate,
 } from "./savedCvssTemplates";
 
@@ -149,5 +150,11 @@ describe("planSaveCvssTemplate", () => {
   it("does not block a new name when one slot below the cap", () => {
     const existing = Array.from({ length: MAX_SAVED_CVSS_TEMPLATES - 1 }, (_, i) => makeTemplate(`${i}`));
     expect(planSaveCvssTemplate(existing, "a new name")).toEqual({ action: "create" });
+  });
+});
+
+describe("SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD", () => {
+  it("sits comfortably below the hard cap so the UI has room to warn before blocking", () => {
+    expect(SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD).toBeLessThan(MAX_SAVED_CVSS_TEMPLATES);
   });
 });

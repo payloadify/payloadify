@@ -22,3 +22,5 @@ export * from "./templates/templates";
 export * from "./templates/descriptionImpact";
 export * from "./templates/chaining";
 export * from "./templates/vrtAutofill";
+
+export * from "./reportImport/detect";

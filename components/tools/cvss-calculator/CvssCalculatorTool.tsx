@@ -50,12 +50,14 @@ import {
   MAX_SAVED_CVSS_TEMPLATES,
   parseSavedCvssTemplatesImport,
   planSaveCvssTemplate,
+  SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD,
   SavedCvssTemplate,
   useSavedCvssTemplates,
 } from "@/lib/storage/savedCvssTemplates";
 import { ChainPicker } from "./ChainPicker";
 import { CopyAllPanel } from "./CopyAllPanel";
 import { DescriptionImpactFields } from "./DescriptionImpactFields";
+import { ImportFromReportModal, ReportImportApplyPayload } from "./ImportFromReportModal";
 import { OutputPanel } from "./OutputPanel";
 import { PlatformVulnPicker } from "./PlatformVulnPicker";
 
@@ -107,6 +109,7 @@ export function CvssCalculatorTool() {
   const [selectedSavedTemplateId, setSelectedSavedTemplateId] = useState<string | null>(null);
   const [importStatus, setImportStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [saveStatus, setSaveStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [importReportModalOpen, setImportReportModalOpen] = useState(false);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -340,6 +343,17 @@ export function CvssCalculatorTool() {
     setImportStatus({ type: added > 0 ? "success" : "error", message: parts.join(" ") });
   }
 
+  /** Applies a reviewed/confirmed selection from the "Import From Report" modal to the working
+   *  form state — never to localStorage directly. The user still has to explicitly click "Save
+   *  This Template" afterward if they want to persist it, same as any other manual edit. */
+  function applyReportImport(payload: ReportImportApplyPayload) {
+    if (payload.version) setVersion(payload.version);
+    if (payload.metrics31) setMetrics31(payload.metrics31);
+    if (payload.metrics40) setMetrics40(payload.metrics40);
+    if (payload.metrics31 || payload.metrics40) resetToCustom();
+    if (Object.keys(payload.metaPatch).length > 0) updateMeta(payload.metaPatch);
+  }
+
   function resetWorkingState() {
     setPlatformFilter("web");
     setVulnTypeId(null);
@@ -406,7 +420,7 @@ export function CvssCalculatorTool() {
 
   /** The finding's headline: the chained pair's "X Lead to Y" once a chain is picked, otherwise
    *  just the selected vulnerability type's name. Empty for a fully custom (no vuln type) session. */
-  const title = useMemo(() => {
+  const derivedTitle = useMemo(() => {
     if (chainVulnTypeId && currentTemplate) {
       const first = VULN_TYPES_BY_ID[currentTemplate.vulnTypeId]?.label;
       const second = VULN_TYPES_BY_ID[chainVulnTypeId]?.label;
@@ -414,6 +428,11 @@ export function CvssCalculatorTool() {
     }
     return vulnTypeId ? (VULN_TYPES_BY_ID[vulnTypeId]?.label ?? "") : "";
   }, [vulnTypeId, chainVulnTypeId, currentTemplate]);
+
+  // meta.title is a manual override (e.g. set by "Import From Report") — takes priority over the
+  // vuln-type-derived headline whenever the user has set one, and is the only way to get a title
+  // at all for a fully custom finding with no matching vuln type.
+  const title = meta.title.trim() || derivedTitle;
 
   const copyFields: CopyField[] = useMemo(() => {
     const fields: CopyField[] = [];
@@ -437,13 +456,27 @@ export function CvssCalculatorTool() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex gap-2">
-        {VERSIONS.map((v) => (
-          <button key={v} type="button" className={toggleButtonClasses(version === v)} onClick={() => setVersion(v)}>
-            CVSS {v}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex gap-2">
+          {VERSIONS.map((v) => (
+            <button key={v} type="button" className={toggleButtonClasses(version === v)} onClick={() => setVersion(v)}>
+              CVSS {v}
+            </button>
+          ))}
+        </div>
+        <button type="button" onClick={() => setImportReportModalOpen(true)} className={iconButtonClasses}>
+          Import From Report
+        </button>
       </div>
+
+      {importReportModalOpen && (
+        <ImportFromReportModal
+          currentVersion={version}
+          currentMeta={meta}
+          onApply={applyReportImport}
+          onClose={() => setImportReportModalOpen(false)}
+        />
+      )}
 
       <PlatformVulnPicker
         version={version}
@@ -460,7 +493,13 @@ export function CvssCalculatorTool() {
 
       {title && (
         <div className="flex items-center gap-2 rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700">
-          <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-700 dark:text-zinc-300">{title}</span>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => updateMeta({ title: e.target.value })}
+            title="Overrides the auto-derived title; clear it to fall back to the selected vulnerability type's name"
+            className="min-w-0 flex-1 truncate bg-transparent text-sm font-medium text-zinc-700 outline-none dark:text-zinc-300"
+          />
           <CopyButton text={title} label="Copy Title" />
         </div>
       )}
@@ -564,6 +603,13 @@ export function CvssCalculatorTool() {
             </span>
             <Tooltip text={`Stored in this browser only, not synced across devices, and lost if you clear your cache. Use Export to back up. Limit: ${MAX_SAVED_CVSS_TEMPLATES} templates.`} />
           </label>
+          {savedTemplates.length >= SAVED_CVSS_TEMPLATES_WARNING_THRESHOLD && savedTemplates.length < MAX_SAVED_CVSS_TEMPLATES && (
+            <div className="mb-2">
+              <Callout variant="warning">
+                {`You've saved ${savedTemplates.length}/${MAX_SAVED_CVSS_TEMPLATES} templates. Export a backup soon (Export Templates below) in case you hit the limit.`}
+              </Callout>
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
               <button
