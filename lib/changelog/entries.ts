@@ -56,6 +56,10 @@ export const changelogEntries: ChangelogEntry[] = [
         category: "Fixed",
         text: "MSFVenom Generator: PowerShell Reverse TCP and Bind TCP payloads now generate with the correct format (-f raw with a .ps1 filename) instead of -f ps1, which produced an unusable byte-array dump rather than a working script. EXITFUNC is no longer offered for these two payloads, since it doesn't apply to native (non-shellcode) payloads",
       },
+      {
+        category: "Improved",
+        text: "Hashcat Command Generator: arriving from the Hash Identifier now generates the command immediately, no need to click Generate Command again. Still counts against the same rate limit as a manual click. Also renamed from /hashcat-command-builder to /hashcat-generator to match the site's other tool URLs; the old URL redirects to the new one",
+      },
     ],
   },
   {
