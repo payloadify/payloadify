@@ -14,6 +14,47 @@ export interface ChangelogEntry {
 // Newest first. To ship a new entry, add a new object at the TOP of this array.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2026-07-22",
+    items: [
+      {
+        category: "Added",
+        text: "Site-wide dark/light theme toggle in the header (shown as \"D\"/\"L\"), with a warm, non-pure-white light theme to match the site's non-pure-black dark theme",
+      },
+      {
+        category: "Added",
+        text: "CVSS Calculator: \"Import from report\" in the saved-templates panel, paste a report's text and extract a title, description, impact, and scores into a new saved template",
+      },
+      {
+        category: "Added",
+        text: "CVSS Calculator: saved-template capacity raised from 50 to 100, with a warning shown once you reach 80 saved templates, pointing at the existing Export button as a backup path",
+      },
+      {
+        category: "Added",
+        text: "CVSS Calculator: findings now show a vulnerability title, which updates automatically when scores are chained",
+      },
+      {
+        category: "Added",
+        text: "CVSS Calculator: Copy All output can now include an optional suffix, with a toggle to turn it off",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: OWASP Category, VRT Category, and CWE fields in Additional Info are now searchable dropdowns instead of long unfiltered lists",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: import-from-report detection logic is more comprehensive, and the \"Import from report\" button now sits beside \"Import from template\" for easier access",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: \"Save this score as\" now auto-fills a meaningful name from the report-import title, selected template name, or current preset label when available, instead of requiring manual entry",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator: the Additional Settings section in Copy All is now more visually distinct, with its own color and hover effect",
+      },
+    ],
+  },
+  {
     date: "2026-07-20",
     items: [
       {
