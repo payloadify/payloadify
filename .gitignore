@@ -13,7 +13,6 @@ node_modules
 # Claude related files
 .claudeignore
 CLAUDE.md
-REVIEW.md
 /.claude/
 
 # WAF allowlist reference — regenerate via CLAUDE session, not committed
