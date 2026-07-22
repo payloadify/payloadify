@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ToolPageLayout } from "@/components/layout/ToolPageLayout";
 
 export const metadata: Metadata = {
