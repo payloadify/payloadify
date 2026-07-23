@@ -18,7 +18,7 @@ import {
 } from "@/lib/msfvenom/generate";
 import { ExitfuncId, Platform } from "@/lib/msfvenom/params";
 import { MSFVENOM_CATEGORIES, MSFVENOM_PAYLOADS, MSFVENOM_PAYLOADS_BY_ID, PayloadId } from "@/lib/msfvenom/payloads";
-import { MSFVENOM_TEMPLATES, MSFVENOM_TEMPLATES_BY_ID, RECOMMENDED_TEMPLATE_ID } from "@/lib/msfvenom/templates";
+import { MSFVENOM_TEMPLATES, MSFVENOM_TEMPLATES_BY_ID } from "@/lib/msfvenom/templates";
 import {
   clampIterations,
   clampPort,
@@ -285,7 +285,6 @@ export function MsfvenomGeneratorTool() {
       <PayloadSelectionFields
         templateId={templateId}
         templates={MSFVENOM_TEMPLATES}
-        recommendedTemplateId={RECOMMENDED_TEMPLATE_ID}
         onTemplateChange={selectTemplate}
         platformFilter={platformFilter}
         onPlatformChange={selectPlatform}

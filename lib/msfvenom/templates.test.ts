@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { MSFVENOM_FORMATS_BY_ID } from "./formats";
 import { MSFVENOM_PAYLOADS_BY_ID } from "./payloads";
-import { MSFVENOM_TEMPLATES, MSFVENOM_TEMPLATES_BY_ID, RECOMMENDED_TEMPLATE_ID } from "./templates";
+import { MSFVENOM_TEMPLATES } from "./templates";
 
 // windows/powershell_reverse_tcp is a native (non-shellcode) payload and doesn't support EXITFUNC —
 // see the comment on that payload in payloads.ts — so powershell-windows is deliberately excluded.
@@ -17,10 +17,6 @@ describe("MSFVENOM_TEMPLATES", () => {
     expect(MSFVENOM_TEMPLATES).toHaveLength(10);
     const ids = MSFVENOM_TEMPLATES.map((t) => t.id);
     expect(new Set(ids).size).toBe(ids.length);
-  });
-
-  it("RECOMMENDED_TEMPLATE_ID points to a real template", () => {
-    expect(MSFVENOM_TEMPLATES_BY_ID[RECOMMENDED_TEMPLATE_ID]).toBeDefined();
   });
 
   it("every template references a real payload and its formatId/archId are compatible", () => {

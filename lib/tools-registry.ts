@@ -104,6 +104,13 @@ export const tools: Tool[] = [
       "Build a complete hashcat command: mode, attack type, wordlists, masks, rules, and advanced flags. Pre-filled with the mode number when you arrive from the Hash Identifier.",
     status: "live",
   },
+  {
+    slug: "nmap-generator",
+    name: "Nmap Command Generator",
+    shortDescription:
+      "Build nmap commands from 8 optimized scenario templates (fast scan, stealth, full port, vuln scripts, and more), or hand-tune every flag in Custom Build mode: scan type, ports, timing, service/OS detection, NSE scripts, and evasion.",
+    status: "live",
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {

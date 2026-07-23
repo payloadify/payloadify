@@ -19,7 +19,6 @@ const PLATFORM_LABELS: Record<Platform, string> = {
 export function PayloadSelectionFields({
   templateId,
   templates,
-  recommendedTemplateId,
   onTemplateChange,
   platformFilter,
   onPlatformChange,
@@ -37,7 +36,6 @@ export function PayloadSelectionFields({
 }: {
   templateId: string | null;
   templates: { id: string; label: string }[];
-  recommendedTemplateId: string;
   onTemplateChange: (id: string) => void;
   platformFilter: Platform;
   onPlatformChange: (platform: Platform) => void;
@@ -62,7 +60,6 @@ export function PayloadSelectionFields({
           {templates.map((t) => (
             <option key={t.id} value={t.id}>
               {t.label}
-              {t.id === recommendedTemplateId ? " (★ Recommended)" : ""}
             </option>
           ))}
         </select>

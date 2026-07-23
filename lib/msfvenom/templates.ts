@@ -148,8 +148,3 @@ export const MSFVENOM_TEMPLATES: MsfvenomTemplate[] = [
 export const MSFVENOM_TEMPLATES_BY_ID: Record<string, MsfvenomTemplate> = Object.fromEntries(
   MSFVENOM_TEMPLATES.map((t) => [t.id, t]),
 );
-
-/** Learning Mode heuristic: Template 1 is Windows-targeted, uses shikata_ga_nai (the safest
- *  default against a Windows target's AV), and the reference doc's own notes call it "Most
- *  common" — least likely to produce a command a student then has to debug. */
-export const RECOMMENDED_TEMPLATE_ID = "windows-meterpreter-x86";

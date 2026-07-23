@@ -16,14 +16,11 @@ const sections: { title: string; slugs: string[] }[] = [
   },
   {
     title: "Payload Generators",
-    slugs: [
-      "xss-generator",
-      "sqli-generator",
-      "reverse-shell-generator",
-      "msfvenom-generator",
-      "subdomain-permutation-generator",
-      "hashcat-generator",
-    ],
+    slugs: ["xss-generator", "sqli-generator", "reverse-shell-generator", "subdomain-permutation-generator"],
+  },
+  {
+    title: "Command Builders",
+    slugs: ["hashcat-generator", "msfvenom-generator", "nmap-generator"],
   },
   {
     title: "Recon & Infrastructure Checks",
