@@ -120,6 +120,26 @@ describe("validateSelection — custom mode rules", () => {
     expect(validateSelection(baseSelection({ scanType: "sn" })).ok).toBe(true);
   });
 
+  it("fails when port spec mode is 'top' with no topPortsN entered", () => {
+    const sel = baseSelection({ portSpec: { mode: "top", topPortsN: null, customPorts: "", sequential: false } });
+    expect(validateSelection(sel).ok).toBe(false);
+  });
+
+  it("passes when port spec mode is 'top' with topPortsN entered", () => {
+    const sel = baseSelection({ portSpec: { mode: "top", topPortsN: 200, customPorts: "", sequential: false } });
+    expect(validateSelection(sel).ok).toBe(true);
+  });
+
+  it("fails when port spec mode is 'custom' with a blank port list", () => {
+    const sel = baseSelection({ portSpec: { mode: "custom", topPortsN: null, customPorts: "  ", sequential: false } });
+    expect(validateSelection(sel).ok).toBe(false);
+  });
+
+  it("passes when port spec mode is 'custom' with a non-blank port list", () => {
+    const sel = baseSelection({ portSpec: { mode: "custom", topPortsN: null, customPorts: "22,80,443", sequential: false } });
+    expect(validateSelection(sel).ok).toBe(true);
+  });
+
   it("fails when both -R and -n are set", () => {
     const sel = baseSelection({ dns: { alwaysResolve: true, neverResolve: true, systemDns: false, dnsServers: "", traceroute: false } });
     expect(validateSelection(sel).ok).toBe(false);

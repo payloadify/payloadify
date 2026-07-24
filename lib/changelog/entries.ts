@@ -14,6 +14,23 @@ export interface ChangelogEntry {
 // Newest first. To ship a new entry, add a new object at the TOP of this array.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2026-07-24",
+    items: [
+      {
+        category: "Added",
+        text: "Nmap Command Generator tool: build a complete command from optimized scenario templates (fast scan, stealth, full port, aggressive, UDP, vulnerability/script scan, host discovery, firewall evasion, plus timing/performance presets for internet-scale, high-latency, and rate-limited targets), or hand-tune every flag yourself in Custom Build mode: scan type, ports, service/OS detection, NSE scripts, timing/performance, evasion/spoofing, DNS resolution, and misc options. Target and exclude fields auto-detect host/list/file from what you type",
+      },
+      {
+        category: "Improved",
+        text: "Homepage reorganized into a new Command Builders section (Hashcat, MSFVenom, Nmap)",
+      },
+      {
+        category: "Fixed",
+        text: "Nmap Command Generator: selecting Top N or Custom port spec and leaving the value blank no longer silently generates a command with no port flag at all; Generate is now blocked with a clear message until a value is entered",
+      },
+    ],
+  },
+  {
     date: "2026-07-22",
     items: [
       {

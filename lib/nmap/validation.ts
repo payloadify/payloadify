@@ -33,6 +33,14 @@ export function validateSelection(sel: NmapSelection): NmapValidation {
     };
   }
 
+  if (!portsDontApply && sel.portSpec.mode === "top" && sel.portSpec.topPortsN === null) {
+    return { ok: false, message: "Enter a number of ports for Top N, or choose a different port spec." };
+  }
+
+  if (!portsDontApply && sel.portSpec.mode === "custom" && sel.portSpec.customPorts.trim().length === 0) {
+    return { ok: false, message: "Enter a port list for Custom ports, or choose a different port spec." };
+  }
+
   if (sel.dns.alwaysResolve && sel.dns.neverResolve) {
     return { ok: false, message: "Choose either always resolve (-R) or never resolve (-n), not both." };
   }
