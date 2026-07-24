@@ -21,6 +21,9 @@ ROUTES.md
 # archived features — not wired into the app, kept locally for reference only
 /_archive/
 
+# local reference docs (e.g. generated capability snapshots) — not for the repo
+/docs/
+
 # testing
 /coverage
 
