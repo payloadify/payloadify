@@ -32,6 +32,18 @@ export const changelogEntries: ChangelogEntry[] = [
         category: "Improved",
         text: "Homepage tool grid: bolder tool titles, split descriptions into a short what-it-does line plus a supports line, muted metadata tags under each card (e.g. \"Decode, Edit, Sign\") for faster scanning, bolder category headings with a divider, and a subtler hover lift on cards",
       },
+      {
+        category: "Added",
+        text: "Skip to content link and visible keyboard focus outlines site-wide, for easier keyboard-only navigation",
+      },
+      {
+        category: "Improved",
+        text: "CVSS Calculator, MSFVenom Generator, and Nmap Command Generator: added a jump-to-section nav bar with active-section highlighting, plus a sticky summary bar that keeps your generated result and its copy button reachable while you scroll",
+      },
+      {
+        category: "Improved",
+        text: "Collapsible sections across the site (References, Advanced Options, Usage Guides, and more) now share one consistent expand/collapse style, with your open/closed choice remembered per section",
+      },
     ],
   },
   {
