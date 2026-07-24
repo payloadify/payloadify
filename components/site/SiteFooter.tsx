@@ -8,7 +8,7 @@ export function SiteFooter() {
           <Link href="/about" className="hover:text-zinc-900 dark:hover:text-zinc-300">
             Payloadify
           </Link>{" "}
-          — Browser-native security workflows. Privacy-first; nothing you paste here is sent to a server.
+          — Browser-native security workflows. Privacy-first; mostly client-side, nothing you paste here is sent to a server.
         </p>
         <Link href="/privacy-policy" className="shrink-0 hover:text-zinc-900 dark:hover:text-zinc-300">
           Privacy Policy · ToS · GitHub

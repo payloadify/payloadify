@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
   return (
     <ToolPageLayout
       title="Privacy Policy & Terms of Service"
-      description="Last updated July 7, 2026."
+      description="Last updated July 24, 2026."
     >
       <div className="prose prose-zinc dark:prose-invert max-w-none space-y-8 text-zinc-700 dark:text-zinc-300">
         <section id="privacy">
@@ -23,10 +23,19 @@ export default function PrivacyPolicyPage() {
             What we collect
           </h3>
           <p>
-            Payloadify's tools run entirely in your browser. Anything you type
-            or paste into a tool (tokens, hashes, payloads, target info) is
-            processed locally on your device and is never sent to our
-            servers. We don't have a database and we don't log tool input.
+            Most of Payloadify's tools run entirely in your browser. Anything
+            you type or paste into these tools (tokens, hashes, payloads,
+            target info) is processed locally on your device and is never
+            sent to our servers.
+          </p>
+          <p>
+            The Recon &amp; Infrastructure tools (HTTP Security Headers
+            Analyzer, SPF/DKIM/DMARC Checker) are the exception: since they
+            need to look up a live domain or URL, the domain or URL you enter
+            is sent to a Cloudflare Worker to perform that lookup on your
+            behalf. Only the target you provide is sent, no other tool input
+            leaves your browser. We don't have a database and we don't log
+            tool input, on these tools or any other.
           </p>
 
           <h3 className="mt-4 text-base font-medium text-zinc-900 dark:text-zinc-100">
