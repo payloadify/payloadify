@@ -4,7 +4,7 @@ import { ToolPageLayout } from "@/components/layout/ToolPageLayout";
 export const metadata: Metadata = {
   title: "Privacy Policy & Terms of Service",
   description:
-    "Payloadify's privacy policy and terms of service: how the site handles data (it mostly doesn't) and the terms for using its free pentest tools.",
+    "Payloadify's privacy policy and terms of service: how the site handles data (it mostly doesn't) and the terms for using its free browser-native security workflows.",
 };
 
 export default function PrivacyPolicyPage() {

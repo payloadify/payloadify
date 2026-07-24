@@ -26,11 +26,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Payloadify: Free Pentest Tools",
+    default: "Payloadify — Browser-native Security Workflows",
     template: "%s | Payloadify",
   },
   description:
-    "Free, client-side security and pentest utility tools: JWT decoder, hash identifier/generator, payload encoder/decoder, XSS and SQLi payload generators, reverse shell generator, and more.",
+    "Free, browser-native security workflows for penetration testers and security engineers: One-click CVSS Calculator, JWT decoder, hash identifier/generator, payload encoder/decoder, XSS and SQLi payload generators, reverse shell generator, and more.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
