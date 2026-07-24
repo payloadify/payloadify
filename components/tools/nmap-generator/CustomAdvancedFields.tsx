@@ -33,7 +33,18 @@ export function CustomAdvancedFields({
   ipv6: boolean;
   onIpv6Change: (value: boolean) => void;
 }) {
-  const numOrNull = (v: string) => (v === "" ? null : Number(v));
+  /** The `min`/`max` attributes on a number input only apply to the browser's up/down steppers
+   *  and native form validation, they don't stop the user from typing an out-of-range value
+   *  directly. Clamping here is what actually keeps e.g. "-5" out of the generated command. */
+  const numOrNull = (v: string, opts?: { min?: number; max?: number }) => {
+    if (v === "") return null;
+    const n = Number(v);
+    if (Number.isNaN(n)) return null;
+    let clamped = n;
+    if (opts?.min !== undefined) clamped = Math.max(opts.min, clamped);
+    if (opts?.max !== undefined) clamped = Math.min(opts.max, clamped);
+    return clamped;
+  };
 
   return (
     <details className="rounded border border-zinc-200 dark:border-zinc-800">
@@ -169,7 +180,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.ttl ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, ttl: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, ttl: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -179,7 +190,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.maxRetries ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxRetries: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxRetries: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -189,7 +200,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.minParallelism ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minParallelism: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minParallelism: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -199,7 +210,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.maxParallelism ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxParallelism: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxParallelism: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -209,7 +220,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.minHostgroup ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minHostgroup: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minHostgroup: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -219,7 +230,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.maxHostgroup ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxHostgroup: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxHostgroup: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -229,7 +240,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.minRate ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minRate: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, minRate: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -239,7 +250,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={timingPerformance.maxRate ?? ""}
-                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxRate: numOrNull(e.target.value) })}
+                onChange={(e) => onTimingPerformanceChange({ ...timingPerformance, maxRate: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -339,7 +350,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={evasionSpoofing.mtu ?? ""}
-                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, mtu: numOrNull(e.target.value) })}
+                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, mtu: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -352,7 +363,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={evasionSpoofing.decoyCount ?? ""}
-                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, decoyCount: numOrNull(e.target.value) })}
+                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, decoyCount: numOrNull(e.target.value, { min: 0 }) })}
                 placeholder="10"
                 className={`${selectClasses} w-full`}
               />
@@ -364,7 +375,7 @@ export function CustomAdvancedFields({
                 min={0}
                 max={65535}
                 value={evasionSpoofing.sourcePort ?? ""}
-                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, sourcePort: numOrNull(e.target.value) })}
+                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, sourcePort: numOrNull(e.target.value, { min: 0, max: 65535 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>
@@ -374,7 +385,7 @@ export function CustomAdvancedFields({
                 type="number"
                 min={0}
                 value={evasionSpoofing.dataLength ?? ""}
-                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, dataLength: numOrNull(e.target.value) })}
+                onChange={(e) => onEvasionSpoofingChange({ ...evasionSpoofing, dataLength: numOrNull(e.target.value, { min: 0 }) })}
                 className={`${selectClasses} w-full`}
               />
             </div>

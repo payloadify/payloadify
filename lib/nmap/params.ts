@@ -30,8 +30,13 @@ export interface NmapOutput {
 /** Single-select only. Real nmap can combine scan types (e.g. -sS -sU together with
  *  -p U:...,T:... port syntax), but that combined form isn't in the confirmed flag reference
  *  this tool is built from, so it's intentionally unsupported. -sP is omitted as a documented
- *  duplicate of -sn; -h/-V are standalone informational invocations, not composable scan flags. */
-export type CustomScanTypeId = "sS" | "sT" | "sU" | "sN" | "sF" | "sX" | "sA" | "sO" | "sL" | "sI" | "sR" | "sW" | "sn";
+ *  duplicate of -sn; -h/-V are standalone informational invocations, not composable scan flags.
+ *  -sR is deliberately excluded too: nmap's own man page (man-version-detection.html) states
+ *  "-sR is an alias for -sV. Prior to March 2011, it was used to activate the RPC grinder
+ *  separately from version detection, but now these options are always combined", so it isn't
+ *  a real standalone scan type, it's just -sV under an old name, which this tool already exposes
+ *  directly under Service/OS Detection. */
+export type CustomScanTypeId = "sS" | "sT" | "sU" | "sN" | "sF" | "sX" | "sA" | "sO" | "sL" | "sI" | "sW" | "sn";
 
 export type PortSpecMode = "default" | "fast" | "all" | "top" | "custom";
 

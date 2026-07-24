@@ -195,7 +195,7 @@ describe("buildCommand — target kinds", () => {
 
 describe("buildCommand — custom mode scan types", () => {
   it("builds a bare scan-type flag for every non-idle scan type", () => {
-    const types: NmapSelection["scanType"][] = ["sS", "sT", "sU", "sN", "sF", "sX", "sA", "sO", "sL", "sR", "sW", "sn"];
+    const types: NmapSelection["scanType"][] = ["sS", "sT", "sU", "sN", "sF", "sX", "sA", "sO", "sL", "sW", "sn"];
     for (const scanType of types) {
       const sel = baseSelection({ scanType });
       expect(buildCommand(sel)).toBe(`nmap -${scanType} '10.0.0.5'`);

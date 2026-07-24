@@ -13,7 +13,6 @@ const SCAN_TYPES: { id: CustomScanTypeId; name: string; description: string }[] 
   { id: "sO", name: "IP Protocol", description: "Discovers which IP protocols (TCP, UDP, ICMP...) are supported." },
   { id: "sL", name: "List", description: "Lists targets to scan without sending any packets at all." },
   { id: "sI", name: "Idle/Zombie", description: "Spoofs the scan through a third-party zombie host." },
-  { id: "sR", name: "RPC", description: "Identifies RPC services, combined with another scan type." },
   { id: "sW", name: "Window", description: "Like ACK scan, but also examines the TCP window field." },
   { id: "sn", name: "Ping Only", description: "Host discovery only. No port scan at all." },
 ];
@@ -114,7 +113,15 @@ export function CustomCoreFields({
             min={1}
             max={65535}
             value={portSpec.topPortsN ?? ""}
-            onChange={(e) => onPortSpecChange({ ...portSpec, topPortsN: e.target.value === "" ? null : Number(e.target.value) })}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v === "") {
+                onPortSpecChange({ ...portSpec, topPortsN: null });
+                return;
+              }
+              const n = Number(v);
+              onPortSpecChange({ ...portSpec, topPortsN: Number.isNaN(n) ? null : Math.min(65535, Math.max(1, n)) });
+            }}
             placeholder="100"
             className={`${selectClasses} w-full`}
           />
