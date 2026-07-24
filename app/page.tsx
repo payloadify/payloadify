@@ -33,7 +33,7 @@ export default function Home() {
     <div id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-12">
       <div className="mb-10">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Free pentest tools, one job each
+          Free security tools, one job each
         </h1>
         <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
           No accounts, no tracking, no server round-trips where it can be
