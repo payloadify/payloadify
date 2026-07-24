@@ -28,6 +28,10 @@ export const changelogEntries: ChangelogEntry[] = [
         category: "Fixed",
         text: "Nmap Command Generator: selecting Top N or Custom port spec and leaving the value blank no longer silently generates a command with no port flag at all; Generate is now blocked with a clear message until a value is entered",
       },
+      {
+        category: "Improved",
+        text: "Homepage tool grid: bolder tool titles, split descriptions into a short what-it-does line plus a supports line, muted metadata tags under each card (e.g. \"Decode, Edit, Sign\") for faster scanning, bolder category headings with a divider, and a subtler hover lift on cards",
+      },
     ],
   },
   {

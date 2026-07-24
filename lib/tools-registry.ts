@@ -1,7 +1,12 @@
 export type Tool = {
   slug: string;
   name: string;
-  shortDescription: string;
+  /** One short line: what the tool does. */
+  tagline: string;
+  /** One short line: what it supports/covers. Optional, shown under the tagline. */
+  supports?: string;
+  /** Muted metadata chips shown on the tool card, e.g. ["Decode", "Edit", "Sign"]. */
+  meta: string[];
   status: "live" | "coming-soon";
 };
 
@@ -9,106 +14,121 @@ export const tools: Tool[] = [
   {
     slug: "jwt-decoder",
     name: "JWT Decoder/Tamper & Generator",
-    shortDescription:
-      "Decode JWT header and payload, flag alg:none and weak signing, edit claims and re-sign, or build and sign a brand-new token with HMAC, RSA, ECDSA, or RSA-PSS.",
+    tagline: "Decode, edit, and re-sign JWTs.",
+    supports: "Flags alg:none and weak signing. HMAC, RSA, ECDSA, RSA-PSS.",
+    meta: ["Decode", "Edit", "Sign"],
     status: "live",
   },
   {
     slug: "jwt-generator",
     name: "JWT Generator",
-    shortDescription:
-      "Build and sign a JWT with HMAC, RSA, ECDSA, or RSA-PSS. Generate secrets or keypairs, quick-add claims, scenario presets, and weakness flags.",
+    tagline: "Build and sign a brand-new JWT.",
+    supports: "HMAC, RSA, ECDSA, RSA-PSS. Secrets, keypairs, claims, scenario presets.",
+    meta: ["HMAC", "RSA", "ECDSA", "RSA-PSS"],
     status: "live",
   },
   {
     slug: "hash-identifier",
     name: "Hash Identifier/Generator",
-    shortDescription:
-      "Identify a hash's likely type with ranked candidates and matching Hashcat mode numbers, or generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, and NTLM hashes from text.",
+    tagline: "Identify a hash's likely type, or generate one from text.",
+    supports: "Ranked candidates with Hashcat mode numbers. MD5, SHA-1/256/384/512, NTLM.",
+    meta: ["MD5", "SHA-1", "SHA-256", "NTLM"],
     status: "live",
   },
   {
     slug: "payload-encoder",
     name: "Payload Encoder/Decoder",
-    shortDescription:
-      "Chain Base64, Hex, URL, and HTML-entity encoding and decoding steps to build or unwrap obfuscated payloads.",
+    tagline: "Chain encoding and decoding steps into one pipeline.",
+    supports: "Base64, Hex, URL, and HTML-entity, in any order.",
+    meta: ["Base64", "Hex", "URL", "HTML Entity"],
     status: "live",
   },
   {
     slug: "homoglyph-identifier",
     name: "Homoglyph Identifier/Generator",
-    shortDescription:
-      "Detect Unicode homoglyph/confusable characters in suspicious text (e.g. spoofed domains), or generate homoglyph-substituted lookalike strings.",
+    tagline: "Detect or generate Unicode homoglyph lookalikes.",
+    supports: "Spot spoofed domains and confusable characters in suspicious text.",
+    meta: ["Detect", "Generate"],
     status: "live",
   },
   {
     slug: "xss-generator",
     name: "XSS Payload Generator",
-    shortDescription:
-      "Generate XSS payloads across basic to advanced WAF-bypass and encoding techniques, for reflected/stored or DOM-based contexts.",
+    tagline: "Generate XSS payloads.",
+    supports: "Reflected, stored, DOM-based, WAF bypass, and encoding techniques.",
+    meta: ["Reflected", "Stored", "DOM", "WAF Bypass"],
     status: "live",
   },
   {
     slug: "sqli-generator",
     name: "SQLi Payload Generator",
-    shortDescription:
-      "Build SQL injection payloads across MySQL, MSSQL, PostgreSQL, Oracle, and SQLite, with chainable info extraction, WAF-evasion obfuscation, and blacklist-character avoidance.",
+    tagline: "Build SQL injection payloads.",
+    supports: "MySQL, MSSQL, PostgreSQL, Oracle, SQLite. Info extraction, WAF evasion.",
+    meta: ["MySQL", "MSSQL", "PostgreSQL", "Oracle"],
     status: "live",
   },
   {
     slug: "reverse-shell-generator",
     name: "Reverse Shell Generator",
-    shortDescription:
-      "Generate reverse shell one-liners across Bash, Netcat, Python, PHP, Perl, Ruby, Socat, Awk, Telnet, Node.js, Lua, Golang, and PowerShell, with a matching listener command and save-as-file options.",
+    tagline: "Generate reverse shell one-liners.",
+    supports: "Matching listener command and save-as-file options included.",
+    meta: ["Bash", "Netcat", "Python", "PowerShell"],
     status: "live",
   },
   {
     slug: "msfvenom-generator",
     name: "MSFVenom Command Generator",
-    shortDescription:
-      "Build msfvenom commands with template presets for Windows, Linux, macOS, and Android payloads, evasion encoders, and architectures. Copy-ready, with a listener setup guide.",
+    tagline: "Build msfvenom commands from template presets.",
+    supports: "Windows, Linux, macOS, Android. Evasion encoders, listener setup guide.",
+    meta: ["Windows", "Linux", "macOS", "Android"],
     status: "live",
   },
   {
     slug: "cvss-calculator",
     name: "CVSS 3.1 / 4.0 Calculator",
-    shortDescription:
-      "Click through CVSS 3.1 and 4.0 base metrics, or pick a vulnerability scenario template, to get an instant score, severity, OWASP/VRT/CWE mapping, and copy-ready vector string.",
+    tagline: "Click through CVSS metrics to get an instant score.",
+    supports: "Severity, OWASP/VRT/CWE mapping, copy-ready vector string.",
+    meta: ["CVSS 3.1", "CVSS 4.0"],
     status: "live",
   },
   {
     slug: "subdomain-permutation-generator",
     name: "Subdomain Permutation Generator",
-    shortDescription:
-      "Generate candidate subdomain wordlists from a base domain, environment/service/region tokens, and your own keywords. Dedup'd, capped, and ready to pipe into massdns/puredns/dnsx. No DNS lookups happen here.",
+    tagline: "Generate candidate subdomain wordlists.",
+    supports: "Environment/service/region tokens plus your own keywords. Dedup'd and capped.",
+    meta: ["massdns", "puredns", "dnsx"],
     status: "live",
   },
   {
     slug: "security-headers-analyzer",
     name: "HTTP Security Headers Analyzer",
-    shortDescription:
-      "Fetch any URL's response headers and check them against the OWASP Secure Headers Project (HSTS, CSP, X-Frame-Options, and more), with pass/warn/missing status, plain-language explanations, and copy-ready findings.",
+    tagline: "Fetch any URL's response headers and audit them.",
+    supports: "Checked against OWASP Secure Headers Project. Pass/warn/missing status.",
+    meta: ["HSTS", "CSP", "X-Frame-Options"],
     status: "live",
   },
   {
     slug: "spf-dkim-dmarc-checker",
     name: "SPF / DKIM / DMARC Checker",
-    shortDescription:
-      "Check a domain's SPF, DKIM, and DMARC records: parsed mechanisms, policy explanations, and common misconfiguration flags (multiple SPF records, revoked DKIM keys, monitoring-only DMARC), with copy-ready results.",
+    tagline: "Check a domain's email authentication setup.",
+    supports: "Parsed mechanisms, policy explanations, misconfiguration flags.",
+    meta: ["SPF", "DKIM", "DMARC"],
     status: "live",
   },
   {
     slug: "hashcat-generator",
     name: "Hashcat Command Generator",
-    shortDescription:
-      "Build a complete hashcat command: mode, attack type, wordlists, masks, rules, and advanced flags. Pre-filled with the mode number when you arrive from the Hash Identifier.",
+    tagline: "Build a complete hashcat command.",
+    supports: "Mode, attack type, wordlists, masks, rules, advanced flags.",
+    meta: ["Wordlist", "Mask", "Rules"],
     status: "live",
   },
   {
     slug: "nmap-generator",
     name: "Nmap Command Generator",
-    shortDescription:
-      "Build nmap commands from optimized scenario templates (fast scan, stealth, full port, vuln scripts, timing/performance presets, and more), or hand-tune every flag in Custom Build mode: scan type, ports, timing, service/OS detection, NSE scripts, and evasion.",
+    tagline: "Build nmap commands from scenario templates.",
+    supports: "Fast, stealth, full port, vuln scripts, timing presets, or hand-tune every flag.",
+    meta: ["Fast Scan", "Full Scan", "NSE"],
     status: "live",
   },
 ];
