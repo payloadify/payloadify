@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_TEMPLATE_ID, NMAP_TEMPLATES, NMAP_TEMPLATES_BY_ID } from "./templates";
 
 describe("NMAP_TEMPLATES", () => {
-  it("has exactly 8 templates", () => {
-    expect(NMAP_TEMPLATES).toHaveLength(8);
+  it("has 8 Common Scenarios templates plus 5 Payloadify Advanced templates (13 total)", () => {
+    expect(NMAP_TEMPLATES).toHaveLength(13);
+    expect(NMAP_TEMPLATES.filter((t) => t.category === "common-scenarios")).toHaveLength(8);
+    expect(NMAP_TEMPLATES.filter((t) => t.category === "payloadify-advanced")).toHaveLength(5);
   });
 
   it("has unique ids", () => {
@@ -31,10 +33,11 @@ describe("NMAP_TEMPLATES", () => {
   });
 
   /** Every token here is drawn only from the confirmed Nmap-Cheatsheet reference
-   *  (github.com/jasonniebauer/Nmap-Cheatsheet) this tool was built against — either a flag
-   *  itself, or a known argument that flag accepts. This test is a permanent guard against a
-   *  future template accidentally introducing an unverified/invented flag or argument. */
-  const CONFIRMED_FLAG_TOKENS = new Set([
+   *  (github.com/jasonniebauer/Nmap-Cheatsheet) this tool was originally built against — either a
+   *  flag itself, or a known argument that flag accepts. Covers only the 8 "common-scenarios"
+   *  templates. This test is a permanent guard against a future template accidentally introducing
+   *  an unverified/invented flag or argument. */
+  const CONFIRMED_FLAG_TOKENS_CHEATSHEET = new Set([
     "-F",
     "-T2",
     "-T4",
@@ -57,6 +60,38 @@ describe("NMAP_TEMPLATES", () => {
     "--data-length",
     "24",
   ]);
+
+  /** Every token here is drawn only from nmap's own timing/performance documentation
+   *  (nmap.org/book/man-performance.html) and the research done for the "Payloadify Advanced"
+   *  timing template set. Covers only templates with category "payloadify-advanced". */
+  const CONFIRMED_FLAG_TOKENS_ADVANCED_TIMING = new Set([
+    "-n",
+    "-T3",
+    "--min-hostgroup",
+    "4096",
+    "64",
+    "256",
+    "--max-hostgroup",
+    "--min-parallelism",
+    "100",
+    "--min-rate",
+    "10000",
+    "--max-retries",
+    "1",
+    "3",
+    "6",
+    "--initial-rtt-timeout",
+    "300ms",
+    "500ms",
+    "--max-rtt-timeout",
+    "4000ms",
+    "10000ms",
+    "--host-timeout",
+    "30m",
+    "--defeat-rst-ratelimit",
+  ]);
+
+  const CONFIRMED_FLAG_TOKENS = new Set([...CONFIRMED_FLAG_TOKENS_CHEATSHEET, ...CONFIRMED_FLAG_TOKENS_ADVANCED_TIMING]);
 
   it("uses only confirmed flag tokens across every template", () => {
     for (const t of NMAP_TEMPLATES) {

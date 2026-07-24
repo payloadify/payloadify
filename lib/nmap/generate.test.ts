@@ -73,6 +73,12 @@ describe("buildCommand — template mode", () => {
       "vuln-script-scan": "nmap -sV -sC --script vuln -T4 '192.168.1.1'",
       "host-discovery": "nmap -sn '192.168.1.1'",
       "firewall-evasion": "nmap -f -T2 -D RND:10 --data-length 24 '192.168.1.1'",
+      "internet-scale-sweep": "nmap -sS -Pn -n --min-hostgroup 4096 --min-rate 10000 --max-retries 1 -T4 '192.168.1.1'",
+      "high-latency-link-scan": "nmap -sS --initial-rtt-timeout 300ms --max-rtt-timeout 4000ms --max-retries 3 -T2 '192.168.1.1'",
+      "rate-limited-accuracy-scan": "nmap -sS --defeat-rst-ratelimit --max-retries 3 -T3 '192.168.1.1'",
+      "large-host-list-batch-scan": "nmap -sS -Pn --min-hostgroup 64 --max-hostgroup 256 --min-parallelism 100 -T4 '192.168.1.1'",
+      "high-confidence-verification-scan":
+        "nmap -sS -Pn --max-retries 6 --initial-rtt-timeout 500ms --max-rtt-timeout 10000ms --host-timeout 30m -T2 '192.168.1.1'",
     };
 
     for (const template of NMAP_TEMPLATES) {
