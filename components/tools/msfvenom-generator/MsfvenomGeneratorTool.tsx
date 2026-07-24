@@ -300,7 +300,7 @@ export function MsfvenomGeneratorTool() {
 
       <SectionNav sections={NAV_SECTIONS} activeId={activeId} />
 
-      <div id="payload">
+      <div id="payload" className="flex flex-col gap-6">
         <PayloadSelectionFields
           templateId={templateId}
           templates={MSFVENOM_TEMPLATES}
